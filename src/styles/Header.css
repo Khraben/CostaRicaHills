@@ -1,0 +1,64 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+  z-index: 1000; /* Asegura que la navbar esté por encima de otros elementos */
+}
+
+header.scrolled {
+  background-color: white;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.logo-container span {
+  margin-left: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ffffff; /* Gris oscuro */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #ffffff; /* Gris intermedio */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #2d3748; /* Gris oscuro al hacer hover */
+}
+
+.user-photo {
+  position: relative;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
