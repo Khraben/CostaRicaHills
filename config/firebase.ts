@@ -10,12 +10,9 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.PUBLIC_KEYASTROFIREBASEMESSAGE,
   appId: import.meta.env.PUBLIC_KEYASTROFIREBASEAPIID 
 };
-
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-
 // Function to handle login
 const toggleModal = async () => {
   try {
@@ -26,8 +23,6 @@ const toggleModal = async () => {
     console.error('Error during login:', error);
   }
 };
-
-
 const signInWithGoogle = () => {
   return signInWithPopup(auth, provider);
 };
