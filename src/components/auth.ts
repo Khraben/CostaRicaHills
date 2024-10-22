@@ -4,7 +4,6 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebas
 let isLoggedIn: Boolean; 
 let userName: string;
 let userPhotoUrl;
-listenForAuthChanges();
 export function listenForAuthChanges() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -23,7 +22,6 @@ export function listenForAuthChanges() {
 export async function loginWithGoogle() {
     try {
         await toggleModal();
-        listenForAuthChanges()
         return true;
     } catch (error) {
         console.error('Error al iniciar sesión con Google:', error);
@@ -33,7 +31,6 @@ export async function loginWithGoogle() {
 export async function loginUser(email: string, password: string) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        listenForAuthChanges();
         return true;
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
