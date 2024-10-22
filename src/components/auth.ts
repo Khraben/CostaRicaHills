@@ -10,11 +10,21 @@ export function listenForAuthChanges() {
             isLoggedIn = true;
             userName = user.displayName || user.email;
             userPhotoUrl = user.photoURL;
+            if (typeof window !== 'undefined') {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userPhotoUrl', userPhotoUrl);
+            }    
         } else {
             // Usuario no autenticado
             isLoggedIn = false;
             userName = '';
             userPhotoUrl = 'src/assets/userDefault.jpg';
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('isLoggedIn', 'false');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userPhotoUrl');
+            }
         }
     });
 }
@@ -47,4 +57,11 @@ export async function logoutUser() {
         return false;
     }
 }
+// Cargar el estado de autenticación desde localStorage al iniciar
+if (typeof window !== 'undefined') {
+    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    userName = localStorage.getItem('userName') || '';
+    userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
+  }
+
 export {userName,userPhotoUrl, isLoggedIn};

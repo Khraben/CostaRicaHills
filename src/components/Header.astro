@@ -1,8 +1,8 @@
 ---
 import '../styles/Header.css';
-import {userName, userPhotoUrl } from './auth';
+import {listenForAuthChanges,userName, userPhotoUrl } from './auth';
 import '../styles/Header.css';
-
+listenForAuthChanges();
 ---
 <header class="navbar">
   <nav>
@@ -119,6 +119,8 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,logoutUser,isLoggedIn, 
         });
          // Manejar el formulario de inicio de sesión
          document.getElementById('login-form-element').addEventListener('submit', handleLogin);
+         // Actualizar la información del usuario al cargar la página
+         updateUserInfo();
   });
   </script>
   <!-- Estilos para el header cuando se hace scroll -->
