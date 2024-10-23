@@ -70,6 +70,8 @@ listenForAuthChanges();
 import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser,isLoggedIn, userName,userPhotoUrl} from "./auth";
 // Inicia la escucha de cambios de autenticación
     document.addEventListener('DOMContentLoaded', () => {
+        const FormLogin = document.getElementById('login-form-element') as HTMLFormElement;
+        const FormRegisterLogin = document.getElementById('register-form-element')as HTMLFormElement;
         const loginModal = document.getElementById('login-modal');
         const registerModal = document.getElementById('register-modal');
         const userInfoModal = document.getElementById('user-info');
@@ -94,6 +96,7 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
             const password = document.getElementById('password').value;
             const success = await loginUser(email, password);
             if (success) {
+                FormLogin.reset(); // Limpia el formulario de inicio de sesión
                 loginModal.style.display = 'none'; // Cierra el modal
                 updateUserInfo(); // Actualiza la información del usuario en el modal
             } else {
@@ -109,6 +112,7 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
             const password = document.getElementById('register-password').value;
             const success = await registerUser(email, password,nombreUser);
             if (success) {
+                FormRegisterLogin.reset();
                 registerModal.style.display = 'none'; // Cierra el modal
                 updateUserInfo(); // Actualiza la información del usuario en el modal
             }
@@ -118,6 +122,7 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
         const handleGoogleLogin = async () => {
             const success = await loginWithGoogle();
             if (success) {
+                FormLogin.reset(); // Limpia el formulario de inicio de sesión
                 loginModal.style.display = 'none'; // Cierra el modal
                 updateUserInfo();
             } else {
