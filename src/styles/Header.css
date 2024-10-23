@@ -112,6 +112,7 @@ label {
 }
 
 input[type="email"],
+input[type="text"],
 input[type="password"] {
   padding: 10px; /* Espaciado interno */
   margin-bottom: 15px; /* Espaciado inferior */

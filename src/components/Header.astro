@@ -43,6 +43,8 @@ listenForAuthChanges();
           <span class="close" onclick="document.getElementById('register-modal').style.display='none'">&times;</span>
           <h2>Registrarse</h2>
           <form id="register-form-element">
+              <label for="register-name">Nombre:</label>
+              <input type="text" id="register-name" required />
               <label for="register-email">Correo:</label>
               <input type="email" id="register-email" required />
               <label for="register-password">Contraseña:</label>
@@ -102,14 +104,13 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
         // Función para manejar el registro de nuevos usuarios
         const handleRegister = async (event) => {
             event.preventDefault();
+            const nombreUser = document.getElementById('register-name').value;
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
-            const success = await registerUser(email, password);
+            const success = await registerUser(email, password,nombreUser);
             if (success) {
                 registerModal.style.display = 'none'; // Cierra el modal
                 updateUserInfo(); // Actualiza la información del usuario en el modal
-            } else {
-                alert('Error al registrarse. Por favor, intenta nuevamente.');
             }
         };
 

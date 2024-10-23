@@ -1,6 +1,6 @@
 // auth.ts
 import { auth,toggleModal } from '/config/firebase.ts';
-import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
+import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 let isLoggedIn: Boolean; 
 let userName: string;
 let userPhotoUrl='src/assets/userDefault.jpg';
@@ -47,12 +47,22 @@ export async function loginUser(email: string, password: string) {
         return false;
     }
 }
-export async function registerUser(email: string, password: string) {
+export async function registerUser(email: string, password: string, name: string) {
     try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, {
+            displayName: name,
+            photoURL: 'src/assets/userDefault.jpg'
+        });
         return true;
     } catch (error) {
-        console.error('Error al registrar usuario:', error);
+        if (error.code === 'auth/email-already-in-use') {
+            alert('Error: El correo electrónico ya está en uso.');
+        } else if (error.code === 'auth/weak-password') {
+            alert('Error: La contraseña es demasiado débil. Debe tener al menos 6 caracteres.');
+        } else {
+            console.error('Error durante el registro:', error);
+        }
         return false;
     }
 }
