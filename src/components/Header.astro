@@ -151,16 +151,25 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
 
         // Mostrar modal de registro
         document.getElementById('show-register-modal').addEventListener('click', () => {
+            FormLogin.reset();
             loginModal.style.display = 'none';
             registerModal.style.display = 'block';
         });
 
         // Volver al modal de inicio de sesión
         document.getElementById('show-login-modal').addEventListener('click', () => {
+            FormRegisterLogin.reset();
             registerModal.style.display = 'none';
             loginModal.style.display = 'block';
         });
-
+        // Cerrar modal de inicio de sesión y resetear formulario
+        document.querySelector('#login-modal .close').addEventListener('click', () => {
+            FormLogin.reset(); // Resetea el formulario de inicio de sesión
+        });
+        // Cerrar modal de registro y resetear formulario   
+        document.querySelector('#register-modal .close').addEventListener('click', () => {
+            FormRegisterLogin.reset(); // Resetea el formulario de registro
+        });
         // Manejar cierre de sesión
         document.getElementById('logout-button').addEventListener('click', handleLogout);
 
