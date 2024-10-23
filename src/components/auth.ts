@@ -1,6 +1,6 @@
 // auth.ts
 import { auth,toggleModal } from '/config/firebase.ts';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
 let isLoggedIn: Boolean; 
 let userName: string;
 let userPhotoUrl;
@@ -44,6 +44,15 @@ export async function loginUser(email: string, password: string) {
         return true;
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
+        return false;
+    }
+}
+export async function registerUser(email: string, password: string) {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        return true;
+    } catch (error) {
+        console.error('Error al registrar usuario:', error);
         return false;
     }
 }
