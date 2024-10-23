@@ -17,7 +17,6 @@ listenForAuthChanges();
       <img src={userPhotoUrl} alt="Foto de Usuario" class="user-photo" id="user-photo"/>
     </div>
   </nav>
-  
   <!-- Modal de inicio de sesión -->
   <div id="login-modal" class="modal">
       <div class="modal-content">
@@ -53,6 +52,17 @@ listenForAuthChanges();
           <button type="button" id="show-login-modal">Volver a Iniciar Sesión</button>
       </div>
   </div>
+  <!-- Información del usuario -->
+  <div id="user-info" class="modal">
+      <div class="modal-content">
+          <span class="close" onclick="document.getElementById('user-info').style.display='none'">&times;</span>
+          <img src={userPhotoUrl} alt="Foto de Usuario" class="login-link" id="modal-user-photo"/>
+          <p id="user-name">{userName}</p>
+          <button id="logout-button">Cerrar Sesión</button>
+      </div>
+  </div>
+
+
   <!-- Scripts -->
   <script>
 import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser,isLoggedIn, userName,userPhotoUrl} from "./auth";
@@ -60,25 +70,16 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
     document.addEventListener('DOMContentLoaded', () => {
         const loginModal = document.getElementById('login-modal');
         const registerModal = document.getElementById('register-modal');
-
+        const userInfoModal = document.getElementById('user-info');
         const updateUserInfo = () => {
             listenForAuthChanges();
-            const userInfo = document.getElementById('user-info');
             const userPhoto = document.getElementById('user-photo');
             const modalUserPhoto = document.getElementById('modal-user-photo');
             if (isLoggedIn) {
-                document.getElementById('modal-title').textContent = 'Información del Usuario';
-                userInfo.style.display = 'block';
-                document.getElementById('login-form-element').style.display = 'none';
-                document.getElementById('register-form-element').style.display = 'none';
                 document.getElementById('user-name').textContent = userName; // Actualiza el nombre del usuario
                 userPhoto.src = userPhotoUrl; // Actualiza la foto del usuario en el header
                 modalUserPhoto.src = userPhotoUrl; 
             } else {
-                document.getElementById('modal-title').textContent = 'Iniciar Sesión';
-                userInfo.style.display = 'none';
-                document.getElementById('login-form-element').style.display = 'block';
-                document.getElementById('register-form-element').style.display = 'none';
                 userPhoto.src = 'src/assets/userDefault.jpg'; // Foto por defecto
                 modalUserPhoto.src = 'src/assets/userDefault.jpg';
             }
@@ -127,14 +128,18 @@ import { loginUser,listenForAuthChanges, loginWithGoogle,registerUser,logoutUser
         const handleLogout = async () => {
             const success = await logoutUser();
             if (success) {
-                loginModal.style.display = 'none'; // Cierra el modal
+                userInfoModal.style.display = 'none'; // Oculta la información del usuario
                 updateUserInfo(); // Actualiza la información del usuario en el modal
             }
         };
 
         // Mostrar modal de inicio de sesión cuando se hace clic en la foto de usuario
         document.getElementById('user-photo').addEventListener('click', () => {
-            loginModal.style.display = 'block'; // Mostrar el modal de inicio de sesión
+            if (isLoggedIn) {
+                userInfoModal.style.display = 'block'; // Mostrar el modal de información del usuario
+            } else {
+                loginModal.style.display = 'block'; // Mostrar el modal de inicio de sesión
+            }
             updateUserInfo(); // Actualiza la información del usuario en el modal
         });
 

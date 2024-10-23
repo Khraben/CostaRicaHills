@@ -3,13 +3,13 @@ import { auth,toggleModal } from '/config/firebase.ts';
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
 let isLoggedIn: Boolean; 
 let userName: string;
-let userPhotoUrl;
+let userPhotoUrl='src/assets/userDefault.jpg';
 export function listenForAuthChanges() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             isLoggedIn = true;
             userName = user.displayName || user.email;
-            userPhotoUrl = user.photoURL;
+            userPhotoUrl = user.photoURL|| 'src/assets/userDefault.jpg';
             if (typeof window !== 'undefined') {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userName', userName);
