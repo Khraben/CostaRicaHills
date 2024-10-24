@@ -112,6 +112,7 @@ label {
 }
 
 input[type="email"],
+input[type="text"],
 input[type="password"] {
   padding: 10px; /* Espaciado interno */
   margin-bottom: 15px; /* Espaciado inferior */
@@ -125,6 +126,7 @@ button {
   border: none; /* Sin borde */
   border-radius: 4px; /* Bordes redondeados */
   cursor: pointer; /* Cursor de mano */
+  margin-bottom: 10px; /* Espaciado inferior */
 }
 button:hover {
   background-color: #45a049; /* Color más oscuro al pasar el mouse */
@@ -144,4 +146,19 @@ button:hover {
 .google-button:hover {
   background-color: rgba(66, 133, 244, 0.1); /* Color de fondo al pasar el mouse */
   border-radius: 4px; /* Bordes redondeados al hacer hover */
+}
+#register-button,
+#back-to-login-button {
+  background-color: #007BFF; /* Color de fondo azul */
+  color: white; /* Texto blanco */
+  padding: 10px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de mano */
+  margin-top: 10px; /* Espaciado superior */
+}
+
+#register-button:hover,
+#back-to-login-button:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
 }

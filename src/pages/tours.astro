@@ -1,0 +1,79 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+
+const tours = [
+  {
+    title: "Tour 1",
+    body: "Descripción del Tour 1",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 2",
+    body: "Descripción del Tour 2",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 3",
+    body: "Descripción del Tour 3",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 4",
+    body: "Descripción del Tour 4",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 5",
+    body: "Descripción del Tour 5",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 6",
+    body: "Descripción del Tour 6",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 7",
+    body: "Descripción del Tour 7",
+    image: "src/assets/tourDefault.jpg",
+  },
+  {
+    title: "Tour 8",
+    body: "Descripción del Tour 8",
+    image: "src/assets/tourDefault.jpg",
+  },
+];
+---
+
+<Layout title="Tours - Costa Rica Hills">
+  <section class="tours-section">
+    <h1>Nuestros Tours</h1>
+    <ul class="tours-list">
+      {tours.map((tour) => <Card {...tour} />)}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .tours-section {
+    padding: 2rem;
+    background-color: transparent;
+    margin-top: 4rem;
+  }
+
+  .tours-section h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+
+  .tours-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+  }
+</style>
