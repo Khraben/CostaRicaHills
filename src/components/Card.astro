@@ -3,28 +3,36 @@ interface Props {
   title: string;
   body: string;
   image: string;
+  destination: string;
+  duration: string;
+  price: string;
+  description: string;
 }
-const { title, body, image } = Astro.props;
+const { title, body, image, destination, duration, price, description } =
+  Astro.props;
 ---
 
-<li class="link-card" style={`background-image: url(${image});`}>
-  <div class="content">
-    <h2>
-      {title}
-      <span>&rarr;</span>
-    </h2>
-    <p>
-      {body}
-    </p>
+<li class="link-card">
+  <div class="image-section" style={`background-image: url(${image});`}>
+    <div class="content">
+      <h2>{title}<span>&rarr;</span></h2>
+      <div class="details">
+        <p><strong>Destino:</strong> {destination}</p>
+        <p><strong>Duración:</strong> {duration}</p>
+        <p><strong>Precio:</strong> {price}</p>
+      </div>
+    </div>
+  </div>
+  <div class="description">
+    <p>{description}</p>
   </div>
 </li>
+
 <style>
   .link-card {
     list-style: none;
     display: flex;
-    padding: 1px;
-    background-size: cover;
-    background-position: center;
+    flex-direction: column;
     border-radius: 10px;
     transition:
       transform 0.3s ease,
@@ -33,42 +41,38 @@ const { title, body, image } = Astro.props;
     overflow: hidden;
     position: relative;
   }
-  .link-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
+  .image-section {
+    background-size: cover;
+    background-position: center;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    transition: background 0.3s ease;
+    position: relative;
   }
-  .link-card .content {
+  .content {
     width: 100%;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 100%;
     padding: 1.5rem;
     position: relative;
     z-index: 1;
+    background: rgba(0, 0, 0, 0.5); /* Efecto de opacidad leve */
   }
-  .link-card .content:hover::before {
-    background: rgba(0, 0, 0, 0.5);
+  .details {
+    margin-bottom: 1rem;
+  }
+  .description {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    width: 100%;
   }
   .link-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   }
-  .link-card:hover::before {
-    background: rgba(0, 0, 0, 0.5);
-  }
-  .link-card:hover .content {
-    background: none;
-  }
   .link-card:hover .content h2 {
-    color: #ffcc00;
+    color: #00a08b;
   }
   h2 {
     margin: 0;
@@ -80,6 +84,5 @@ const { title, body, image } = Astro.props;
     margin-top: 0.5rem;
     margin-bottom: 0;
     font-size: 1.2rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
 </style>
