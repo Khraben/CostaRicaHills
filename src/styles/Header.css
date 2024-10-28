@@ -22,6 +22,16 @@ nav {
   margin: 0 auto;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.logo-link span:hover {
+  color: #00a08b; /* Gris oscuro al hacer hover */
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -43,6 +53,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  font-weight: bold;
 }
 
 .nav-links a {
@@ -52,7 +63,7 @@ nav {
 }
 
 .nav-links a:hover {
-  color: #2d3748; /* Gris oscuro al hacer hover */
+  color: #00a08b; /* Gris oscuro al hacer hover */
 }
 .user-photo {
   position: relative;
@@ -64,7 +75,7 @@ nav {
 .user-photo:hover {
   transform: scale(1.1); /* Aumentar ligeramente el tamaño */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-  border: 4px solid #007BFF; /* Borde azul (puedes cambiar el color) */
+  border: 4px solid #00a08b; /* Borde azul (puedes cambiar el color) */
 }
 .modal {
   display: none; /* Ocultado por defecto */
@@ -96,7 +107,7 @@ nav {
 
 .close:hover,
 .close:focus {
-  color: black; /* Color al pasar el mouse o al enfocar */
+  color: #00a08b; /* Color al pasar el mouse o al enfocar */
   text-decoration: none; /* Sin subrayado */
   cursor: pointer; /* Cursor de mano */
 }
@@ -129,7 +140,7 @@ button {
   margin-bottom: 10px; /* Espaciado inferior */
 }
 button:hover {
-  background-color: #45a049; /* Color más oscuro al pasar el mouse */
+  background-color: #00a08b; /* Color más oscuro al pasar el mouse */
 }
 .google-button {
   background-color: transparent; /* Fondo transparente */
@@ -160,5 +171,5 @@ button:hover {
 
 #register-button:hover,
 #back-to-login-button:hover {
-  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  background-color: #00a08b; /* Color más oscuro al pasar el mouse */
 }
