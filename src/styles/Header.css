@@ -64,12 +64,21 @@ nav {
 .nav-links a:hover {
   color: #00a08b; /* Gris oscuro al hacer hover */
 }
+.centered-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.centered-text {
+  text-align: center;
+}
 .user-photo {
   position: relative;
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
+  
 }
 .user-photo:hover {
   transform: scale(1.1); /* Aumentar ligeramente el tamaño */
@@ -167,8 +176,22 @@ button:hover {
   cursor: pointer; /* Cursor de mano */
   margin-top: 10px; /* Espaciado superior */
 }
-
 #register-button:hover,
 #back-to-login-button:hover {
   background-color: #00a08b; /* Color más oscuro al pasar el mouse */
+}
+.view-profile-button {
+  background-color: #c432ac; /* Color de fondo azul */
+  color: white; /* Texto blanco */
+  padding: 10px 20px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  text-align: center; /* Centrar el texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Para que se comporte como un botón */
+  cursor: pointer; /* Cursor de mano */
+  transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+.view-profile-button:hover {
+  background-color: #47d4c2; /* Color más oscuro al pasar el mouse */
 }

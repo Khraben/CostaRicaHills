@@ -14,6 +14,8 @@ export function listenForAuthChanges() {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userName', userName);
             localStorage.setItem('userPhotoUrl', userPhotoUrl);
+            window.dispatchEvent(new Event('storage'));
+            
             }    
         } else {
             // Usuario no autenticado
@@ -24,6 +26,7 @@ export function listenForAuthChanges() {
                 localStorage.setItem('isLoggedIn', 'false');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userPhotoUrl');
+                window.dispatchEvent(new Event('storage'));
             }
         }
     });

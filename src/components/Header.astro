@@ -87,11 +87,12 @@ listenForAuthChanges();
       <img
         src={userPhotoUrl}
         alt="Foto de Usuario"
-        class="login-link"
+        class="login-link centered-image"
         id="modal-user-photo"
       />
-      <p id="user-name">{userName}</p>
+      <p id="user-name" class="centered-text">{userName}</p>
       <button id="logout-button">Cerrar Sesión</button>
+      <a href="/UserProfile" id="view-profile-button" class="button view-profile-button">Ver Perfil</a>
     </div>
   </div>
 
@@ -242,7 +243,6 @@ listenForAuthChanges();
       document
         .getElementById("register-form-element")
         .addEventListener("submit", handleRegister);
-
       // Actualizar la información del usuario al cargar la página
       updateUserInfo();
     });
