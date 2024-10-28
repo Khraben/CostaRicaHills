@@ -13,7 +13,10 @@ header {
 header.scrolled {
   background-color: white;
 }
-
+header.scrolled .logo-container span,
+header.scrolled .nav-links a {
+  color: black; /* Cambia el color del texto a negro */
+}
 nav {
   display: flex;
   justify-content: space-between;

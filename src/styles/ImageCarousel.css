@@ -1,0 +1,57 @@
+.tour-details {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    height: 100vh;
+  }
+  
+  .carousel-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .carousel {
+    position: relative;
+    width: 100%;
+    max-width: 700px; /* Aumenta el ancho máximo del carrusel */
+    height: 80vh; /* Aumenta la altura del carrusel */
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    object-fit: cover; /* Mantiene la proporción y rellena el área disponible */
+    display: block;
+  }
+  
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .carousel-btn.prev {
+    left: 10px;
+  }
+  
+  .carousel-btn.next {
+    right: 10px;
+  }
+  

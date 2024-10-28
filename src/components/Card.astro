@@ -7,25 +7,27 @@ interface Props {
   duration: string;
   price: string;
   description: string;
+  link: string; // Añadimos una propiedad para el enlace
 }
-const { title, body, image, destination, duration, price, description } =
-  Astro.props;
+const { title, body, image, destination, duration, price, description, link } = Astro.props;
 ---
 
 <li class="link-card">
-  <div class="image-section" style={`background-image: url(${image});`}>
-    <div class="content">
-      <h2>{title}<span>&rarr;</span></h2>
-      <div class="details">
-        <p><strong>Destino:</strong> {destination}</p>
-        <p><strong>Duración:</strong> {duration}</p>
-        <p><strong>Precio:</strong> {price}</p>
+  <a href={link} class="card-link">
+    <div class="image-section" style={`background-image: url(${image});`}>
+      <div class="content">
+        <h2>{title}<span>&rarr;</span></h2>
+        <div class="details">
+          <p><strong>Destino:</strong> {destination}</p>
+          <p><strong>Duración:</strong> {duration}</p>
+          <p><strong>Precio:</strong> {price}</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="description">
-    <p>{description}</p>
-  </div>
+    <div class="description">
+      <p>{description}</p>
+    </div>
+  </a>
 </li>
 
 <style>
@@ -40,6 +42,12 @@ const { title, body, image, destination, duration, price, description } =
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
+  }
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
   }
   .image-section {
     background-size: cover;

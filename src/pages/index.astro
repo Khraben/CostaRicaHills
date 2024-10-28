@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 ---
 
 <Layout title="Costa Rica Hills">
@@ -11,6 +12,32 @@ import Layout from "../layouts/Layout.astro";
         Nos dedicamos a ofrecer los mejores tours alrededor de Costa Rica.
         Descubre la belleza natural de nuestro país con nosotros.
       </p>
+    </div>
+  </section>
+
+  <section class="popular-tours">
+    <h2>Tours más populares</h2>
+    <div class="cards-container">
+      <Card
+        title="Tour al Volcán Arenal"
+        description="Explora el majestuoso Volcán Arenal y sus alrededores."
+        image="src/assets/volcan_arenal.jpg"
+        destination="La Fortuna, Alajuela"
+        duration="8 horas"
+        price="$120"
+        link="/toursView?tour=volcan-arenal"
+        body=""
+      />
+      <Card
+        title="Tour a la Playa Manuel Antonio"
+        description="Disfruta de las hermosas playas y la biodiversidad del Parque Nacional Manuel Antonio."
+        image="src/assets/playa_manuel_antonio.jpg"
+        destination="Quepos, Puntarenas"
+        duration="6 horas"
+        price="$90"
+        link="/toursView"
+        body=""
+      />
     </div>
   </section>
 </Layout>
@@ -49,5 +76,21 @@ import Layout from "../layouts/Layout.astro";
 
   .hero p {
     font-size: 1.5rem;
+  }
+
+  .popular-tours {
+    padding: 2rem;
+  }
+
+  .popular-tours h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
 </style>
