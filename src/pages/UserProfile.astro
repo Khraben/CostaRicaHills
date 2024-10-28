@@ -13,19 +13,44 @@ import Layout from "../layouts/Layout.astro";
         <!-- Agrega más información del perfil aquí -->
       </div>
     </div>
+
+    <div class="user-reservas">
+      <h2>Mis Reservas</h2>
+      <div id="reservas-list" class="reservas-list"></div>
+    </div>
+
   </section>
 </Layout>
 
 <script>
   import { listenForAuthChanges } from "../components/auth";
+  import { getReservasByUser } from  '../../config/firebaseServices';
   if (typeof window !== 'undefined') {
     listenForAuthChanges();
     let userName = localStorage.getItem('userName') || '';
     let userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
+    let userId = localStorage.getItem('userId');
 
-    document.addEventListener('DOMContentLoaded', () => {
+     document.addEventListener('DOMContentLoaded', async () => {
       document.querySelector('.user-name').textContent = `Nombre: ${userName}`;
       document.querySelector('.profile-photo').src = userPhotoUrl;
+
+      if (userId) {
+        try {
+          const reservas = await getReservasByUser(userId);
+          const reservasList = document.getElementById('reservas-list');
+          reservas.forEach(reserva => {
+            const card = document.createElement('div');
+            card.className = 'reserva-card';
+            card.innerHTML = `
+             <h3 class="tour-id" style="color: #FFD700;">${reserva.tourId}</h3>
+            `;
+            reservasList.appendChild(card);
+          });
+        } catch (error) {
+          console.error('Error al obtener las reservas:', error);
+        }
+      }
     });
 
     window.addEventListener('storage', () => {
@@ -36,27 +61,23 @@ import Layout from "../layouts/Layout.astro";
     });
   }
 </script>
-
 <style>
   .user-profile-section {
     padding: 2rem;
     background-color: transparent;
     margin-top: 4rem;
   }
-
   .user-profile-section h1 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 2rem;
     color: #333;
   }
-
   .user-profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .user-profile {
     background: linear-gradient(135deg, #f0f0f0, #ffffff);
     padding: 2rem;
@@ -70,12 +91,10 @@ import Layout from "../layouts/Layout.astro";
     flex-direction: column;
     align-items: center;
   }
-
   .user-profile:hover {
     transform: scale(1.02);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
-
   .profile-photo {
     height: 120px;
     width: 120px;
@@ -85,24 +104,52 @@ import Layout from "../layouts/Layout.astro";
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-
   .profile-photo:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
-
-  .user-name, .user-email, .user-bio {
+  .user-name {
     margin: 1rem 0;
     color: #333;
   }
-
   .user-name {
     font-size: 1.75rem;
     font-weight: bold;
   }
-
-  .user-email, .user-bio {
-    font-size: 1.1rem;
-    color: #666;
+  .user-reservas {
+    margin-top: 2rem;
+  }
+  .user-reservas h2 {
+    font-size: 2rem;
+    color: #afdb11;
+    text-align: center;
+  }
+  .reservas-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .reserva-card{
+    background: hwb(59 11% 20%); /* Fondo oscuro para mejor contraste */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(188, 201, 11, 0.767);
+    padding: 1rem;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .reserva-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(84, 218, 6, 0.74);
+  }
+  .reserva-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #8ec412; /* Texto claro para mejor contraste */
+  }
+  .reserva-card p {
+    font-size: 1rem;
+    color: #a4e017; /* Texto claro para mejor contraste */
   }
 </style>

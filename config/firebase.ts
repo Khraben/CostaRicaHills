@@ -13,16 +13,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-// Function to handle login
-const toggleModal = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log('User logged in:', user);
-  } catch (error) {
-    console.error('Error during login:', error);
-  }
-};
+
 const signInWithGoogle = () => {
   return signInWithPopup(auth, provider);
 };
@@ -32,4 +23,4 @@ const logOut = () => {
 };
 
 const db = getFirestore(app);
-export {toggleModal,db, auth, signInWithGoogle, logOut };
+export {db, auth, signInWithGoogle, logOut };

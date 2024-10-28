@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ImageCarousel from '../components/ImageCarousel';
+import { addReservaTour } from  '../../config/firebaseServices';
 const tour = {
   nombre: "Exploración en el Parque Nacional Manuel Antonio",
   destino: {
@@ -17,7 +18,6 @@ const tour = {
   ]
 };
 ---
-
 <Layout title={tour.nombre}>
   <section class="tour-details">
     <div class="carousel-container">
@@ -29,9 +29,31 @@ const tour = {
       <p><strong>Descripción:</strong> {tour.descripcion}</p>
       <p><strong>Duración:</strong> {tour.duracion}</p>
       <p><strong>Precio:</strong> {tour.precio}</p>
+      <button id="ReservarTour-button" data-tour-nombre={tour.nombre}>Reservar Tour</button>
     </div>
   </section>
 </Layout>
+
+<script>
+  import { addReservaTour } from  '../../config/firebaseServices';
+
+  document.getElementById('ReservarTour-button').addEventListener('click', async () => {
+    const userId = localStorage.getItem('userId');
+    const target = event.target as HTMLElement;
+    const tourNombre = target.getAttribute('data-tour-nombre');
+    if (userId) {
+      try {
+        await addReservaTour(tourNombre, userId);
+        alert('Reserva realizada con éxito');
+      } catch (error) {
+        console.error('Error al reservar el tour:', error);
+        alert('Hubo un error al realizar la reserva');
+      }
+    } else {
+      alert('Por favor, inicia sesión para reservar el tour');
+    }
+  });
+</script>
 
 <style>
   .tour-details {
@@ -39,7 +61,6 @@ const tour = {
     gap: 2rem;
     padding: 2rem;
   }
-
   .carousel-container {
     width: 60%;
   }
