@@ -1,64 +1,38 @@
 ---
 // UserProfile.astro
 import Layout from "../layouts/Layout.astro";
+import UserProfileReservas from "../components/UserProfileReservas.jsx";
 ---
 <Layout title="Perfil de Usuario - Costa Rica Hills">
   <section class="user-profile-section">
-    
     <div class="user-profile-container">
       <div class="user-profile">
         <h1>Perfil del Usuario</h1>
-        <img src="src/assets/userDefault.jpg" alt="Foto de Usuario" class="profile-photo" />
+        <img src='src/assets/userDefault.jpg' alt="Foto de Usuario" class="profile-photo" />
         <p class="user-name">Nombre: </p>
         <p class="user-email">Bienvenido</p>
-        <!-- Agrega más información del perfil aquí -->
       </div>
     </div>
-
-    <div class="user-reservas">
-      <h2>Mis Reservas</h2>
-      <div id="reservas-list" class="reservas-list"></div>
-    </div>
-
+    <UserProfileReservas client:load />
   </section>
 </Layout>
 
 <script>
   import { listenForAuthChanges } from "../components/auth";
-  import { getReservasByUser } from  '../../config/firebaseServices';
   if (typeof window !== 'undefined') {
-    listenForAuthChanges();
-    let userName = localStorage.getItem('userName') || '';
-    let userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
-    let userId = localStorage.getItem('userId');
-
-     document.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', () => {
+      listenForAuthChanges();
+      let userName = localStorage.getItem('userName') || '';
+      let userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
       document.querySelector('.user-name').textContent = `Nombre: ${userName}`;
       document.querySelector('.profile-photo').src = userPhotoUrl;
 
-      if (userId) {
-        try {
-          const reservas = await getReservasByUser(userId);
-          const reservasList = document.getElementById('reservas-list');
-          reservas.forEach(reserva => {
-            const card = document.createElement('div');
-            card.className = 'reserva-card';
-            card.innerHTML = `
-             <h3 class="tour-id" style="color: #FFD700;">${reserva.tourId}</h3>
-            `;
-            reservasList.appendChild(card);
-          });
-        } catch (error) {
-          console.error('Error al obtener las reservas:', error);
-        }
-      }
-    });
-
-    window.addEventListener('storage', () => {
-      userName = localStorage.getItem('userName') || '';
-      userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
-      document.querySelector('.user-name').textContent = `Nombre: ${userName}`;
-      document.querySelector('.profile-photo').src = userPhotoUrl;
+      window.addEventListener('storage', () => {
+        userName = localStorage.getItem('userName') || '';
+        userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
+        document.querySelector('.user-name').textContent = `Nombre: ${userName}`;
+        document.querySelector('.profile-photo').src = userPhotoUrl;
+      });
     });
   }
 </script>
@@ -67,12 +41,6 @@ import Layout from "../layouts/Layout.astro";
     padding: 2rem;
     background-color: transparent;
     margin-top: 4rem;
-  }
-  .user-profile-section h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #333;
   }
   .user-profile-container {
     display: flex;
@@ -116,41 +84,5 @@ import Layout from "../layouts/Layout.astro";
   .user-name {
     font-size: 1.75rem;
     font-weight: bold;
-  }
-  .user-reservas {
-    margin-top: 2rem;
-  }
-  .user-reservas h2 {
-    font-size: 2rem;
-    color: #afdb11;
-    text-align: center;
-  }
-  .reservas-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-  .reserva-card{
-    background: hwb(59 11% 20%); /* Fondo oscuro para mejor contraste */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(188, 201, 11, 0.767);
-    padding: 1rem;
-    width: 200px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .reserva-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(84, 218, 6, 0.74);
-  }
-  .reserva-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #8ec412; /* Texto claro para mejor contraste */
-  }
-  .reserva-card p {
-    font-size: 1rem;
-    color: #a4e017; /* Texto claro para mejor contraste */
   }
 </style>

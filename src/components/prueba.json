@@ -1,0 +1,13 @@
+{
+    "nombre": "Exploración en el Parque Nacional Manuel Antonio",
+    "destino": {
+      "canton": "Quepos",
+      "provincia": "Puntarenas"
+    },
+    "descripcion": "Un tour guiado que te lleva a través de los senderos del Parque Nacional Manuel Antonio, donde podrás observar una variada fauna, playas paradisíacas y disfrutar de actividades acuáticas.",
+    "duracion": "6 horas",
+    "precio": "$90",
+    "imagenes": [
+     "src/assets/tourDefault.jpg"
+     ]
+  }

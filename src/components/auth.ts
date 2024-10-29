@@ -1,37 +1,36 @@
 // auth.ts
 import { auth } from '../../config/firebase.ts';
+import { createSignal } from 'solid-js';
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, } from 'firebase/auth';
-let isLoggedIn: Boolean; 
-let userName: string;
-let userPhotoUrl='src/assets/userDefault.jpg';
-let userId= '';
+const [isLoggedIn, setIsLoggedIn] = createSignal(false);
+const [userName, setUserName] = createSignal('');
+const [userPhotoUrl, setUserPhotoUrl] = createSignal('src/assets/userDefault.jpg');
+const [userId, setUserId] = createSignal('');
+
 export function listenForAuthChanges() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            isLoggedIn = true;
-            userName = user.displayName || user.email;
-            userPhotoUrl = user.photoURL|| 'src/assets/userDefault.jpg';
-            userId= user.uid;
+            setIsLoggedIn(true);
+            setUserName(user.displayName || user.email);
+            setUserPhotoUrl(user.photoURL || 'src/assets/userDefault.jpg');
+            setUserId(user.uid);
             if (typeof window !== 'undefined') {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userName', userName);
-            localStorage.setItem('userPhotoUrl', userPhotoUrl);
-            localStorage.setItem('userId', userId);
-            window.dispatchEvent(new Event('storage'));
-            
-            }    
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', user.displayName || user.email);
+                localStorage.setItem('userPhotoUrl', user.photoURL || 'src/assets/userDefault.jpg');
+                localStorage.setItem('userId', user.uid);
+            }
         } else {
             // Usuario no autenticado
-            isLoggedIn = false;
-            userName = '';
-            userPhotoUrl = 'src/assets/userDefault.jpg';
-            userId = '';
+            setIsLoggedIn(false);
+            setUserName('');
+            setUserPhotoUrl('src/assets/userDefault.jpg');
+            setUserId('');
             if (typeof window !== 'undefined') {
                 localStorage.setItem('isLoggedIn', 'false');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userPhotoUrl');
                 localStorage.removeItem('userId');
-                window.dispatchEvent(new Event('storage'));
             }
         }
     });
@@ -40,12 +39,7 @@ export function listenForAuthChanges() {
 export async function loginWithGoogle() {
     try {
         const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        if (user) {
-            listenForAuthChanges()
-        }
-        console.log('User logged in:', user);
+        await signInWithPopup(auth, provider);
         return true;
     } catch (error) {
         console.error('Error al iniciar sesión con Google:', error);
@@ -54,11 +48,7 @@ export async function loginWithGoogle() {
 }
 export async function loginUser(email: string, password: string) {
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        if (user) {
-            listenForAuthChanges();
-        }
+        await signInWithEmailAndPassword(auth, email, password);
         return true;
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
@@ -74,7 +64,6 @@ export async function registerUser(email: string, password: string, name: string
             displayName: name,
             photoURL: 'src/assets/userDefault.jpg'
         });
-        listenForAuthChanges();
         }
         return true;
     } catch (error) {
@@ -91,7 +80,6 @@ export async function registerUser(email: string, password: string, name: string
 export async function logoutUser() {
     try {
         await signOut(auth);
-        listenForAuthChanges();
         return true;
     } catch (error) {
         console.error('Error al cerrar sesión:', error);
@@ -100,10 +88,10 @@ export async function logoutUser() {
 }
 // Cargar el estado de autenticación desde localStorage al iniciar
 if (typeof window !== 'undefined') {
-    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    userName = localStorage.getItem('userName') || '';
-    userPhotoUrl = localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg';
-    userId = localStorage.getItem('userId') || '';
-  }
-
-export {userName,userPhotoUrl, isLoggedIn};
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+    setUserName(localStorage.getItem('userName') || '');
+    setUserPhotoUrl(localStorage.getItem('userPhotoUrl') || 'src/assets/userDefault.jpg');
+    setUserId(localStorage.getItem('userId') || '');
+}
+listenForAuthChanges();
+export { isLoggedIn, userName, userPhotoUrl,userId  };
