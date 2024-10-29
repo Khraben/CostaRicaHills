@@ -3,6 +3,8 @@ import "../styles/Header.css";
 import { listenForAuthChanges, userName, userPhotoUrl } from "./auth";
 import "../styles/Header.css";
 listenForAuthChanges();
+const userPhoto = userPhotoUrl();
+const user = userName();
 ---
 
 <header class="navbar">
@@ -18,7 +20,7 @@ listenForAuthChanges();
       <a href="/about">Sobre Nosotros</a>
       <!-- Foto del usuario -->
       <img
-        src={userPhotoUrl}
+        src={userPhoto}
         alt="Foto de Usuario"
         class="user-photo"
         id="user-photo"
@@ -85,12 +87,12 @@ listenForAuthChanges();
         >&times;</span
       >
       <img
-        src={userPhotoUrl}
+        src={userPhoto}
         alt="Foto de Usuario"
         class="login-link centered-image"
         id="modal-user-photo"
       />
-      <p id="user-name" class="centered-text">{userName}</p>
+      <p id="user-name" class="centered-text">{user}</p>
       <button id="logout-button">Cerrar Sesión</button>
       <a href="/UserProfile" id="view-profile-button" class="button view-profile-button">Ver Perfil</a>
     </div>
@@ -123,10 +125,10 @@ listenForAuthChanges();
         listenForAuthChanges();
         const userPhoto = document.getElementById("user-photo");
         const modalUserPhoto = document.getElementById("modal-user-photo");
-        if (isLoggedIn) {
-          document.getElementById("user-name").textContent = userName; // Actualiza el nombre del usuario
-          userPhoto.src = userPhotoUrl; // Actualiza la foto del usuario en el header
-          modalUserPhoto.src = userPhotoUrl;
+        if (isLoggedIn()) {
+          document.getElementById("user-name").textContent = userName(); // Actualiza el nombre del usuario
+          userPhoto.src = userPhotoUrl(); // Actualiza la foto del usuario en el header
+          modalUserPhoto.src = userPhotoUrl();
         } else {
           userPhoto.src = "src/assets/userDefault.jpg"; // Foto por defecto
           modalUserPhoto.src = "src/assets/userDefault.jpg";
@@ -185,7 +187,7 @@ listenForAuthChanges();
 
       // Mostrar modal de inicio de sesión cuando se hace clic en la foto de usuario
       document.getElementById("user-photo").addEventListener("click", () => {
-        if (isLoggedIn) {
+        if (isLoggedIn()) {
           userInfoModal.style.display = "block"; // Mostrar el modal de información del usuario
         } else {
           loginModal.style.display = "block"; // Mostrar el modal de inicio de sesión
