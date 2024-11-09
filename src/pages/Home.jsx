@@ -60,7 +60,6 @@ const Header = () => {
   };
 
 export default Header;
-
 const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
@@ -81,7 +80,6 @@ const HeaderContainer = styled.header`
     color: black; /* Cambia el color del texto a negro */
   }
 `;
-
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -89,7 +87,6 @@ const Nav = styled.nav`
   max-width: 1200px;
   margin: 0 auto;
 `;
-
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
@@ -100,7 +97,6 @@ const LogoLink = styled.a`
     color: #00a08b; /* Gris oscuro al hacer hover */
   }
 `;
-
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -117,7 +113,6 @@ const LogoContainer = styled.div`
     color: #ffffff; /* Gris oscuro */
   }
 `;
-
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
@@ -133,14 +128,13 @@ const NavLinks = styled.div`
     }
   }
 `;
-
 const UserPhoto = styled.img`
   position: relative;
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
-
+  box-sizing: border-box;
   &:hover {
     transform: scale(1.1); /* Aumentar ligeramente el tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
