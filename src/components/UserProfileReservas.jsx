@@ -84,7 +84,6 @@ const UserProfileReservas = () => {
 };
 
 export default UserProfileReservas;
-
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
@@ -109,7 +108,6 @@ const UserProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const UserProfile = styled.div`
   background: linear-gradient(135deg, #f0f0f0, #ffffff);
   padding: 2rem;
@@ -128,7 +126,6 @@ const UserProfile = styled.div`
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
 `;
-
 const ProfilePhoto = styled.img`
   height: 120px;
   width: 120px;
@@ -143,14 +140,12 @@ const ProfilePhoto = styled.img`
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
 `;
-
 const UserName = styled.p`
   margin: 1rem 0;
   color: #333;
   font-size: 1.75rem;
   font-weight: bold;
 `;
-
 const UserReservas = styled.div`
   margin-top: 2rem;
 
@@ -160,14 +155,12 @@ const UserReservas = styled.div`
     text-align: center;
   }
 `;
-
 const ReservasList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
 `;
-
 const Paragraph = styled.p`
   margin-top: 0.5rem;
   margin-bottom: 0;

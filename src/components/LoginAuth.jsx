@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { loginUser, loginWithGoogle, registerUser, logoutUser } from './AuthServices';
+import { loginUser, loginWithGoogle, registerUser } from './AuthServices';
 
 // Modal Component
 const Modal = ({ visible, onClose, children }) => {
