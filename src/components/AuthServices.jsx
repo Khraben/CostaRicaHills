@@ -1,24 +1,6 @@
 // auth.ts
 import { auth } from '../config/firebase.js';
-import React, { useState } from 'react';
-import {onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, } from 'firebase/auth';
-
- function AuthServices() {
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        const unsubscribe =  onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const photoURL = user.photoURL || 'src/assets/userDefault.jpg';
-            setUser({...user.uid,photoURL});
-           
-        } else {
-            setUser(null);
-        }
-    });
-        return () => unsubscribe();
-    }, []);
-    return null; // Este componente no retorna nada
-}
+import {signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, } from 'firebase/auth';
 
 // Iniciar sesión con Google
 export async function loginWithGoogle() {
@@ -71,4 +53,3 @@ export async function logoutUser() {
         return false;
     }
 }
-export default AuthServices;

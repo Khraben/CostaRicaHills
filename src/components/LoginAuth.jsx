@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import styled from 'styled-components';
 import { loginUser, loginWithGoogle, registerUser } from './AuthServices';
-
+import { UserContext } from '../context/UserContext';
 // Modal Component
 const Modal = ({ visible, onClose, children }) => {
   if (!visible) return null;
@@ -14,34 +14,72 @@ const Modal = ({ visible, onClose, children }) => {
     </ModalOverlay>
   );
 };
-
 const LoginAuth = ({ onLogin }) => {
   const [modalType, setModalType] = useState('login'); // 'login', 'register', 'user-info'
-  const [user, setUser] = useState(null);
+  const {setUser, setUserPhoto } = useContext(UserContext);
+  const [error, setError] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !password) {
+      setError("Por favor, rellena todos los campos.");
+      return;
+    }
+
+    if (email.includes(' ')) {
+      setError("El correo electrónico no debe contener espacios.");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setError("El correo no tiene un formato válido.");
+      return;
+    }
+    const passwordRegex = /^.{6,}$/;
+    if (!passwordRegex.test(password)) {
+      setError("La contraseña no es válida (debe contener al menos 6 caracteres).");
+      return;
+    }
     const success = await loginUser(email, password);
     if (success) {
+      setError("");
       setUser(success); // Guardar usuario
       setModalType(null); // Cerrar modal
       onLogin(success); // Llamar a la función de callback
     } else {
-      alert('Error al iniciar sesión. Verifica tus credenciales.');
+      setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
   };
-
   const handleRegister = async (event) => {
     event.preventDefault();
     const nombreUser = event.target['register-name'].value;
     const email = event.target['register-email'].value;
     const password = event.target['register-password'].value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!nombreUser || !email || !password) {
+      setError("Todos los campos deben ser completados.");
+      return;
+    }
+    if (email.includes(' ')) {
+      setError("El correo electrónico no debe contener espacios.");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setError("El correo no tiene un formato válido.");
+      return;
+    }
+    const passwordRegex = /^.{6,}$/;
+    if (!passwordRegex.test(password)) {
+      setError("La contraseña no es válida (debe contener al menos 6 caracteres).");
+      return;
+    }
     const success = await registerUser(email, password, nombreUser);
     if (success) {
+      setUserPhoto('src/assets/userDefault.jpg');
       event.target.reset();
-      setModalType('login'); // Cambiar al modal de inicio de sesión
+      setError("");
     }
   };
 
@@ -52,7 +90,7 @@ const LoginAuth = ({ onLogin }) => {
       setModalType(null); // Cerrar modal
       onLogin(success);
     } else {
-      alert('Error al iniciar sesión con Google.');
+      setError('Error al iniciar sesión con Google.');
     }
   };
 
@@ -63,9 +101,9 @@ const LoginAuth = ({ onLogin }) => {
         <Title>Iniciar Sesión</Title>
         <Form onSubmit={handleLogin}>
           <Label htmlFor="email">Correo:</Label>
-          <Input type="email" id="email" required />
+          <Input type="email" id="email" />
           <Label htmlFor="password">Contraseña:</Label>
-          <Input type="password" id="password" required />
+          <Input type="password" id="password" />
           <Button type="submit">Iniciar Sesión</Button>
         </Form>
         <GoogleButton onClick={handleGoogleLogin}>
@@ -80,13 +118,15 @@ const LoginAuth = ({ onLogin }) => {
         <Title>Registrarse</Title>
         <Form onSubmit={handleRegister}>
           <Label htmlFor="register-name">Nombre:</Label>
-          <Input type="text" id="register-name" required />
+          <Input type="text" id="register-name"  />
           <Label htmlFor="register-email">Correo:</Label>
-          <Input type="email" id="register-email" required />
+          <Input type="email" id="register-email"  />
           <Label htmlFor="register-password">Contraseña:</Label>
-          <Input type="password" id="register-password" required />
+          <Input type="password" id="register-password" />
           <Button type="submit">Registrarse</Button>
         </Form>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+
         <TextButton onClick={() => setModalType('login')}>¿Ya tienes cuenta? Iniciar Sesión</TextButton>
       </Modal>
 
@@ -96,6 +136,16 @@ const LoginAuth = ({ onLogin }) => {
 
 export default LoginAuth;
 // Estilos
+const ErrorMessage = styled.p`
+  color: red;
+  font-weight: bold;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+`;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
