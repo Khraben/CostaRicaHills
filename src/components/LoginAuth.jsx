@@ -25,7 +25,7 @@ const LoginAuth = ({ onLogin }) => {
     const password = event.target.password.value;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email || !password) {
-      setError("Por favor, rellena todos los campos.");
+      setError("Todos los campos deben ser completados.");
       return;
     }
 
@@ -106,6 +106,7 @@ const LoginAuth = ({ onLogin }) => {
           <Input type="password" id="password" />
           <Button type="submit">Iniciar Sesión</Button>
         </Form>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <GoogleButton onClick={handleGoogleLogin}>
           <img src="src/assets/google-logo.png" alt="Google Logo" />
           Iniciar Sesión con Google
