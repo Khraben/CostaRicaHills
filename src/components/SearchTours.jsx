@@ -4,7 +4,8 @@ import Card from './Card';
 const SearchTours = () => {
     const [search, setSearch] = useState('');
     const [filteredTours, setFilteredTours] = useState([]);
-    const [priceFilter, setPriceFilter] = useState('');
+    const [minPriceFilter, setMinPriceFilter] = useState('');
+    const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [destinationFilter, setDestinationFilter] = useState('');
     const [tours, setTours] = useState([
         {
@@ -27,15 +28,16 @@ const SearchTours = () => {
         }
         // Añade más tours aquí
     ]);
-
     useEffect(() => {
         const fetchFilteredTours = async () => {
             try {
                 const filtered = tours.filter(tour => {
                     const matchesSearch = tour.title.toLowerCase().includes(search.toLowerCase());
-                    const matchesPrice = priceFilter ? tour.price.replace('$', '') <= priceFilter : true;
+                    const price = parseFloat(tour.price.replace('$', ''));
+                    const matchesMinPrice = minPriceFilter ? price >= parseFloat(minPriceFilter) : true;
+                    const matchesMaxPrice = maxPriceFilter ? price <= parseFloat(maxPriceFilter) : true;
                     const matchesDestination = tour.destination.toLowerCase().includes(destinationFilter.toLowerCase());
-                    return matchesSearch && matchesPrice && matchesDestination;
+                    return matchesSearch && matchesMinPrice && matchesMaxPrice && matchesDestination;
                 });
                 setFilteredTours(filtered);
             } catch (error) {
@@ -43,8 +45,7 @@ const SearchTours = () => {
             }
         };
         fetchFilteredTours();
-    }, [search, priceFilter, destinationFilter, tours]);
-
+    }, [search, minPriceFilter, maxPriceFilter, destinationFilter, tours]);
     return (
         <div>
             <FilterContainer>
@@ -58,10 +59,16 @@ const SearchTours = () => {
             </SearchBar>
             <Filters>
                 <input
-                    type="text"
-                    placeholder="Filtrar por precio"
-                    value={priceFilter}
-                    onChange={(e) => setPriceFilter(e.target.value)}
+                type="number"
+                placeholder="Precio mínimo"
+                value={minPriceFilter}
+                onChange={(e) => setMinPriceFilter(e.target.value)}
+                />
+                <input
+                    type="number"
+                    placeholder="Precio máximo"
+                    value={maxPriceFilter}
+                    onChange={(e) => setMaxPriceFilter(e.target.value)}
                 />
                 <input
                     type="text"
@@ -90,7 +97,6 @@ const SearchTours = () => {
 };
 
 export default SearchTours;
-
 const Filters = styled.div`
     display: flex;
     align-items: center;
@@ -119,14 +125,13 @@ const SearchBar = styled.div`
         border-radius: 4px;
     }
 `;
-
 const FilterContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 700px; /* Ajusta el ancho máximo según tus necesidades */
+  max-width: 900px; /* Ajusta el ancho máximo según tus necesidades */
   padding: 1rem; /* Añade padding */
   border: 1px solid #ccc; /* Añade un borde */
   border-radius: 8px; /* Añade bordes redondeados */
@@ -134,7 +139,6 @@ const FilterContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
 `;
-
 const ToursContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

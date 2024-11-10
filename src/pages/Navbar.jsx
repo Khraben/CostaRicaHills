@@ -5,14 +5,14 @@ import { auth } from '../config/firebase';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 const Header = () => {
-  const { user, setUser, userPhoto, setUserPhoto } = useContext(UserContext);
+  const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
     const handleLogin = (loggedInUser) => {
       if (loggedInUser) {
-      setUser(auth.currentUser);
-      setUserPhoto(user.photoURL);
+        const user = auth.currentUser;
+        setUserPhoto(user.photoURL);
       }
     };
     const handleUserPhotoClick = () => {
@@ -82,7 +82,8 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 100%;
+  padding: 0 1.5rem; /* Añadir padding para que no se pegue a los bordes */
   margin: 0 auto;
 `;
 const LogoLink = styled.a`
@@ -110,14 +111,13 @@ const LogoContainer = styled.div`
 `;
 const NavLinks = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  margin-right: -20rem; /* Añade un margen a la derecha para mover los enlaces */
   a {
     color: #ffffff; /* Gris intermedio */
     text-decoration: none;
     transition: color 0.3s ease;
-
     &:hover {
       color: #00a08b; /* Gris oscuro al hacer hover */
     }
