@@ -16,7 +16,7 @@ const Modal = ({ visible, onClose, children }) => {
 };
 const LoginAuth = ({ onLogin }) => {
   const [modalType, setModalType] = useState('login'); // 'login', 'register', 'user-info'
-  const {setUser, setUserPhoto } = useContext(UserContext);
+  const {setUserPhoto } = useContext(UserContext);
   const [error, setError] = useState("");
 
   const handleLogin = async (event) => {
@@ -45,7 +45,6 @@ const LoginAuth = ({ onLogin }) => {
     const success = await loginUser(email, password);
     if (success) {
       setError("");
-      setUser(success); // Guardar usuario
       setModalType(null); // Cerrar modal
       onLogin(success); // Llamar a la función de callback
     } else {
@@ -86,7 +85,6 @@ const LoginAuth = ({ onLogin }) => {
   const handleGoogleLogin = async () => {
     const success = await loginWithGoogle();
     if (success) {
-      setUser(success);
       setModalType(null); // Cerrar modal
       onLogin(success);
     } else {

@@ -31,7 +31,7 @@ const CardContainer = styled.div`
     border-radius: 8px; /* Opcional: añade bordes redondeados */
     overflow: hidden; /* Asegura que el contenido no se desborde */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+    margin-bottom: 1rem;
     &:hover {
         transform: translateY(-10px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
@@ -62,7 +62,7 @@ const Content = styled.div`
     width: 100%;
     padding: 1rem;
     color: white;
-
+     box-sizing: border-box;
     h2 {
         margin: 0;
         font-size: 2rem;

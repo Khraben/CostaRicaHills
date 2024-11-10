@@ -23,21 +23,7 @@ const UserProfileReservas = () => {
             try {
             const reservas =null// await getReservasByUser(user.uid);
             const newReservasList = [];
-            reservas.forEach(reserva => {
-                const tour = prueba["nombre"] === reserva.tourId;
-                if (tour) {
-                newReservasList.push({
-                    image: prueba.imagenes[0],
-                    title: prueba.nombre,
-                    destination: `${prueba.destino.canton}, ${prueba.destino.provincia}`,
-                    duration: prueba.duracion,
-                    price: prueba.precio,
-                    description: prueba.descripcion,
-                    link: '#', // Añade el enlace correspondiente aquí
-                });
-                }
-            });
-            setReservasList(newReservasList);
+           
          }catch (error) {
         console.error('Error al obtener las reservas:', error);
             }

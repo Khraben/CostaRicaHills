@@ -4,7 +4,6 @@ import LoginAuth from '../components/LoginAuth';
 import { auth } from '../config/firebase';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-
 const Header = () => {
   const { user, setUser, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
@@ -17,7 +16,7 @@ const Header = () => {
     };
     const handleUserPhotoClick = () => {
       if (user) {
-        navigate('profile');
+        navigate('/profile');
       } else {
         setShowLogin(!showLogin);
       }
@@ -43,22 +42,9 @@ const Header = () => {
           </NavLinks>
         </Nav>
         {showLogin && !user && <LoginAuth onLogin={handleLogin} />} {/* Renderiza LoginAuth si showLogin es true y no hay usuario */}
-        <script>
-          {`
-            window.addEventListener("scroll", function () {
-              const header = document.querySelector(".navbar");
-              if (window.scrollY > 50) {
-                header.classList.add("scrolled");
-              } else {
-                header.classList.remove("scrolled");
-              }
-            });
-          `}
-        </script>
       </HeaderContainer>
     );
   };
-
 export default Header;
 const HeaderContainer = styled.header`
   position: fixed;
