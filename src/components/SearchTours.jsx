@@ -11,7 +11,7 @@ const SearchTours = () => {
         {
             title: "Tour al Volcán Arenal",
             description: "Explora el majestuoso Volcán Arenal y sus alrededores.",
-            image: ["src/assets/tourDefault.jpg"],
+            image: ["/assets/tourDefault.jpg", "/assets/tourVolcanArenal.jpg"],
             destination: "La Fortuna, Alajuela",
             duration: "8 horas",
             price: "$120",
@@ -20,7 +20,7 @@ const SearchTours = () => {
         {
             title: "Tour a la Playa Manuel Antonio",
             description: "Disfruta de las hermosas playas y la biodiversidad del Parque Nacional Manuel Antonio.",
-            image: ["src/assets/tourDefault.jpg"],
+            image: ["/assets/tourManuelAntonio.jpg","/assets/tourManuelAntonio2.jpg"],
             destination: "Quepos, Puntarenas",
             duration: "6 horas",
             price: "$90",

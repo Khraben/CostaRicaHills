@@ -29,15 +29,15 @@ const Carousel = styled.div`
   height: 80vh;
   overflow: hidden;
   border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid red;
 `;
-
 const CarouselImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 `;
-
 const CarouselButton = styled.button`
   position: absolute;
   top: 50%;

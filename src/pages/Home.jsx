@@ -22,20 +22,20 @@ const Home = () => {
                     <Card
                         title="Tour al Volcán Arenal"
                         description="Explora el majestuoso Volcán Arenal y sus alrededores."
-                        image="src/assets/tourDefault.jpg"
+                        image= {["src/assets/tourDefault.jpg"]}
                         destination="La Fortuna, Alajuela"
                         duration="8 horas"
                         price="$120"
-                        link="/toursView?tour=volcan-arenal"
+                        tour={null}
                     />
                     <Card
                         title="Tour a la Playa Manuel Antonio"
                         description="Disfruta de las hermosas playas y la biodiversidad del Parque Nacional Manuel Antonio."
-                        image="src/assets/tourDefault.jpg"
+                        image={["src/assets/tourDefault.jpg"]}
                         destination="Quepos, Puntarenas"
                         duration="6 horas"
                         price="$90"
-                        link="/toursView"
+                        tour={null}
                     />
                 </CardsContainer>
             </PopularToursSection>
