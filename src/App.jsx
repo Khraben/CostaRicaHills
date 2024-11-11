@@ -4,6 +4,7 @@ import Layout from './pages/Layout';
 import UserProfileReservas from './components/UserProfileReservas';
 import SearchTours from './components/SearchTours';
 import Home from './pages/Home';
+import TourView from './components/TourView';
 function App() {
     return (
       <Router>
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/"element={<Home />} />
                 <Route path="/profile" element={<UserProfileReservas />} />
                 <Route path="/tours" element={<SearchTours />} />
+                <Route path="/tour-view" element={<TourView />} />
                 <Route path="/about" element={<div>About Page</div>} />
               </Routes>   
             </Layout>

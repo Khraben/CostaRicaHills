@@ -1,12 +1,16 @@
 // Card.jsx
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+const Card = ({ title, image, destination, duration, price, description, tour }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`/tour-view/`, { state: { tour } });; // Redirigir a la página de detalles
+    };
 
-const Card = ({ title, image, destination, duration, price, description, link }) => {
     return (
-        <CardContainer>
-            <CardLink href={link}>
-                <ImageSection style={{ backgroundImage: `url(${image})` }}>
+        <CardContainer onClick={handleClick}>
+                <ImageSection style={{ backgroundImage: `url(${image[0]})` }}>
                     <Content>
                         <h2>{title}<span>&rarr;</span></h2>
                         <Details>
@@ -19,7 +23,6 @@ const Card = ({ title, image, destination, duration, price, description, link })
                 <Description>
                     <p>{description}</p>
                 </Description>
-            </CardLink>
         </CardContainer>
     );
 };

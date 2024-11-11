@@ -11,7 +11,7 @@ const ImageCarousel = ({ images }) => {
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0));
   };
-
+  
   return (
     <Carousel>
       <CarouselButton onClick={prevSlide} className="prev">❮</CarouselButton>
@@ -20,7 +20,6 @@ const ImageCarousel = ({ images }) => {
     </Carousel>
   );
 };
-
 export default ImageCarousel;
 
 const Carousel = styled.div`
