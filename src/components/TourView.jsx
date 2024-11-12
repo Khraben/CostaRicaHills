@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImageCarousel from './ImageCarousel';
-import {useLocation } from 'react-router-dom';
+import {useLocation, useNavigate } from 'react-router-dom';
 const TourView = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { tour } = location.state || {};
     if (!tour) {
         return <div>No se encontró información del tour.</div>;
@@ -11,6 +12,10 @@ const TourView = () => {
     const images = Array.isArray(tour.image) ? tour.image : [tour.image];
     return (
         <TourDetails>
+             <Header>
+             <BackButton onClick={() => navigate(-1)}>Volver</BackButton>
+             </Header>
+             <Content>
             <CarouselContainer>
                 <ImageCarousel images={images} alt="Foto del tour" />
             </CarouselContainer>
@@ -20,8 +25,9 @@ const TourView = () => {
                 <p><strong>Descripción:</strong> {tour.description}</p>
                 <p><strong>Duración:</strong> {tour.duration}</p>
                 <p><strong>Precio:</strong> {tour.price}</p>
-                <button id="ReservarTour-button" data-tour-nombre={tour.title}>Reservar Tour</button>
+                <button id="ReservarTour-button" data-tour-nombre={tour.title}>Reservar Tour</button> 
             </TourInfo>
+            </Content> 
         </TourDetails>
     );
 };
@@ -30,18 +36,28 @@ export default TourView;
 
 const TourDetails = styled.section`
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
     padding: 2rem;
 `;
 
+const Header = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+`;
+const Content = styled.div`
+    display: flex;
+    gap: 1rem;
+`;
 const CarouselContainer = styled.div`
     width: 60%;
 `;
 
 const TourInfo = styled.div`
     width: 40%;
+    height: 100%;
     color: white;
-
+    background: rgba(0, 0, 0, 0.5);
     h1 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
@@ -65,5 +81,20 @@ const TourInfo = styled.div`
         &:hover {
             background-color: #0056b3;
         }
+    }
+`;
+const BackButton = styled.button`
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    color: white;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+
+    &:hover {
+        background-color: #5a6268;
     }
 `;

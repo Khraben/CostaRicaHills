@@ -7,7 +7,6 @@ const Card = ({ title, image, destination, duration, price, description, tour })
     const handleClick = () => {
         navigate(`/tour-view/`, { state: { tour } });; // Redirigir a la página de detalles
     };
-
     return (
         <CardContainer onClick={handleClick}>
                 <ImageSection style={{ backgroundImage: `url(${image[0]})` }}>
@@ -28,7 +27,6 @@ const Card = ({ title, image, destination, duration, price, description, tour })
 };
 
 export default Card;
-
 const CardContainer = styled.div`
     border: 2px solid #ccc; /* Añade un borde a la tarjeta */
     border-radius: 8px; /* Opcional: añade bordes redondeados */
@@ -44,20 +42,12 @@ const CardContainer = styled.div`
         color: #00a08b;
     }
 `;
-
-const CardLink = styled.a`
-    text-decoration: none;
-    color: inherit;
-    display: block;
-`;
-
 const ImageSection = styled.div`
     background-size: cover;
     background-position: center;
     height: 200px;
     position: relative;
 `;
-
 const Content = styled.div`
     position: absolute;
     bottom: 0;
@@ -73,7 +63,6 @@ const Content = styled.div`
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 `;
-
 const Details = styled.div`
     margin-bottom: 1rem;
 `;

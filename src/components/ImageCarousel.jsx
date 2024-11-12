@@ -3,15 +3,12 @@ import styled from 'styled-components';
 
 const ImageCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1));
   };
-
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0));
   };
-  
   return (
     <Carousel>
       <CarouselButton onClick={prevSlide} className="prev">❮</CarouselButton>
@@ -21,7 +18,6 @@ const ImageCarousel = ({ images }) => {
   );
 };
 export default ImageCarousel;
-
 const Carousel = styled.div`
   position: relative;
   width: 100%;
@@ -53,11 +49,9 @@ const CarouselButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-
   &.prev {
     left: 10px;
   }
-
   &.next {
     right: 10px;
   }
