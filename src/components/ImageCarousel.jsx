@@ -3,12 +3,15 @@ import styled from 'styled-components';
 
 const ImageCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1));
   };
+
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0));
   };
+
   return (
     <Carousel>
       <CarouselButton onClick={prevSlide} className="prev">❮</CarouselButton>
@@ -17,7 +20,9 @@ const ImageCarousel = ({ images }) => {
     </Carousel>
   );
 };
+
 export default ImageCarousel;
+
 const Carousel = styled.div`
   position: relative;
   width: 100%;
@@ -28,12 +33,14 @@ const Carousel = styled.div`
   background-color: #fff;
   border: 1px solid red;
 `;
+
 const CarouselImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 `;
+
 const CarouselButton = styled.button`
   position: absolute;
   top: 50%;
@@ -49,9 +56,12 @@ const CarouselButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10; /* Asegura que los botones estén por encima de otros elementos */
+
   &.prev {
     left: 10px;
   }
+
   &.next {
     right: 10px;
   }
