@@ -33,7 +33,7 @@ const Card = ({ title, images, destination, duration, price, description }) => {
         ))}
         <Overlay />
         <ImageContent>
-          <h2>{title}<span>&rarr;</span></h2>
+          <h2>{title}</h2>
           <Details>
             <DetailItem><MapPin className="icon" />{destination}</DetailItem>
             <DetailItem><Clock className="icon" />{duration}</DetailItem>

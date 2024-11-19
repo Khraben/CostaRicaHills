@@ -67,6 +67,10 @@ const HeroSection = styled.section`
     align-items: center;
     text-align: center;
     padding: 1rem 0; /* Reducir padding */
+
+    h1{
+        color: #afdb11;
+    }
 `;
 
 const Content = styled.div`

@@ -1,22 +1,22 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { loginUser, loginWithGoogle, registerUser } from './AuthServices';
 import { UserContext } from '../context/UserContext';
+
 // Modal Component
 const Modal = ({ visible, onClose, children }) => {
   if (!visible) return null;
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>&times;</CloseButton>
-        {children}
-      </ModalContainer>
-    </ModalOverlay>
+    <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <CloseButton onClick={onClose}>&times;</CloseButton>
+      {children}
+    </ModalContainer>
   );
 };
+
 const LoginAuth = ({ onLogin }) => {
   const [modalType, setModalType] = useState('login'); // 'login', 'register', 'user-info'
-  const {setUserPhoto } = useContext(UserContext);
+  const { setUserPhoto } = useContext(UserContext);
   const [error, setError] = useState("");
 
   const handleLogin = async (event) => {
@@ -51,6 +51,7 @@ const LoginAuth = ({ onLogin }) => {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
   };
+
   const handleRegister = async (event) => {
     event.preventDefault();
     const nombreUser = event.target['register-name'].value;
@@ -117,9 +118,9 @@ const LoginAuth = ({ onLogin }) => {
         <Title>Registrarse</Title>
         <Form onSubmit={handleRegister}>
           <Label htmlFor="register-name">Nombre:</Label>
-          <Input type="text" id="register-name"  />
+          <Input type="text" id="register-name" />
           <Label htmlFor="register-email">Correo:</Label>
-          <Input type="email" id="register-email"  />
+          <Input type="email" id="register-email" />
           <Label htmlFor="register-password">Contraseña:</Label>
           <Input type="password" id="register-password" />
           <Button type="submit">Registrarse</Button>
@@ -128,12 +129,12 @@ const LoginAuth = ({ onLogin }) => {
 
         <TextButton onClick={() => setModalType('login')}>¿Ya tienes cuenta? Iniciar Sesión</TextButton>
       </Modal>
-
     </>
   );
 };
 
 export default LoginAuth;
+
 // Estilos
 const ErrorMessage = styled.p`
   color: red;
@@ -145,47 +146,63 @@ const ErrorMessage = styled.p`
   }
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 const ModalContainer = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   width: 400px;
-  position: relative;
+  position: fixed;
+  top: 60px; /* Ajusta este valor según la altura de tu navbar */
+  right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: slide-in 0.3s ease-out;
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
 `;
+
 const CloseButton = styled.span`
   position: absolute;
   top: 10px;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+  color: #333;
 `;
+
 const Title = styled.h2`
   margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
+
 const Label = styled.label`
   margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
 `;
+
 const Input = styled.input`
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  font-size: 14px;
 `;
+
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
@@ -194,32 +211,41 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 10px;
+  font-size: 16px;
 
   &:hover {
     background-color: #45a049;
   }
 `;
+
 const GoogleButton = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: transparent;
-  border: none;
+  border: 1px solid #ccc;
   cursor: pointer;
   padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 16px;
+
   &:hover {
-    background-color: rgba(66, 133, 244, 0.1); /* Color de fondo al pasar el mouse */
+    background-color: rgba(66, 133, 244, 0.1);
   }
 
   img {
-    height: 30px; /* Reduce el tamaño del logo */
-    margin-right: 8px; /* Espaciado entre el logo y el texto */
+    height: 30px;
+    margin-right: 8px;
   }
 `;
+
 const TextButton = styled.button`
   background: none;
   border: none;
   color: #007bff;
   cursor: pointer;
+  font-size: 14px;
 
   &:hover {
     text-decoration: underline;

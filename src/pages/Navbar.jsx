@@ -102,7 +102,7 @@ const LogoLink = styled.a`
   color: inherit;
   font-weight: bold; /* Texto en negrita */
   span:hover {
-    color: #00a08b; /* Gris oscuro al hacer hover */
+    color: #afdb11; /* Gris oscuro al hacer hover */
   }
 `;
 
@@ -132,7 +132,7 @@ const NavLinks = styled.div`
     transition: color 0.3s ease;
     font-weight: bold; /* Texto en negrita */
     &:hover {
-      color: #00a08b; /* Gris oscuro al hacer hover */
+      color: #afdb11; 
     }
   }
 `;
@@ -147,6 +147,6 @@ const UserPhoto = styled.img`
   &:hover {
     transform: scale(1.1); /* Aumentar ligeramente el tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    border: 4px solid #00a08b;
+    border: 4px solid #afdb11;
   }
 `;

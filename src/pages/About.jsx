@@ -65,6 +65,10 @@ const HeroSection = styled.section`
     align-items: center;
     text-align: center;
     padding: 1rem 0;
+
+    h1{
+        color:#afdb11;
+        }
 `;
 
 const Content = styled.div`
@@ -88,6 +92,7 @@ const AboutSection = styled.section`
     h2 {
         font-size: 2rem;
         margin-bottom: 1rem;
+        color:#afdb11;
     }
 
     p {
@@ -102,6 +107,7 @@ const TeamSection = styled.section`
     h2 {
         font-size: 2rem;
         margin-bottom: 1rem;
+        color:#afdb11;
     }
 `;
 
@@ -141,6 +147,7 @@ const ContactSection = styled.section`
     h2 {
         font-size: 2rem;
         margin-bottom: 1rem;
+        color:#afdb11;
     }
 
     p {

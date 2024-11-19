@@ -17,7 +17,7 @@ const TourView = () => {
     return (
         <TourDetails>
             <Header>
-                <BackButton onClick={() => navigate(-1)}>&larr; Volver</BackButton>
+                <BackButton onClick={() => navigate(-1)}>Volver</BackButton>
             </Header>
             <Content>
                 <CarouselContainer>
@@ -115,14 +115,14 @@ const TourInfo = styled.div`
         padding: 0.75rem 1.5rem;
         font-size: 1rem;
         color: white;
-        background-color: #007bff;
+        background-color: #afdb11;
         border: none;
         border-radius: 0.25rem;
         cursor: pointer;
         transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: #0056b3;
+            background-color: #759600;
         }
     }
 `;
@@ -131,14 +131,14 @@ const BackButton = styled.button`
     padding: 0.5rem 1rem;
     font-size: 1rem;
     color: white;
-    background-color: #007bff;
+    background-color: #afdb11;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: #759600;
         transform: translateY(-2px);
     }
 `;

@@ -45,7 +45,7 @@ const UserProfileReservas = () => {
       </UserProfileContainer>
     </UserProfileSection>
     <UserReservas>
-      <h2>Mis Reservas</h2>
+      <h2>Reservas Actuales</h2>
       <ReservasList>
         {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
@@ -65,13 +65,35 @@ const UserProfileReservas = () => {
         )}
       </ReservasList>
     </UserReservas>
+    <UserReservas>
+    <h2>Historial de Reservas</h2>
+      <ReservasList>
+      {reservasList.length > 0 ? (
+          reservasList.map((tour, index) => (
+            <Card 
+              key={index}
+              image={tour.image}
+              title={tour.title}
+              destination={tour.destination}
+              duration={tour.duration}
+              price={tour.price}
+              description={tour.description}
+              link={tour.link}
+            />
+          ))
+        ) : (
+          <Paragraph>No tienes historial de reservas.</Paragraph>
+        )}
+      </ReservasList>
+    </UserReservas>
     </div>
   );
 };
 
 export default UserProfileReservas;
+
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #afdb11;
   color: white;
   padding: 10px;
   border: none;
@@ -80,9 +102,10 @@ const Button = styled.button`
   margin-bottom: 10px;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #759600;
   }
 `;
+
 const UserProfileSection = styled.section`
   padding: 2rem;
   background-color: transparent;
@@ -94,11 +117,11 @@ const UserProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const UserProfile = styled.div`
-  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  background: rgba(0, 0, 0, 0.5);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 500px;
   width: 100%;
@@ -106,18 +129,24 @@ const UserProfile = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #fff;
+
+  h1{
+    color: #afdb11;
+  }
 
   &:hover {
     transform: scale(1.02);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
 `;
+
 const ProfilePhoto = styled.img`
   height: 120px;
   width: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #00a08b;
+  border: 4px solid #afdb11;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -126,14 +155,18 @@ const ProfilePhoto = styled.img`
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
 `;
+
 const UserName = styled.p`
   margin: 1rem 0;
-  color: #333;
+  color: #fff;
   font-size: 1.75rem;
   font-weight: bold;
 `;
+
 const UserReservas = styled.div`
   margin-top: 2rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
 
   h2 {
     font-size: 2rem;
@@ -141,12 +174,14 @@ const UserReservas = styled.div`
     text-align: center;
   }
 `;
+
 const ReservasList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
 `;
+
 const Paragraph = styled.p`
   margin-top: 0.5rem;
   margin-bottom: 0;
