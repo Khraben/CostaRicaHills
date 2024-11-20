@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Clock, DollarSign, Camera, X } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 const useImageSlider = (images) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -21,6 +22,7 @@ const useImageSlider = (images) => {
 
 const Card = ({ title, images, destination, duration, price, description }) => {
   const navigate = useNavigate();
+  const {isDarkTheme} = useTheme();
   const currentImage = useImageSlider(images);
   const [showGallery, setShowGallery] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);  
@@ -48,8 +50,8 @@ const Card = ({ title, images, destination, duration, price, description }) => {
     }
   }, [showGallery, navigate, tour]);
   return (
-    <CardContainer onClick={handleClick}>
-      <ImageSection>
+    <CardContainer  isDarkTheme={isDarkTheme} onClick={handleClick}>
+      <ImageSection  isDarkTheme={isDarkTheme} >
         {images.map((img, index) => (
           <img
             key={index}
@@ -58,26 +60,27 @@ const Card = ({ title, images, destination, duration, price, description }) => {
             className={`image ${index === currentImage ? 'active' : ''}`}
           />
         ))}
-        <Overlay />
-        <ImageContent>
+        <Overlay  isDarkTheme={isDarkTheme} />
+        <ImageContent  isDarkTheme={isDarkTheme} >
           <h2>{title}</h2>
           <Details>
-            <DetailItem><MapPin className="icon" />{destination}</DetailItem>
-            <DetailItem><Clock className="icon" />{duration}</DetailItem>
-            <DetailItem><DollarSign className="icon" />{price}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme} ><MapPin className="icon" />{destination}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme} ><Clock className="icon" />{duration}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme} ><DollarSign className="icon" />{price}</DetailItem>
           </Details>
         </ImageContent>
-        <CameraButton onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}>
+        <CameraButton  isDarkTheme={isDarkTheme}  onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}>
           <Camera className="icon" />
         </CameraButton>
       </ImageSection>
-      <Description>
+      <Description  isDarkTheme={isDarkTheme} >
         <p>{description}</p>
       </Description>
       {showGallery && (
-        <GalleryContainer>
-          <Gallery>
+        <GalleryContainer  isDarkTheme={isDarkTheme} >
+          <Gallery  isDarkTheme={isDarkTheme} >
             <CloseButton
+              isDarkTheme={isDarkTheme} 
               aria-label="Cerrar galería"
               onClick={(e) => { e.stopPropagation(); setShowGallery(false); }}
             >
@@ -97,10 +100,10 @@ const Card = ({ title, images, destination, duration, price, description }) => {
       )}
         {/* Modal para ver la imagen en tamaño grande */}
     {showImageModal && (
-      <ImageModalOverlay onClick={handleModalClick}>
+      <ImageModalOverlay  isDarkTheme={isDarkTheme} nClick={handleModalClick}>
         <ImageModal>
           <img src={selectedImage} alt="Imagen grande" />
-          <CloseModalButton onClick={closeImageModal}>
+          <CloseModalButton isDarkTheme={isDarkTheme}  onClick={closeImageModal}>
             <X className="icon" />
           </CloseModalButton>
         </ImageModal>
@@ -111,12 +114,13 @@ const Card = ({ title, images, destination, duration, price, description }) => {
     </CardContainer>
   );
 };
-
 export default Card;
 const CardContainer = styled.div`
-  background: white;
+  background: ${({ isDarkTheme }) => (isDarkTheme ? '#2c2c2c' : '#ffffff')};
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ isDarkTheme }) => isDarkTheme 
+    ? '0 4px 8px rgba(255, 255, 255, 0.1)' 
+    : '0 4px 8px rgba(0, 0, 0, 0.1)'};
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 1rem;
@@ -124,9 +128,12 @@ const CardContainer = styled.div`
   max-width: 300px;
   cursor: pointer;
   position: relative;
+
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: ${({ isDarkTheme }) => isDarkTheme 
+      ? '0 12px 24px rgba(255, 255, 255, 0.2)' 
+      : '0 12px 24px rgba(0, 0, 0, 0.2)'};
   }
 `;
 const ImageSection = styled.div`
@@ -145,7 +152,6 @@ const ImageSection = styled.div`
     opacity: 0;
     pointer-events: none;
   }
-
   .image.active {
     display: block;
     opacity: 1;
@@ -156,13 +162,16 @@ const ImageSection = styled.div`
     filter: brightness(1.2);
   }
 `;
+// 'rgba(255, 255, 255, 0.2)'   . 'rgba(0, 0, 0, 0.5)'
 const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${({ isDarkTheme }) => isDarkTheme 
+    ? 'rgba(255, 255, 255, 0.2)' 
+    : 'rgba(0, 0, 0, 0.2)'};
 `;
 const ImageContent = styled.div`
   position: absolute;
@@ -181,40 +190,46 @@ const ImageContent = styled.div`
 const Details = styled.div`
   margin-top: 0.5rem;
 `;
-const DetailItem = styled.p`
+const DetailItem = styled.p` 
   margin: 0.5rem 0;
   font-size: 1rem;
   display: flex;
   align-items: center;
+  
   .icon {
     margin-right: 0.5rem;
+    color: ${({ isDarkTheme }) => isDarkTheme ? '#FFD700' : '#1f8de1'};
   }
 `;
 const CameraButton = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: ${({ isDarkTheme }) => isDarkTheme ? '#FFD700' : '#1f8de1'};
   border: none;
   padding: 0.5rem;
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.3s ease;
   z-index: 3;
+
   .icon {
-    color: white;
+   color: ${({ isDarkTheme }) => (isDarkTheme ? '#000' : '#eeeeee')};
   }
+
   &:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: ${({ isDarkTheme }) => isDarkTheme ? '#e6c200' : '#1666b2'};
   }
 `;
+
 const Description = styled.div`
   padding: 1rem;
   height: 100px;
-  background: #f9f9f9;
-  color: #333;
-  border-top: 1px solid #ccc;
+  background: ${({ isDarkTheme }) => isDarkTheme ? '#1a1a1a' : '#f9f9f9'};
+  color: ${({ isDarkTheme }) => isDarkTheme ? '#f0f0f0' : '#333333'};
+  border-top: 1px solid ${({ isDarkTheme }) => isDarkTheme ? '#333333' : '#cccccc'};
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+
   p {
     margin: 0;
     font-size: 1rem;
@@ -225,9 +240,11 @@ const GalleryContainer = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 300px;  /* Limita el ancho */
+  max-width: 300px;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: ${({ isDarkTheme }) => isDarkTheme 
+    ? 'rgba(0, 0, 0, 0.9)' 
+    : 'rgba(0, 0, 0, 0.8)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,10 +258,11 @@ const Gallery = styled.div`
   width: 100%;
   max-height: 320px;
   overflow-y: auto;
-  background: #fff;
+  background: ${({ isDarkTheme }) => isDarkTheme ? '#333333' : '#ffffff'};
   padding: 1rem;
   border-radius: 8px;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Sombra suave para la galería */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
   .gallery-image {
     width: 100%;
     height: auto;
@@ -253,6 +271,7 @@ const Gallery = styled.div`
     object-fit: cover;
     cursor: pointer;
     transition: transform 0.3s ease;
+
     &:hover {
       transform: scale(1.1);
     }
@@ -283,7 +302,9 @@ const ImageModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: ${({ isDarkTheme }) => isDarkTheme 
+    ? 'rgba(0, 0, 0, 0.95)' 
+    : 'rgba(0, 0, 0, 0.8)'};
   display: flex;
   align-items: center;
   justify-content: center;
