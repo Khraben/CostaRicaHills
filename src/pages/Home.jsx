@@ -37,6 +37,7 @@ const Home = () => {
                         description="Disfruta de las hermosas playas y la biodiversidad del Parque Nacional Manuel Antonio."
                         images={[
                             "https://media.istockphoto.com/id/1395347767/es/foto/costa-y-playa-parque-nacional-manuel-antonio-costa-rica.jpg?s=612x612&w=0&k=20&c=kaTj1Mpj-SWYGicIvRtNqbw1oIL6D-nfeC7TOHyd-Gg=",
+                            "https://media.istockphoto.com/id/1436674562/es/foto/primer-plano-de-un-perezoso-en-un-árbol-con-las-hojas-verdes-alrededor-en-el-parque-nacional.jpg?s=612x612&w=0&k=20&c=MTSwNCz3lwk0VCHuq9Ak4HIYwewsmkU7KwaeNhsuDjE=",
                             "https://media.istockphoto.com/id/1199465258/es/foto/vista-de-drones-del-parque-nacional-manuel-antonio-en-costa-rica.jpg?s=612x612&w=0&k=20&c=XGo4W0HE94hi56k_DnoOqxKU4YV-FqPCKYZ99sWA_48=",
                             "https://media.istockphoto.com/id/1436674562/es/foto/primer-plano-de-un-perezoso-en-un-árbol-con-las-hojas-verdes-alrededor-en-el-parque-nacional.jpg?s=612x612&w=0&k=20&c=MTSwNCz3lwk0VCHuq9Ak4HIYwewsmkU7KwaeNhsuDjE="    
                         ]}

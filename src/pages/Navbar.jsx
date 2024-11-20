@@ -4,12 +4,16 @@ import LoginAuth from '../components/LoginAuth';
 import { auth } from '../config/firebase';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import {FaSun, FaMoon} from 'react-icons/fa';
+
 
 const Header = () => {
   const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const { isDarkTheme, toggleTheme } = useTheme(); 
 
   const handleLogin = (loggedInUser) => {
     if (loggedInUser) {
@@ -41,7 +45,7 @@ const Header = () => {
   }, []);
 
   return (
-    <HeaderContainer className={scrolled ? 'scrolled' : ''}>
+    <HeaderContainer className={`${scrolled ? 'scrolled' : ''} ${isDarkTheme ? 'dark' : 'light'}`}>
       <Nav>
         <LogoContainer className="logo-container">
           <LogoLink href="/">
@@ -50,6 +54,9 @@ const Header = () => {
           </LogoLink>
         </LogoContainer>
         <NavLinks className="nav-links">
+        <ThemeToggleButton onClick={toggleTheme}>
+           {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
+          </ThemeToggleButton>
           <a href="/tours">Tours</a>
           <a href="/about">Sobre Nosotros</a>
           <UserPhoto
@@ -77,15 +84,23 @@ const HeaderContainer = styled.header`
   padding: 1rem;
   transition: background-color 0.3s ease;
   z-index: 1000; 
-  &.scrolled {
-    background-color: white;
+  &.dark {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    &.scrolled .logo-container span,
+    &.scrolled .nav-links a {
+    color: white; /* Cambia el color del texto*/
+    }
   }
-  &.scrolled .logo-container span,
-  &.scrolled .nav-links a {
-    color: black; /* Cambia el color del texto a negro */
+  &.light {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    &.scrolled .logo-container span,
+    &.scrolled .nav-links a {
+     color: black; /* Cambia el color del texto*/
+    }
   }
 `;
-
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -94,7 +109,6 @@ const Nav = styled.nav`
   padding: 0 1.5rem; /* Añadir padding para que no se pegue a los bordes */
   margin: 0 auto;
 `;
-
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
@@ -105,7 +119,6 @@ const LogoLink = styled.a`
     color: #afdb11; /* Gris oscuro al hacer hover */
   }
 `;
-
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -117,17 +130,16 @@ const LogoContainer = styled.div`
     margin-left: 0.75rem;
     font-size: 1.25rem;
     font-weight: bold;
-    color: #ffffff; /* Gris oscuro */
+    color: inherit;
   }
 `;
-
 const NavLinks = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
   a {
-    color: #ffffff; /* Gris intermedio */
+    color: inherit; /* Hereda el color del HeaderContainer */
     text-decoration: none;
     transition: color 0.3s ease;
     font-weight: bold; /* Texto en negrita */
@@ -136,7 +148,6 @@ const NavLinks = styled.div`
     }
   }
 `;
-
 const UserPhoto = styled.img`
   position: relative;
   height: 2.5rem;
@@ -148,5 +159,19 @@ const UserPhoto = styled.img`
     transform: scale(1.1); /* Aumentar ligeramente el tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
     border: 4px solid #afdb11;
+  }
+`;
+const ThemeToggleButton = styled.button`
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #afdb11;
   }
 `;
