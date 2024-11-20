@@ -2,12 +2,13 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { loginUser, loginWithGoogle, registerUser } from './AuthServices';
 import { UserContext } from '../context/UserContext';
+import { useTheme } from '../context/ThemeContext';
 
 // Modal Component
-const Modal = ({ visible, onClose, children }) => {
+const Modal = ({ visible, onClose, children,isDarkTheme }) => {
   if (!visible) return null;
   return (
-    <ModalContainer onClick={(e) => e.stopPropagation()}>
+    <ModalContainer isDarkTheme={isDarkTheme}onClick={(e) => e.stopPropagation()}>
       <CloseButton onClick={onClose}>&times;</CloseButton>
       {children}
     </ModalContainer>
@@ -18,6 +19,7 @@ const LoginAuth = ({ onLogin }) => {
   const [modalType, setModalType] = useState('login'); // 'login', 'register', 'user-info'
   const { setUserPhoto } = useContext(UserContext);
   const [error, setError] = useState("");
+  const { isDarkTheme } = useTheme();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -96,38 +98,38 @@ const LoginAuth = ({ onLogin }) => {
   return (
     <>
       {/* Modal de Iniciar Sesión */}
-      <Modal visible={modalType === 'login'} onClose={() => setModalType(null)}>
-        <Title>Iniciar Sesión</Title>
-        <Form onSubmit={handleLogin}>
-          <Label htmlFor="email">Correo:</Label>
-          <Input type="email" id="email" />
-          <Label htmlFor="password">Contraseña:</Label>
-          <Input type="password" id="password" />
-          <Button type="submit">Iniciar Sesión</Button>
+      <Modal visible={modalType === 'login'} onClose={() => setModalType(null)}isDarkTheme={isDarkTheme}>
+        <Title isDarkTheme={isDarkTheme}>Iniciar Sesión</Title>
+        <Form isDarkTheme={isDarkTheme}onSubmit={handleLogin}>
+          <Label isDarkTheme={isDarkTheme}htmlFor="email">Correo:</Label>
+          <Input isDarkTheme={isDarkTheme}type="email" id="email" />
+          <Label isDarkTheme={isDarkTheme}htmlFor="password">Contraseña:</Label>
+          <Input isDarkTheme={isDarkTheme}type="password" id="password" />
+          <Button isDarkTheme={isDarkTheme}type="submit">Iniciar Sesión</Button>
         </Form>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <GoogleButton onClick={handleGoogleLogin}>
+        {error && <ErrorMessage isDarkTheme={isDarkTheme}>{error}</ErrorMessage>}
+        <GoogleButton isDarkTheme={isDarkTheme}onClick={handleGoogleLogin}>
           <img src="src/assets/google-logo.png" alt="Google Logo" />
           Iniciar Sesión con Google
         </GoogleButton>
-        <TextButton onClick={() => setModalType('register')}>¿No tienes cuenta? Registrarse</TextButton>
+        <TextButton isDarkTheme={isDarkTheme}onClick={() => setModalType('register')}>¿No tienes cuenta? Registrarse</TextButton>
       </Modal>
 
       {/* Modal de Registro */}
-      <Modal visible={modalType === 'register'} onClose={() => setModalType(null)}>
-        <Title>Registrarse</Title>
-        <Form onSubmit={handleRegister}>
-          <Label htmlFor="register-name">Nombre:</Label>
-          <Input type="text" id="register-name" />
-          <Label htmlFor="register-email">Correo:</Label>
-          <Input type="email" id="register-email" />
-          <Label htmlFor="register-password">Contraseña:</Label>
-          <Input type="password" id="register-password" />
-          <Button type="submit">Registrarse</Button>
+      <Modal isDarkTheme={isDarkTheme}visible={modalType === 'register'} onClose={() => setModalType(null)}>
+        <Title isDarkTheme={isDarkTheme}>Registrarse</Title>
+        <Form isDarkTheme={isDarkTheme}onSubmit={handleRegister}>
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-name">Nombre:</Label>
+          <Input isDarkTheme={isDarkTheme}type="text" id="register-name" />
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-email">Correo:</Label>
+          <Input isDarkTheme={isDarkTheme}type="email" id="register-email" />
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-password">Contraseña:</Label>
+          <Input isDarkTheme={isDarkTheme}type="password" id="register-password" />
+          <Button isDarkTheme={isDarkTheme}type="submit">Registrarse</Button>
         </Form>
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <TextButton onClick={() => setModalType('login')}>¿Ya tienes cuenta? Iniciar Sesión</TextButton>
+        <TextButton isDarkTheme={isDarkTheme} onClick={() => setModalType('login')}>¿Ya tienes cuenta? Iniciar Sesión</TextButton>
       </Modal>
     </>
   );
@@ -137,7 +139,7 @@ export default LoginAuth;
 
 // Estilos
 const ErrorMessage = styled.p`
-  color: red;
+   color: ${(props) => (props.isDarkTheme ? '#ff6b6b' : 'red')};
   font-weight: bold;
   text-align: center;
 
@@ -147,7 +149,7 @@ const ErrorMessage = styled.p`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+ background-color: ${(props) => (props.isDarkTheme ? '#2c2c2c' : 'white')};
   padding: 20px;
   border-radius: 8px;
   width: 400px;
@@ -175,13 +177,13 @@ const CloseButton = styled.span`
   right: 15px;
   font-size: 24px;
   cursor: pointer;
-  color: #333;
+ color: ${(props) => (props.isDarkTheme ? '#fff' : '#333')};
 `;
 
 const Title = styled.h2`
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
+  color: ${(props) => (props.isDarkTheme ? '#fff' : '#333')};
 `;
 
 const Form = styled.form`
@@ -192,19 +194,21 @@ const Form = styled.form`
 const Label = styled.label`
   margin-bottom: 8px;
   font-size: 14px;
-  color: #555;
+ color: ${(props) => (props.isDarkTheme ? '#ccc' : '#555')};
 `;
 
 const Input = styled.input`
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid ${(props) => (props.isDarkTheme ? '#555' : '#ccc')};
+  background-color: ${(props) => (props.isDarkTheme ? '#444' : '#fff')};
+  color: ${(props) => (props.isDarkTheme ? '#fff' : '#000')};
   font-size: 14px;
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: ${(props) => (props.isDarkTheme ? '#4caf50' : '#4caf50')};
   color: white;
   padding: 10px;
   border: none;
@@ -214,7 +218,7 @@ const Button = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: #45a049;
+     background-color: ${(props) => (props.isDarkTheme ? '#45a049' : '#45a049')};
   }
 `;
 
@@ -222,8 +226,9 @@ const GoogleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  border: 1px solid #ccc;
+   background-color: ${(props) => (props.isDarkTheme ? '#555' : 'transparent')};
+  border: 1px solid ${(props) => (props.isDarkTheme ? '#777' : '#ccc')};
+  color: ${(props) => (props.isDarkTheme ? '#fff' : '#000')};
   cursor: pointer;
   padding: 10px;
   border-radius: 4px;
@@ -231,7 +236,7 @@ const GoogleButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: rgba(66, 133, 244, 0.1);
+    background-color: ${(props) => (props.isDarkTheme ? 'rgba(66, 133, 244, 0.1)' : 'rgba(66, 133, 244, 0.1)')};
   }
 
   img {
@@ -243,7 +248,7 @@ const GoogleButton = styled.button`
 const TextButton = styled.button`
   background: none;
   border: none;
-  color: #007bff;
+   color: ${(props) => (props.isDarkTheme ? '#1e90ff' : '#007bff')};
   cursor: pointer;
   font-size: 14px;
 
