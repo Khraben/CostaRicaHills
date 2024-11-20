@@ -55,18 +55,19 @@ const Header = () => {
     <HeaderContainer className={`${scrolled ? 'scrolled' : ''} ${isDarkTheme ? 'dark' : 'light'}`}>
       <Nav>
         <LogoContainer className="logo-container">
-          <LogoLink  onClick={handleHomeClick}>
+          <LogoLink  isDarkTheme={isDarkTheme} onClick={handleHomeClick}>
             <img src="src/assets/Logo Costa Rica Hills sin fondo.png" alt="Logo" />
             <span>Costa Rica Hills</span>
           </LogoLink>
         </LogoContainer>
-        <NavLinks className="nav-links">
+        <NavLinks isDarkTheme={isDarkTheme} className="nav-links">
         <ThemeToggleButton onClick={toggleTheme}>
            {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
           </ThemeToggleButton>
           <a onClick={handleToursClick}>Tours</a>
           <a onClick={handleAboutClick}>Sobre Nosotros</a>
           <UserPhoto
+            isDarkTheme={isDarkTheme}
             src={userPhoto}
             alt="Foto de Usuario"
             id="user-photo"
@@ -124,7 +125,7 @@ const LogoLink = styled.a`
   font-weight: bold; /* Texto en negrita */
   cursor: pointer;
   span:hover {
-    color: #afdb11; /* Gris oscuro al hacer hover */
+      color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
   }
 `;
 const LogoContainer = styled.div`
@@ -153,7 +154,7 @@ const NavLinks = styled.div`
     font-weight: bold; /* Texto en negrita */
     cursor: pointer;
     &:hover {
-      color: #afdb11; 
+      color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
     }
   }
 `;
@@ -167,7 +168,7 @@ const UserPhoto = styled.img`
   &:hover {
     transform: scale(1.1); /* Aumentar ligeramente el tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    border: 4px solid #afdb11;
+    border: 4px solid ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
   }
 `;
 const ThemeToggleButton = styled.button`
