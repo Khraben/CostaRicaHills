@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import {FaSun, FaMoon} from 'react-icons/fa';
 
-
 const Header = () => {
   const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
@@ -21,7 +20,6 @@ const Header = () => {
       setUserPhoto(user.photoURL);
     }
   };
-
   const handleUserPhotoClick = () => {
     if (user) {
       navigate('/profile');
@@ -29,6 +27,15 @@ const Header = () => {
       setShowLogin(!showLogin);
     }
   };
+  const handleToursClick = () => {
+    navigate('/tours');
+  }
+  const handleAboutClick = () => {
+    navigate('/about');
+  }
+  const handleHomeClick = () => {
+    navigate('/');
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +55,7 @@ const Header = () => {
     <HeaderContainer className={`${scrolled ? 'scrolled' : ''} ${isDarkTheme ? 'dark' : 'light'}`}>
       <Nav>
         <LogoContainer className="logo-container">
-          <LogoLink href="/">
+          <LogoLink  onClick={handleHomeClick}>
             <img src="src/assets/Logo Costa Rica Hills sin fondo.png" alt="Logo" />
             <span>Costa Rica Hills</span>
           </LogoLink>
@@ -57,8 +64,8 @@ const Header = () => {
         <ThemeToggleButton onClick={toggleTheme}>
            {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
           </ThemeToggleButton>
-          <a href="/tours">Tours</a>
-          <a href="/about">Sobre Nosotros</a>
+          <a onClick={handleToursClick}>Tours</a>
+          <a onClick={handleAboutClick}>Sobre Nosotros</a>
           <UserPhoto
             src={userPhoto}
             alt="Foto de Usuario"
@@ -115,6 +122,7 @@ const LogoLink = styled.a`
   text-decoration: none;
   color: inherit;
   font-weight: bold; /* Texto en negrita */
+  cursor: pointer;
   span:hover {
     color: #afdb11; /* Gris oscuro al hacer hover */
   }
@@ -143,6 +151,7 @@ const NavLinks = styled.div`
     text-decoration: none;
     transition: color 0.3s ease;
     font-weight: bold; /* Texto en negrita */
+    cursor: pointer;
     &:hover {
       color: #afdb11; 
     }
