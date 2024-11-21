@@ -162,7 +162,6 @@ const ImageSection = styled.div`
     filter: brightness(1.2);
   }
 `;
-// 'rgba(255, 255, 255, 0.2)'   . 'rgba(0, 0, 0, 0.5)'
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -170,7 +169,7 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background: ${({ isDarkTheme }) => isDarkTheme 
-    ? 'rgba(255, 255, 255, 0.2)' 
+    ? 'rgba(0, 0, 0, 0.2)'
     : 'rgba(0, 0, 0, 0.2)'};
 `;
 const ImageContent = styled.div`
