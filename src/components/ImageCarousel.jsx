@@ -56,7 +56,7 @@ const CarouselButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10; /* Asegura que los botones estén por encima de otros elementos */
+  z-index: 0; /* Asegura que los botones estén por encima de otros elementos */
 
   &.prev {
     left: 10px;

@@ -76,6 +76,7 @@ const SearchTours = () => {
                 {filteredTours.map((tour, index) => (
                     <Card
                         key={index}
+                        id={tour.id}
                         title={tour.nombre}
                         images={tour.imagenes}
                         destination={tour.destino.join(', ')}

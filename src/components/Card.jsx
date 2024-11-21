@@ -20,14 +20,14 @@ const useImageSlider = (images) => {
 };
 
 
-const Card = ({ title, images, destination, duration, price, description }) => {
+const Card = ({ id,title, images, destination, duration, price, description }) => {
   const navigate = useNavigate();
   const {isDarkTheme} = useTheme();
   const currentImage = useImageSlider(images);
   const [showGallery, setShowGallery] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);  
   const [selectedImage, setSelectedImage] = useState(''); 
-  const tour = { title, images, destination, duration, price, description };
+  const tour = { id,title, images, destination, duration, price, description };
 
   const openImageModal = useCallback((img) => {
     if (selectedImage !== img) {  // Solo actualiza si la imagen es diferente
