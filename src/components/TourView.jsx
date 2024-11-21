@@ -22,14 +22,13 @@ const TourView = () => {
     if (!tour) {
         return <div>No se encontró información del tour.</div>;
     }
-    console.log("DataTour:",tour);
     const images = Array.isArray(tour.images) ? tour.images : [tour.images];
     const handleReservationClick = async () => {
         setIsModalOpen(true);
     };
     const handleConfirm = async () => {
         try {
-            await addReservation(tour.id, user.uid, people, tourDate, endDate);
+            await addReservation(tour.id, user.uid, people, tourDate, endDate, estado="activo");
             alert('Reserva realizada con éxito.');
             setIsModalOpen(false);
         } catch (error) {
@@ -37,7 +36,6 @@ const TourView = () => {
             alert('Hubo un problema al realizar la reserva.');
         }
     };
-
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -104,7 +102,9 @@ const TourView = () => {
                             const durationNumber = durationMatch ? parseInt(durationMatch[1], 10) : 1;
                             const durationUnit = durationMatch ? durationMatch[2].toLowerCase() : 'horas';
             
-                            if (durationUnit.includes('día')) {
+                           // Verificar si la duración está en días
+                            const isDayDuration = /(dia|dias|día|días)/i.test(durationUnit);
+                            if (isDayDuration) {
                                 const calculatedEnd = new Date(date);
                                 calculatedEnd.setDate(calculatedEnd.getDate() + durationNumber - 1);
                                 setEndDate(calculatedEnd);
@@ -150,7 +150,6 @@ const StyledModal = styled(Modal)`
         width: 400px;
     }
 `;
-
 const ModalHeader = styled.div`
     display: flex;
     justify-content: space-between;
@@ -176,7 +175,6 @@ const ModalHeader = styled.div`
         }
     }
 `;
-
 const ModalContent = styled.div`
     display: flex;
     flex-direction: column;
@@ -205,7 +203,6 @@ const ModalContent = styled.div`
         }
     }
 `;
-
 const ModalFooter = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -243,7 +240,6 @@ const ModalFooter = styled.div`
         }
     }
 `;
-
 const TourDetails = styled.section`
     display: flex;
     flex-direction: column;
