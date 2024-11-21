@@ -57,8 +57,9 @@ const TourDetails = styled.section`
     align-items: center;
     padding: 1rem;
     position: relative;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal overflow */
 `;
-
 const Header = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -68,7 +69,6 @@ const Header = styled.div`
     top: 1rem;
     left: 1rem;
 `;
-
 const Content = styled.div`
     display: flex;
     flex-direction: column;
@@ -81,7 +81,6 @@ const Content = styled.div`
         align-items: center;
     }
 `;
-
 const CarouselContainer = styled.div`
     width: 100%;
 
@@ -89,7 +88,6 @@ const CarouselContainer = styled.div`
         width: 60%;
     }
 `;
-
 const TourInfo = styled.div`
     width: 100%;
     color: white;
@@ -126,7 +124,6 @@ const TourInfo = styled.div`
         }
     }
 `;
-
 const BackButton = styled.button`
     padding: 0.5rem 1rem;
     font-size: 1rem;
@@ -142,7 +139,6 @@ const BackButton = styled.button`
         transform: translateY(-2px);
     }
 `;
-
 const ReviewsSection = styled.section`
     width: 100%;
     max-width: 1200px;
@@ -157,7 +153,6 @@ const ReviewsSection = styled.section`
         margin-bottom: 1rem;
     }
 `;
-
 const Review = styled.div`
     margin-bottom: 1rem;
     padding: 1rem;
@@ -169,12 +164,10 @@ const Review = styled.div`
         margin-bottom: 0.5rem;
     }
 `;
-
 const Stars = styled.div`
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 `;
-
 const Author = styled.div`
     font-size: 1rem;
     font-style: italic;
