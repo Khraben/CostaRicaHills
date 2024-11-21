@@ -8,7 +8,7 @@ export const getToursAll = async () => {
     }  
 };
 
-export const addReservation = async (tour,userId) => {
+export const addReservation = async (tour,userId,people, tourDate, endDate) => {
     try{
         const response = await fetch('https://costaricahills-backend.onrender.com/addReservation');
         const data = await response.json();

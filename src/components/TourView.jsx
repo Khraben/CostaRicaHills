@@ -22,18 +22,14 @@ const TourView = () => {
     if (!tour) {
         return <div>No se encontró información del tour.</div>;
     }
-
+    console.log("DataTour:",tour);
     const images = Array.isArray(tour.images) ? tour.images : [tour.images];
     const handleReservationClick = async () => {
         setIsModalOpen(true);
     };
     const handleConfirm = async () => {
-        const calculatedEndDate = new Date(tourDate);
-        calculatedEndDate.setDate(calculatedEndDate.getDate() + tour.duration);
-        setEndDate(calculatedEndDate);
-
         try {
-            await addReservation(tour.id, user.uid, { people, tourDate, endDate: calculatedEndDate });
+            await addReservation(tour.id, user.uid, people, tourDate, endDate);
             alert('Reserva realizada con éxito.');
             setIsModalOpen(false);
         } catch (error) {
@@ -101,15 +97,24 @@ const TourView = () => {
                     <label>
                         Fecha del tour:
                         <DatePicker
-                            selected={tourDate}
-                            onChange={(date) => {
-                                setTourDate(date);
+                           selected={tourDate}
+                           onChange={(date) => {
+                            setTourDate(date);
+                            const durationMatch = tour.duration.match(/(\d+)\s*(días|dias|día|dia|horas|hrs)/i);
+                            const durationNumber = durationMatch ? parseInt(durationMatch[1], 10) : 1;
+                            const durationUnit = durationMatch ? durationMatch[2].toLowerCase() : 'horas';
+            
+                            if (durationUnit.includes('día')) {
                                 const calculatedEnd = new Date(date);
-                                calculatedEnd.setDate(calculatedEnd.getDate() + tour.duration);
+                                calculatedEnd.setDate(calculatedEnd.getDate() + durationNumber - 1);
                                 setEndDate(calculatedEnd);
-                            }}
-                            dateFormat="dd/MM/yyyy"
-                        />
+                            } else {
+                                setEndDate(null);
+                            }
+                        }}
+                           dateFormat="dd/MM/yyyy"
+                           minDate={new Date()}
+                       />
                     </label>
                     {endDate && (
                         <p>Fecha de fin: {endDate.toLocaleDateString()}</p>
