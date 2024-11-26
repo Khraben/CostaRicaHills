@@ -5,14 +5,16 @@ import { auth } from '../config/firebase';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import {FaSun, FaMoon} from 'react-icons/fa';
-
+import { FaSun, FaMoon } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 const Header = () => {
   const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [language, setLanguage] = useState('es'); // Estado para el idioma seleccionado
   const navigate = useNavigate();
-  const { isDarkTheme, toggleTheme } = useTheme(); 
+  const { isDarkTheme, toggleTheme } = useTheme();
 
   const handleLogin = (loggedInUser) => {
     if (loggedInUser) {
@@ -20,6 +22,7 @@ const Header = () => {
       setUserPhoto(user.photoURL);
     }
   };
+
   const handleUserPhotoClick = () => {
     if (user) {
       navigate('/profile');
@@ -27,15 +30,23 @@ const Header = () => {
       setShowLogin(!showLogin);
     }
   };
+
   const handleToursClick = () => {
     navigate('/tours');
-  }
+  };
+
   const handleAboutClick = () => {
     navigate('/about');
-  }
+  };
+
   const handleHomeClick = () => {
     navigate('/');
-  }
+  };
+
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
+    i18next.changeLanguage(event.target.value);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,23 +66,29 @@ const Header = () => {
     <HeaderContainer className={`${scrolled ? 'scrolled' : ''} ${isDarkTheme ? 'dark' : 'light'}`}>
       <Nav>
         <LogoContainer className="logo-container">
-          <LogoLink  isDarkTheme={isDarkTheme} onClick={handleHomeClick}>
+          <LogoLink isDarkTheme={isDarkTheme} onClick={handleHomeClick}>
             <img src="src/assets/Logo Costa Rica Hills sin fondo.png" alt="Logo" />
             <span>Costa Rica Hills</span>
           </LogoLink>
         </LogoContainer>
         <NavLinks isDarkTheme={isDarkTheme} className="nav-links">
-        <ThemeToggleButton onClick={toggleTheme}>
-           {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
+          <ThemeToggleButton onClick={toggleTheme}>
+            {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
           </ThemeToggleButton>
           <a onClick={handleToursClick}>Tours</a>
           <a onClick={handleAboutClick}>Sobre Nosotros</a>
+          <LanguageSelectContainer>
+            <LanguageSelect value={language} onChange={handleLanguageChange} isDarkTheme={isDarkTheme}>
+              <option value="es">Español</option>
+              <option value="en">English</option>
+            </LanguageSelect>
+          </LanguageSelectContainer>
           <UserPhoto
             isDarkTheme={isDarkTheme}
             src={userPhoto}
             alt="Foto de Usuario"
             id="user-photo"
-            onClick={handleUserPhotoClick} 
+            onClick={handleUserPhotoClick}
           />
         </NavLinks>
       </Nav>
@@ -91,13 +108,13 @@ const HeaderContainer = styled.header`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transition: background-color 0.3s ease;
-  z-index: 1000; 
+  z-index: 1000;
   &.dark {
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     &.scrolled .logo-container span,
     &.scrolled .nav-links a {
-    color: white; /* Cambia el color del texto*/
+      color: white; /* Cambia el color del texto*/
     }
   }
   &.light {
@@ -105,10 +122,11 @@ const HeaderContainer = styled.header`
     color: black;
     &.scrolled .logo-container span,
     &.scrolled .nav-links a {
-     color: black; /* Cambia el color del texto*/
+      color: black; /* Cambia el color del texto*/
     }
   }
 `;
+
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -117,6 +135,7 @@ const Nav = styled.nav`
   padding: 0 1.5rem; /* Añadir padding para que no se pegue a los bordes */
   margin: 0 auto;
 `;
+
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
@@ -125,9 +144,10 @@ const LogoLink = styled.a`
   font-weight: bold; /* Texto en negrita */
   cursor: pointer;
   span:hover {
-      color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+    color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
   }
 `;
+
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -142,6 +162,7 @@ const LogoContainer = styled.div`
     color: inherit;
   }
 `;
+
 const NavLinks = styled.div`
   display: flex;
   justify-content: center;
@@ -158,6 +179,7 @@ const NavLinks = styled.div`
     }
   }
 `;
+
 const UserPhoto = styled.img`
   position: relative;
   height: 2.5rem;
@@ -171,6 +193,7 @@ const UserPhoto = styled.img`
     border: 4px solid ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
   }
 `;
+
 const ThemeToggleButton = styled.button`
   background: none;
   border: none;
@@ -180,8 +203,40 @@ const ThemeToggleButton = styled.button`
   display: flex;
   align-items: center;
   transition: color 0.3s ease;
-  
   &:hover {
     color: #afdb11;
+  }
+`;
+
+const LanguageSelectContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  &:after {
+    content: '▼';
+    position: absolute;
+    right: 0.5rem;
+    pointer-events: none;
+    color: inherit;
+  }
+`;
+
+const LanguageSelect = styled.select`
+  appearance: none;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1rem;
+  padding-right: 1.5rem; /* Espacio para la flecha */
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  &:hover {
+    color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+  }
+  option {
+    background: ${(props) => (props.isDarkTheme ? '#333' : '#fff')};
+    color: ${(props) => (props.isDarkTheme ? '#fff' : '#000')};
   }
 `;

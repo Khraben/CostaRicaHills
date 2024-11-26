@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
-
+    const { i18n } = useTranslation("global");
     return (
         <PageContainer>
             <HeroSection>
                 <Content>
-                    <h1>Bienvenidos a Costa Rica Hills</h1>
+                    <h1>{i18n.t("welcome")}</h1>
                     <p>
                         Nos dedicamos a ofrecer los mejores tours alrededor de Costa Rica.
                         Descubre la belleza natural de nuestro país con nosotros.
