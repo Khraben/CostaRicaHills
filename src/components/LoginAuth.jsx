@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { loginUser, loginWithGoogle, registerUser } from './AuthServices';
 import { UserContext } from '../context/UserContext';
 import { useTheme } from '../context/ThemeContext';
-
+import { useTranslation } from 'react-i18next';
 // Modal Component
 const Modal = ({ visible, onClose, children,isDarkTheme }) => {
   if (!visible) return null;
@@ -20,6 +20,7 @@ const LoginAuth = ({ onLogin }) => {
   const { setUserPhoto } = useContext(UserContext);
   const [error, setError] = useState("");
   const { isDarkTheme } = useTheme();
+  const { i18n } = useTranslation("global");
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -27,21 +28,29 @@ const LoginAuth = ({ onLogin }) => {
     const password = event.target.password.value;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email || !password) {
-      setError("Todos los campos deben ser completados.");
+      setError(i18n.language === 'es' 
+        ? "Todos los campos deben ser completados." 
+        : "All fields must be completed.");
       return;
     }
 
     if (email.includes(' ')) {
-      setError("El correo electrónico no debe contener espacios.");
+      setError(i18n.language === 'es' 
+        ? "El correo electrónico no debe contener espacios." 
+        : "Email should not contain spaces.");
       return;
     }
     if (!emailRegex.test(email)) {
-      setError("El correo no tiene un formato válido.");
+      setError(i18n.language === 'es' 
+        ? "El correo no tiene un formato válido." 
+        : "Email is not in a valid format.");
       return;
     }
     const passwordRegex = /^.{6,}$/;
     if (!passwordRegex.test(password)) {
-      setError("La contraseña no es válida (debe contener al menos 6 caracteres).");
+      setError(i18n.language === 'es' 
+        ? "La contraseña no es válida (debe contener al menos 6 caracteres)." 
+        : "Password is not valid (must contain at least 6 characters).");
       return;
     }
     const success = await loginUser(email, password);
@@ -50,7 +59,9 @@ const LoginAuth = ({ onLogin }) => {
       setModalType(null); // Cerrar modal
       onLogin(success); // Llamar a la función de callback
     } else {
-      setError('Error al iniciar sesión. Verifica tus credenciales.');
+      setError(i18n.language === 'es' 
+        ? "Error al iniciar sesión. Verifica tus credenciales." 
+        : "Error logging in. Please check your credentials.");
     }
   };
 
@@ -61,20 +72,28 @@ const LoginAuth = ({ onLogin }) => {
     const password = event.target['register-password'].value;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!nombreUser || !email || !password) {
-      setError("Todos los campos deben ser completados.");
+      setError(i18n.language === 'es' 
+        ? "Todos los campos deben ser completados." 
+        : "All fields must be completed.");
       return;
     }
     if (email.includes(' ')) {
-      setError("El correo electrónico no debe contener espacios.");
+      setError(i18n.language === 'es' 
+        ? "El correo electrónico no debe contener espacios." 
+        : "Email should not contain spaces.");
       return;
     }
     if (!emailRegex.test(email)) {
-      setError("El correo no tiene un formato válido.");
+      setError(i18n.language === 'es' 
+        ? "El correo no tiene un formato válido." 
+        : "Email is not in a valid format.");
       return;
     }
     const passwordRegex = /^.{6,}$/;
     if (!passwordRegex.test(password)) {
-      setError("La contraseña no es válida (debe contener al menos 6 caracteres).");
+      setError(i18n.language === 'es' 
+        ? "La contraseña no es válida (debe contener al menos 6 caracteres)." 
+        : "Password is not valid (must contain at least 6 characters).");
       return;
     }
     const success = await registerUser(email, password, nombreUser);
@@ -91,7 +110,9 @@ const LoginAuth = ({ onLogin }) => {
       setModalType(null); // Cerrar modal
       onLogin(success);
     } else {
-      setError('Error al iniciar sesión con Google.');
+      setError(i18n.language === 'es' 
+       ? "Error al iniciar sesión con Google." 
+        : "Error logging in with Google.");
     }
   };
 
@@ -99,37 +120,37 @@ const LoginAuth = ({ onLogin }) => {
     <>
       {/* Modal de Iniciar Sesión */}
       <Modal visible={modalType === 'login'} onClose={() => setModalType(null)}isDarkTheme={isDarkTheme}>
-        <Title isDarkTheme={isDarkTheme}>Iniciar Sesión</Title>
+        <Title isDarkTheme={isDarkTheme}>{i18n.t("titleFormLogin")}</Title>
         <Form isDarkTheme={isDarkTheme}onSubmit={handleLogin}>
-          <Label isDarkTheme={isDarkTheme}htmlFor="email">Correo:</Label>
+          <Label isDarkTheme={isDarkTheme}htmlFor="email">{i18n.t("titleInputLogin")}:</Label>
           <Input isDarkTheme={isDarkTheme}type="email" id="email" />
-          <Label isDarkTheme={isDarkTheme}htmlFor="password">Contraseña:</Label>
+          <Label isDarkTheme={isDarkTheme}htmlFor="password">{i18n.t("titleInputPassword")}:</Label>
           <Input isDarkTheme={isDarkTheme}type="password" id="password" />
-          <Button isDarkTheme={isDarkTheme}type="submit">Iniciar Sesión</Button>
+          <Button isDarkTheme={isDarkTheme}type="submit">{i18n.t("titleFormLogin")}</Button>
         </Form>
         {error && <ErrorMessage isDarkTheme={isDarkTheme}>{error}</ErrorMessage>}
         <GoogleButton isDarkTheme={isDarkTheme}onClick={handleGoogleLogin}>
           <img src="src/assets/google-logo.png" alt="Google Logo" />
-          Iniciar Sesión con Google
+          {i18n.t("titleFormLoginGoogle")}
         </GoogleButton>
-        <TextButton isDarkTheme={isDarkTheme}onClick={() => setModalType('register')}>¿No tienes cuenta? Registrarse</TextButton>
+        <TextButton isDarkTheme={isDarkTheme}onClick={() => setModalType('register')}>{i18n.t("subTitleRegister")}</TextButton>
       </Modal>
 
       {/* Modal de Registro */}
       <Modal isDarkTheme={isDarkTheme}visible={modalType === 'register'} onClose={() => setModalType(null)}>
-        <Title isDarkTheme={isDarkTheme}>Registrarse</Title>
+        <Title isDarkTheme={isDarkTheme}>{i18n.t("titleFormRegister")}</Title>
         <Form isDarkTheme={isDarkTheme}onSubmit={handleRegister}>
-          <Label isDarkTheme={isDarkTheme}htmlFor="register-name">Nombre:</Label>
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-name">{i18n.t("titleInputName")}:</Label>
           <Input isDarkTheme={isDarkTheme}type="text" id="register-name" />
-          <Label isDarkTheme={isDarkTheme}htmlFor="register-email">Correo:</Label>
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-email">{i18n.t("titleInputLogin")}:</Label>
           <Input isDarkTheme={isDarkTheme}type="email" id="register-email" />
-          <Label isDarkTheme={isDarkTheme}htmlFor="register-password">Contraseña:</Label>
+          <Label isDarkTheme={isDarkTheme}htmlFor="register-password">{i18n.t("titleInputPassword")}:</Label>
           <Input isDarkTheme={isDarkTheme}type="password" id="register-password" />
-          <Button isDarkTheme={isDarkTheme}type="submit">Registrarse</Button>
+          <Button isDarkTheme={isDarkTheme}type="submit">{i18n.t("titleFormRegister")}</Button>
         </Form>
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <TextButton isDarkTheme={isDarkTheme} onClick={() => setModalType('login')}>¿Ya tienes cuenta? Iniciar Sesión</TextButton>
+        <TextButton isDarkTheme={isDarkTheme} onClick={() => setModalType('login')}>{i18n.t("subTitleLogin")}</TextButton>
       </Modal>
     </>
   );

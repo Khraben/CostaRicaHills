@@ -5,6 +5,13 @@
   "home": "Inicio",
   "select_language": "Seleccionar Idioma",
   "user_profile": "Perfil de Usuario",
+  "name_profile": "Nombre",
+  "welcome_profile": "Bienvenido",
+  "logout_profile": "Cerrar Sesión",
+  "reservation_profile": "Reservas actuales",
+  "no_reservations": "No tienes reservas disponibles.",
+  "history_profile": "Historial de Reservas",
+  "no_history": "No tienes historial de reservas.",
   "subTitle": "Nos dedicamos a ofrecer los mejores tours alrededor de Costa Rica. Descubre la belleza natural de nuestro país con nosotros.",
   "subTitleAbout": "En Costa Rica Hills, nos apasiona mostrar la belleza natural de Costa Rica a través de experiencias únicas y memorables.",
   "subTitleTours":"Tours más populares",
@@ -20,5 +27,13 @@
   "placeholderInput": "Buscar un tour",
   "placeholderInputPrice": "Precio mínimo",
   "placeholderInputPriceTours": "Precio máximo",
-  "placeholderInputDestination": "Filtrar por destino"
+  "placeholderInputDestination": "Filtrar por destino",
+  "titleFormLogin": "Iniciar Sesión",
+  "titleInputLogin": "Correo",
+  "titleInputPassword": "Contraseña",
+  "subTitleRegister": "¿No tienes cuenta? Registrarse",
+  "titleFormLoginGoogle": "Iniciar Sesión con Google",
+  "titleFormRegister": "Registrarse",
+  "titleInputName": "Nombre",
+  "subTitleLogin":"¿Ya tienes cuenta? Iniciar Sesión"
 }

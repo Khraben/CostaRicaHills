@@ -6,10 +6,11 @@ import { UserContext } from '../context/UserContext';
 import {logoutUser } from './AuthServices';
 import { useNavigate } from 'react-router-dom';
 import { getReservationbyUser } from '../config/backendServices';
-
+import { useTranslation } from 'react-i18next';
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
   const { user, userPhoto } = useContext(UserContext);
+  const { i18n } = useTranslation("global");
   const navigate = useNavigate();
   const handleLogout = async () => {
     const success = await logoutUser();
@@ -35,16 +36,16 @@ const UserProfileReservas = () => {
     <UserProfileSection>
       <UserProfileContainer>
         <UserProfile>
-          <h1>Perfil del Usuario</h1>
+          <h1>{i18n.t("user_profile")}</h1>
           <ProfilePhoto src={userPhoto} alt="Foto de Usuario" />
-          <UserName>Nombre: {user.displayName}</UserName>
-          <p className="user-email">Bienvenido</p>
-          <Button onClick={handleLogout}>Cerrar Sesión</Button>
+          <UserName>{i18n.t("name_profile")}: {user.displayName}</UserName>
+          <p className="user-email">{i18n.t("welcome_profile")}</p>
+          <Button onClick={handleLogout}>{i18n.t("logout_profile")}</Button>
         </UserProfile>
       </UserProfileContainer>
     </UserProfileSection>
     <UserReservas>
-      <h2>Reservas Actuales</h2>
+      <h2>{i18n.t("reservation_profile")}</h2>
       <ReservasList>
         {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
@@ -60,12 +61,12 @@ const UserProfileReservas = () => {
             />
           ))
         ) : (
-          <Paragraph>No tienes reservas disponibles.</Paragraph>
+          <Paragraph>{i18n.t("no_reservations")}</Paragraph>
         )}
       </ReservasList>
     </UserReservas>
     <UserReservas>
-    <h2>Historial de Reservas</h2>
+    <h2>{i18n.t("history_profile")}</h2>
       <ReservasList>
       {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
@@ -81,7 +82,7 @@ const UserProfileReservas = () => {
             />
           ))
         ) : (
-          <Paragraph>No tienes historial de reservas.</Paragraph>
+          <Paragraph>{i18n.t("no_history")}</Paragraph>
         )}
       </ReservasList>
     </UserReservas>
