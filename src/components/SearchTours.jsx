@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 import { getToursAll } from '../config/backendServices';
+import { useTranslation } from 'react-i18next';
 const SearchTours = () => {
     const [search, setSearch] = useState('');
     const [filteredTours, setFilteredTours] = useState([]);
@@ -9,6 +10,7 @@ const SearchTours = () => {
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [destinationFilter, setDestinationFilter] = useState('');
     const [Tours, setAllTours] = useState([]);
+    const { i18n } = useTranslation("global");
     useEffect(() => {
         const fetchTours = async () => {
             try {
@@ -46,7 +48,7 @@ const SearchTours = () => {
                 <SearchBar>
                     <input
                         type="text"
-                        placeholder="Buscar un tour"
+                        placeholder={i18n.t("placeholderInput")}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -54,19 +56,19 @@ const SearchTours = () => {
                 <Filters>
                     <input
                         type="number"
-                        placeholder="Precio mínimo"
+                        placeholder={i18n.t("placeholderInputPrice")}
                         value={minPriceFilter}
                         onChange={(e) => setMinPriceFilter(e.target.value)}
                     />
                     <input
                         type="number"
-                        placeholder="Precio máximo"
+                        placeholder={i18n.t("placeholderInputPriceTours")}
                         value={maxPriceFilter}
                         onChange={(e) => setMaxPriceFilter(e.target.value)}
                     />
                     <input
                         type="text"
-                        placeholder="Filtrar por destino"
+                        placeholder={i18n.t("placeholderInputDestination")}
                         value={destinationFilter}
                         onChange={(e) => setDestinationFilter(e.target.value)}
                     />

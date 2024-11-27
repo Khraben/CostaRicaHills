@@ -1,48 +1,49 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { useTranslation } from 'react-i18next';
 const About = () => {
+    const { i18n } = useTranslation("global");
     return (
         <PageContainer>
             <HeroSection>
                 <Content>
-                    <h1>Sobre Nosotros</h1>
+                    <h1>{i18n.t("about_us")}</h1>
                     <p>
-                        En Costa Rica Hills, nos apasiona mostrar la belleza natural de Costa Rica a través de experiencias únicas y memorables.
+                        {i18n.t("subTitleAbout")}
                     </p>
                 </Content>
             </HeroSection>
             <AboutSection>
-                <h2>Nuestra Historia</h2>
+                <h2>{i18n.t("subTitleOurHistory")}</h2>
                 <p>
-                    Fundada en 2010, Costa Rica Hills ha crecido hasta convertirse en una de las principales agencias de tours en Costa Rica. Nos enorgullece ofrecer tours personalizados que destacan la biodiversidad y la cultura de nuestro hermoso país.
+                    {i18n.t("descriptionHistory")}
                 </p>
             </AboutSection>
             <TeamSection>
-                <h2>Conoce a Nuestro Equipo</h2>
+                <h2>{i18n.t("subTitleOurTeam")}</h2>
                 <TeamContainer>
                     <TeamMember>
                         <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
                         <h3>Juan Pérez</h3>
-                        <p>Guía de Tours</p>
+                        <p>{i18n.t("subTitleGuide")}</p>
                     </TeamMember>
                     <TeamMember>
                         <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
                         <h3>María González</h3>
-                        <p>Coordinadora de Tours</p>
+                        <p>{i18n.t("subTitleCoordinator")}</p>
                     </TeamMember>
                     <TeamMember>
                         <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
                         <h3>Carlos Rodríguez</h3>
-                        <p>Especialista en Reservas</p>
+                        <p>{i18n.t("subTitleSpecialist")}</p>
                     </TeamMember>
                 </TeamContainer>
             </TeamSection>
             <ContactSection>
-                <h2>Contacto</h2>
-                <p>Para más información, contáctanos en:</p>
+                <h2>{i18n.t("subTitleContact")}</h2>
+                <p>{i18n.t("descriptionContact")}</p>
                 <p>Email: info@costaricahills.com</p>
-                <p>Teléfono: +506 1234 5678</p>
+                <p>{i18n.t("phone")} +506 1234 5678</p>
             </ContactSection>
         </PageContainer>
     );

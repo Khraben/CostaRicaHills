@@ -15,6 +15,7 @@ const Header = () => {
   const [language, setLanguage] = useState('es'); // Estado para el idioma seleccionado
   const navigate = useNavigate();
   const { isDarkTheme, toggleTheme } = useTheme();
+  const { i18n } = useTranslation("global");
 
   const handleLogin = (loggedInUser) => {
     if (loggedInUser) {
@@ -75,8 +76,8 @@ const Header = () => {
           <ThemeToggleButton onClick={toggleTheme}>
             {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
           </ThemeToggleButton>
-          <a onClick={handleToursClick}>Tours</a>
-          <a onClick={handleAboutClick}>Sobre Nosotros</a>
+          <a onClick={handleToursClick}>{i18n.t("tours")}</a>
+          <a onClick={handleAboutClick}>{i18n.t("about_us")}</a>
           <LanguageSelectContainer>
             <LanguageSelect value={language} onChange={handleLanguageChange} isDarkTheme={isDarkTheme}>
               <option value="es">Español</option>

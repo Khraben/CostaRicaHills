@@ -4,5 +4,21 @@
   "about_us": "Sobre Nosotros",
   "home": "Inicio",
   "select_language": "Seleccionar Idioma",
-  "user_profile": "Perfil de Usuario"
+  "user_profile": "Perfil de Usuario",
+  "subTitle": "Nos dedicamos a ofrecer los mejores tours alrededor de Costa Rica. Descubre la belleza natural de nuestro país con nosotros.",
+  "subTitleAbout": "En Costa Rica Hills, nos apasiona mostrar la belleza natural de Costa Rica a través de experiencias únicas y memorables.",
+  "subTitleTours":"Tours más populares",
+  "subTitleOurHistory":"Nuestra Historia",
+  "descriptionHistory":"Fundada en 2010, Costa Rica Hills ha crecido hasta convertirse en una de las principales agencias de tours en Costa Rica. Nos enorgullece ofrecer tours personalizados que destacan la biodiversidad y la cultura de nuestro hermoso país.",
+  "subTitleOurTeam":"Conoce a Nuestro Equipo",
+  "subTitleGuide":"Guía de Tours",
+  "subTitleCoordinator":"Coordinadora de Tours",
+  "subTitleSpecialist":"Especialista en Reservas",
+  "subTitleContact":"Contáctanos",
+  "descriptionContact":"Para más información, contáctanos en:",
+  "phone":"Teléfono:",
+  "placeholderInput": "Buscar un tour",
+  "placeholderInputPrice": "Precio mínimo",
+  "placeholderInputPriceTours": "Precio máximo",
+  "placeholderInputDestination": "Filtrar por destino"
 }

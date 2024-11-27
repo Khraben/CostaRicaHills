@@ -4,5 +4,21 @@
     "about_us": "About Us",
     "home": "Home",
     "select_language": "Select Language",
-    "user_profile": "User Profile"
+    "user_profile": "User Profile",
+    "subTitle": "We dedicate ourselves to offering the best tours around Costa Rica. Discover the natural beauty of our country with us.",
+    "subTitleAbout": "In Costa Rica Hills, we love to show the natural beauty of Costa Rica through unique and memorable experiences.",
+    "subTitleTours":"Most Popular Tours",
+    "subTitleOurHistory":"Our History",
+    "descriptionHistory":"Founded in 2010, Costa Rica Hills has grown to become one of the main tour agencies in Costa Rica. We help offer personalized tours that highlight the biodiversity and culture of our beautiful country.",
+    "subTitleOurTeam":"Meet Our Team",
+    "subTitleGuide":"Tour Guide",
+    "subTitleCoordinator":"Tour Coordinator",
+    "subTitleSpecialist":"Reservations Specialist",
+    "subTitleContact":"Contact Us",
+    "descriptionContact":"For more information, contact us at:",
+    "phone":"Phone:",
+    "placeholderInput": "Search for a tour",
+    "placeholderInputPrice": "Minimum price",
+    "placeholderInputPriceTours": "Maximum price",
+    "placeholderInputDestination": "Filter by destination"
   }

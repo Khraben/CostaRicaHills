@@ -11,13 +11,12 @@ const Home = () => {
                 <Content>
                     <h1>{i18n.t("welcome")}</h1>
                     <p>
-                        Nos dedicamos a ofrecer los mejores tours alrededor de Costa Rica.
-                        Descubre la belleza natural de nuestro país con nosotros.
+                       {i18n.t("subTitle")}
                     </p>
                 </Content>
             </HeroSection>
             <PopularToursSection>
-                <h2>Tours más populares</h2>
+                <h2>{i18n.t("subTitleTours")}</h2>
                 
                 <CardsContainer>
                     <Card
