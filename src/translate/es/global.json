@@ -9,6 +9,7 @@
   "welcome_profile": "Bienvenido",
   "logout_profile": "Cerrar Sesión",
   "reservation_profile": "Reservas actuales",
+  "buttonDeleteReservation": "Eliminar Reserva",
   "no_reservations": "No tienes reservas disponibles.",
   "history_profile": "Historial de Reservas",
   "no_history": "No tienes historial de reservas.",

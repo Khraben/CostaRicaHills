@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { UserContext } from '../context/UserContext';
 import {logoutUser } from './AuthServices';
 import { useNavigate } from 'react-router-dom';
-import { getReservationbyUser } from '../config/backendServices';
+import { getReservationbyUser,deletedReservation } from '../config/backendServices';
 import { useTranslation } from 'react-i18next';
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
@@ -31,6 +31,16 @@ const UserProfileReservas = () => {
     };
     fetchReservations();
   }, [user]);
+
+  const handleDeleteReservation = async (reservationId) => {
+    const response = await deletedReservation(reservationId);
+    if (response.message) {
+       Alert(response.message);
+    } else if (response.error) {
+      Alert(response.error);
+       
+    }
+  };
   return (
     <div>
     <UserProfileSection>
@@ -49,7 +59,7 @@ const UserProfileReservas = () => {
       <ReservasList>
         {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
-            <Card 
+            <><Card
               key={index}
               image={tour.image}
               title={tour.title}
@@ -57,8 +67,9 @@ const UserProfileReservas = () => {
               duration={tour.duration}
               price={tour.price}
               description={tour.description}
-              link={tour.link}
-            />
+              link={tour.link} 
+              />
+              <Button onClick={() => handleDeleteReservation(tour.id)}>{i18n.t("buttonDeleteReservation")} </Button> </>
           ))
         ) : (
           <Paragraph>{i18n.t("no_reservations")}</Paragraph>

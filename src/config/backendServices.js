@@ -43,3 +43,11 @@ export const getReservationbyUser = async (userId) => {
         console.log(error);
     }
 };
+export const deletedReservation= async (reservationId) => {
+    try{
+        const response = await fetch(`https://costaricahills-backend.onrender.com/deleteReserve/${reservationId}`);
+        return response;
+    }catch(error){
+        console.log(error);
+    }
+}
