@@ -229,6 +229,9 @@ const LanguageSelect = styled.select`
   color: inherit;
   cursor: pointer;
   font-size: 1rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: bold; /* Texto en negrita */
   padding-right: 1.5rem; /* Espacio para la flecha */
   display: flex;
   align-items: center;
