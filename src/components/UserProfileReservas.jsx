@@ -1,11 +1,11 @@
 // UserProfile.jsx
 import React, { useState, useEffect,useContext } from 'react';
 import Card from './Card.jsx';
-import prueba from './prueba.json';
 import styled from 'styled-components';
 import { UserContext } from '../context/UserContext';
 import {logoutUser } from './AuthServices';
 import { useNavigate } from 'react-router-dom';
+import { getReservationbyUser } from '../config/backendServices';
 
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
@@ -20,17 +20,16 @@ const UserProfileReservas = () => {
   useEffect(() => {
     const fetchReservations = async () => {
         if (user) {
-            try {
-            const reservas =null// await getReservasByUser(user.uid);
-            const newReservasList = [];
-           
+            try {  
+                const reservations = await getReservationbyUser(user.id);
+                setReservasList(reservations);  
          }catch (error) {
         console.error('Error al obtener las reservas:', error);
             }
         }  
     };
     fetchReservations();
-  }, []);
+  }, [user]);
   return (
     <div>
     <UserProfileSection>

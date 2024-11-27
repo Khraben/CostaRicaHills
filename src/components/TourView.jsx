@@ -28,7 +28,7 @@ const TourView = () => {
     };
     const handleConfirm = async () => {
         try {
-            await addReservation(tour.id, user.uid, people, tourDate, endDate, estado="activo");
+            await addReservation(tour.id, user.uid,tourDate, endDate,people,"activo");
             alert('Reserva realizada con éxito.');
             setIsModalOpen(false);
         } catch (error) {
