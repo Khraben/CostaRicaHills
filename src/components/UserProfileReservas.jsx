@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { UserContext } from '../context/UserContext';
 import {logoutUser } from './AuthServices';
 import { useNavigate } from 'react-router-dom';
-import { getReservationbyUser,deletedReservation } from '../config/backendServices';
+import { getTourbyId,getReservationbyUser,deletedReservation } from '../config/backendServices';
 import { useTranslation } from 'react-i18next';
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
@@ -23,7 +23,11 @@ const UserProfileReservas = () => {
         if (user) {
             try {  
                 const reservations = await getReservationbyUser(user.id);
-                setReservasList(reservations);  
+                const toursReservations = await Promise.all(reservations.map(async (reservation) => {
+                    const tour = await getTourbyId(reservation.tour_id);
+                    return tour;
+                    }));
+                setReservasList(toursReservations);  
          }catch (error) {
         console.error('Error al obtener las reservas:', error);
             }
@@ -60,14 +64,14 @@ const UserProfileReservas = () => {
         {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
             <><Card
-              key={index}
-              image={tour.image}
-              title={tour.title}
-              destination={tour.destination}
-              duration={tour.duration}
-              price={tour.price}
-              description={tour.description}
-              link={tour.link} 
+                key={index}
+                id={tour.id}
+                title={tour.nombre}
+                images={tour.imagenes}
+                destination={tour.destino.join(', ')}
+                duration={tour.duracion}
+                price={`$${tour.precio}`}
+                description={tour.descripcion}
               />
               <Button onClick={() => handleDeleteReservation(tour.id)}>{i18n.t("buttonDeleteReservation")} </Button> </>
           ))

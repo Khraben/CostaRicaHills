@@ -34,6 +34,17 @@ export const addReservation = async (tourId, userId, tourStartDate, endDate, peo
         console.log(error);
     }
 };
+export const getTourbyId = async (tourId) => {
+    try {
+        const response = await fetch(`https://costaricahills-backend.onrender.com/tours/${tourId}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 export const getReservationbyUser = async (userId) => {
     try {
         const response = await fetch(`https://costaricahills-backend.onrender.com/getReservesByUser/${userId}`);
