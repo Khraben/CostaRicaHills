@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
 import { useTranslation } from 'react-i18next';
+import { getToursAll } from '../config/backendServices';
 
 const Home = () => {
     const { i18n } = useTranslation("global");
+    const [tours, setTours] = useState([]);
+
+    useEffect(() => {
+        const fetchTours = async () => {
+            try {
+                const allTours = await getToursAll();
+                setTours(allTours);
+            } catch (error) {
+                console.error('Error fetching tours:', error);
+            }
+        };
+
+        fetchTours();
+    }, []);
+
+    const getRandomTours = (tours, count) => {
+        const shuffled = [...tours].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    };
+
+    const randomTours = getRandomTours(tours, 3);
+    console.log(randomTours);
     return (
         <PageContainer>
             <HeroSection>
@@ -19,32 +42,18 @@ const Home = () => {
                 <h2>{i18n.t("subTitleTours")}</h2>
                 
                 <CardsContainer>
+                {randomTours.map((tour, index) => (
                     <Card
-                        title="Tour al Volcán Arenal"
-                        description="Explora el majestuoso Volcán Arenal y sus alrededores."
-                        images={[
-                            "https://media.istockphoto.com/id/1388560096/es/foto/volcán-arenal-y-lago-arenal-costa-rica.jpg?s=612x612&w=0&k=20&c=IOjviPyw-bLeVK2Sy1bHDvBOt0NponmGqPo5aEOtmH8=",
-                            "https://media.istockphoto.com/id/521542828/es/foto/el-volcán-arenal-costa-rica.jpg?s=612x612&w=0&k=20&c=2zXY5J2omcvXySKeoqOBApzZKNcyDIQMGJRjhwYYRdQ=",
-                            "https://media.istockphoto.com/id/112785578/es/foto/el-volcán-arenal-costa-rica.jpg?s=612x612&w=0&k=20&c=DGH0FKnrAXxAtpWo39hR9w63r4cCWa-2eGHN5BC4Xss=",
-                            "https://media.istockphoto.com/id/1189027264/es/foto/arenal-volcano-costa-rica.jpg?s=612x612&w=0&k=20&c=snxTYP_E6nmuEYg-7bCIkkTuCMzljt42XJu1chBigBg="
-                          ]}
-                        destination="La Fortuna, Alajuela"
-                        duration="8 horas"
-                        price="$120"
+                        key={index}
+                        id={tour.id}
+                        title={tour.nombre}
+                        images={tour.imagenes}
+                        destination={tour.destino.join(', ')}
+                        duration={tour.duracion}
+                        price={`$${tour.precio}`}
+                        description={tour.descripcion}
                     />
-                    <Card
-                        title="Tour a la Playa Manuel Antonio"
-                        description="Disfruta de las hermosas playas y la biodiversidad del Parque Nacional Manuel Antonio."
-                        images={[
-                            "https://media.istockphoto.com/id/1395347767/es/foto/costa-y-playa-parque-nacional-manuel-antonio-costa-rica.jpg?s=612x612&w=0&k=20&c=kaTj1Mpj-SWYGicIvRtNqbw1oIL6D-nfeC7TOHyd-Gg=",
-                            "https://media.istockphoto.com/id/1436674562/es/foto/primer-plano-de-un-perezoso-en-un-árbol-con-las-hojas-verdes-alrededor-en-el-parque-nacional.jpg?s=612x612&w=0&k=20&c=MTSwNCz3lwk0VCHuq9Ak4HIYwewsmkU7KwaeNhsuDjE=",
-                            "https://media.istockphoto.com/id/1199465258/es/foto/vista-de-drones-del-parque-nacional-manuel-antonio-en-costa-rica.jpg?s=612x612&w=0&k=20&c=XGo4W0HE94hi56k_DnoOqxKU4YV-FqPCKYZ99sWA_48=",
-                            "https://media.istockphoto.com/id/1436674562/es/foto/primer-plano-de-un-perezoso-en-un-árbol-con-las-hojas-verdes-alrededor-en-el-parque-nacional.jpg?s=612x612&w=0&k=20&c=MTSwNCz3lwk0VCHuq9Ak4HIYwewsmkU7KwaeNhsuDjE="    
-                        ]}
-                        destination="Quepos, Puntarenas"
-                        duration="6 horas"
-                        price="$90"
-                    />
+                ))}
                 </CardsContainer>
             </PopularToursSection>
         </PageContainer>
