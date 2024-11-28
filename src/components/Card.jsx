@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Clock, DollarSign, Camera, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { translateText } from '../config/deepl';
 
 const useImageSlider = (images) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -19,16 +21,38 @@ const useImageSlider = (images) => {
   return currentImage;
 };
 
-
-const Card = ({ id,title, images, destination, duration, price, description }) => {
+const Card = ({ id, title, images, destination, duration, price, description }) => {
   const navigate = useNavigate();
-  const {isDarkTheme} = useTheme();
+  const { isDarkTheme } = useTheme();
+  const { i18n } = useTranslation("global");
   const currentImage = useImageSlider(images);
   const [showGallery, setShowGallery] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);  
+  const [showImageModal, setShowImageModal] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(''); 
-  const tour = { id,title, images, destination, duration, price, description };
+  const [selectedImage, setSelectedImage] = useState('');
+  const [translatedTour, setTranslatedTour] = useState({ title, destination, duration, price, description });
+
+  useEffect(() => {
+    const translateTourInfo = async () => {
+      if (i18n.language === 'en') {
+        const translatedTitle = await translateText(title, 'EN');
+        const translatedDestination = await translateText(destination, 'EN');
+        const translatedDescription = await translateText(description, 'EN');
+        const translatedDuration = await translateText(duration, 'EN');
+        const translatedPrice = await translateText(price, 'EN');
+        setTranslatedTour({
+          title: translatedTitle,
+          destination: translatedDestination,
+          description: translatedDescription,
+          duration: translatedDuration,
+          price: translatedPrice,
+        });
+      } else {
+        setTranslatedTour({ title, destination, duration, price, description });
+      }
+    };
+    translateTourInfo();
+  }, [i18n.language, title, destination, duration, price, description]);
 
   const openImageModal = useCallback((img) => {
     if (selectedImage !== img) {  // Solo actualiza si la imagen es diferente
@@ -47,9 +71,9 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
   }, [closeImageModal]);
   const handleClick = useCallback(() => {
     if (!showGallery) {
-      navigate(`/tour-view/`, { state: { tour } });
+      navigate(`/tour-view/`, { state: { id, title, images, destination, duration, price, description } });
     }
-  }, [showGallery, navigate, tour]);
+  }, [showGallery, navigate, id, title, images, destination, duration, price, description]);
   const toggleDescription = () => {
     setIsDescriptionExpanded(!isDescriptionExpanded);
   };
@@ -58,44 +82,44 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
   };
 
   return (
-    <CardContainer  isDarkTheme={isDarkTheme} onClick={handleClick}>
-      <ImageSection  isDarkTheme={isDarkTheme} >
+    <CardContainer isDarkTheme={isDarkTheme} onClick={handleClick}>
+      <ImageSection isDarkTheme={isDarkTheme}>
         {images.map((img, index) => (
           <img
             key={index}
             src={img}
-            alt={`${title} - Imagen ${index + 1}`}
+            alt={`${translatedTour.title} - Imagen ${index + 1}`}
             className={`image ${index === currentImage ? 'active' : ''}`}
           />
         ))}
-        <Overlay  isDarkTheme={isDarkTheme} />
-        <ImageContent  isDarkTheme={isDarkTheme} >
-        <Title isDarkTheme={isDarkTheme}>{title}</Title>
+        <Overlay isDarkTheme={isDarkTheme} />
+        <ImageContent isDarkTheme={isDarkTheme}>
+          <Title isDarkTheme={isDarkTheme}>{translatedTour.title}</Title>
           <Details>
-            <DetailItem isDarkTheme={isDarkTheme} ><MapPin className="icon" />{destination}</DetailItem>
-            <DetailItem isDarkTheme={isDarkTheme} ><Clock className="icon" />{duration}</DetailItem>
-            <DetailItem isDarkTheme={isDarkTheme} ><DollarSign className="icon" />{price}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme}><MapPin className="icon" />{translatedTour.destination}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme}><Clock className="icon" />{translatedTour.duration}</DetailItem>
+            <DetailItem isDarkTheme={isDarkTheme}><DollarSign className="icon" />{translatedTour.price}</DetailItem>
           </Details>
         </ImageContent>
-        <CameraButton  isDarkTheme={isDarkTheme}  onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}>
+        <CameraButton isDarkTheme={isDarkTheme} onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}>
           <Camera className="icon" />
         </CameraButton>
       </ImageSection>
       <Description isDarkTheme={isDarkTheme}>
         <p>
-          {isDescriptionExpanded ? description : getTruncatedDescription(description, 150)}
+          {isDescriptionExpanded ? translatedTour.description : getTruncatedDescription(translatedTour.description, 150)}
         </p>
-        {description.length > 200 && (
-          <ReadMoreButton onClick={(e) => { e.stopPropagation(); toggleDescription(); }}  isDarkTheme={isDarkTheme}>
+        {translatedTour.description.length > 200 && (
+          <ReadMoreButton onClick={(e) => { e.stopPropagation(); toggleDescription(); }} isDarkTheme={isDarkTheme}>
             {isDescriptionExpanded ? 'Leer menos' : 'Leer más'}
           </ReadMoreButton>
         )}
       </Description>
       {showGallery && (
-        <GalleryContainer  isDarkTheme={isDarkTheme} >
-          <Gallery  isDarkTheme={isDarkTheme} >
+        <GalleryContainer isDarkTheme={isDarkTheme}>
+          <Gallery isDarkTheme={isDarkTheme}>
             <CloseButton
-              isDarkTheme={isDarkTheme} 
+              isDarkTheme={isDarkTheme}
               aria-label="Cerrar galería"
               onClick={(e) => { e.stopPropagation(); setShowGallery(false); }}
             >
@@ -105,30 +129,28 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
               <img
                 key={index}
                 src={img}
-                alt={`${title} - Imagen ${index + 1}`}
+                alt={`${translatedTour.title} - Imagen ${index + 1}`}
                 className="gallery-image"
-                onClick={ () => openImageModal(img) }
+                onClick={() => openImageModal(img)}
               />
             ))}
           </Gallery>
         </GalleryContainer>
       )}
-        {/* Modal para ver la imagen en tamaño grande */}
-    {showImageModal && (
-      <ImageModalOverlay  isDarkTheme={isDarkTheme} nClick={handleModalClick}>
-        <ImageModal>
-          <img src={selectedImage} alt="Imagen grande" />
-          <CloseModalButton isDarkTheme={isDarkTheme}  onClick={closeImageModal}>
-            <X className="icon" />
-          </CloseModalButton>
-        </ImageModal>
-      </ImageModalOverlay>
+      {showImageModal && (
+        <ImageModalOverlay isDarkTheme={isDarkTheme} onClick={handleModalClick}>
+          <ImageModal>
+            <img src={selectedImage} alt="Imagen grande" />
+            <CloseModalButton isDarkTheme={isDarkTheme} onClick={closeImageModal}>
+              <X className="icon" />
+            </CloseModalButton>
+          </ImageModal>
+        </ImageModalOverlay>
       )}
-
-
     </CardContainer>
   );
 };
+
 export default Card;
 const CardContainer = styled.div`
   background: ${({ isDarkTheme }) => (isDarkTheme ? '#2c2c2c' : '#ffffff')};
