@@ -70,7 +70,7 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
         ))}
         <Overlay  isDarkTheme={isDarkTheme} />
         <ImageContent  isDarkTheme={isDarkTheme} >
-          <h2>{title}</h2>
+        <Title isDarkTheme={isDarkTheme}>{title}</Title>
           <Details>
             <DetailItem isDarkTheme={isDarkTheme} ><MapPin className="icon" />{destination}</DetailItem>
             <DetailItem isDarkTheme={isDarkTheme} ><Clock className="icon" />{duration}</DetailItem>
@@ -187,6 +187,25 @@ const Overlay = styled.div`
     ? 'rgba(0, 0, 0, 0.2)'
     : 'rgba(0, 0, 0, 0.2)'};
 `;
+
+// Agrega el componente estilizado Title
+const Title = styled.h2`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: ${({ isDarkTheme }) => isDarkTheme ? '#eeeeee' : '#eeeeee'};
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+`;
 const ImageContent = styled.div`
   position: absolute;
   bottom: 0;
@@ -217,7 +236,7 @@ const DetailItem = styled.p`
 `;
 const CameraButton = styled.button`
   position: absolute;
-  top: 1rem;
+  top: 2.5rem;
   right: 1rem;
   background: ${({ isDarkTheme }) => isDarkTheme ? '#FFD700' : '#1f8de1'};
   border: none;
