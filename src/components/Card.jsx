@@ -49,7 +49,7 @@ const Card = ({
 
   useEffect(() => {
     const translateTourInfo = async () => {
-      if (i18n.language === "en") {
+      if (i18n.language === "ap") {
         const translatedTitle = await translateText(title, "EN");
         const translatedDestination = await translateText(destination, "EN");
         const translatedDescription = await translateText(description, "EN");

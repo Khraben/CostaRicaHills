@@ -28,7 +28,7 @@ const TourView = () => {
 
   useEffect(() => {
     const translateTourInfo = async () => {
-      if (i18n.language === "en" && tour) {
+      if (i18n.language === "ap" && tour) {
         const translatedTitle = await translateText(tour.title, "EN");
         const translatedDestination = await translateText(
           tour.destination,
@@ -48,7 +48,7 @@ const TourView = () => {
           duration: translatedDuration,
           price: translatedPrice,
         });
-      } else if (i18n.language === "es" && tour) {
+      } else {
         setTranslatedTour(tour);
       }
     };
