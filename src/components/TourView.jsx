@@ -102,7 +102,7 @@ const TourView = () => {
     return (
         <TourDetails>
             <Header>
-                <BackButton onClick={() => navigate(-1)}>Volver</BackButton>
+                <BackButton onClick={() => navigate(-1)}>{i18n.t("tourView.buttonBack")}</BackButton>
             </Header>
             <Content>
                 <CarouselContainer>
@@ -110,11 +110,11 @@ const TourView = () => {
                 </CarouselContainer>
                 <TourInfo>
                     <h1>{translatedTour.title || 'Título no disponible'}</h1>
-                    <p><strong>Destino:</strong> {translatedTour.destination || 'Destino no disponible'}</p>
-                    <p><strong>Descripción:</strong> {translatedTour.description || 'Descripción no disponible'}</p>
-                    <p><strong>Duración:</strong> {translatedTour.duration || 'Duración no disponible'}</p>
-                    <p><strong>Precio:</strong> {translatedTour.price || 'Precio no disponible'}</p>
-                    <button id="ReservarTour-button" onClick={handleReservationClick}>Reservar Tour</button>
+                    <p><strong>{i18n.t("tourView.subTitleDestiny")}:</strong> {translatedTour.destination || 'Destino no disponible'}</p>
+                    <p><strong>{i18n.t("tourView.subTitleDescription")}:</strong> {translatedTour.description || 'Descripción no disponible'}</p>
+                    <p><strong>{i18n.t("tourView.subTitleDuration")}:</strong> {translatedTour.duration || 'Duración no disponible'}</p>
+                    <p><strong>{i18n.t("tourView.subTitlePrice")}:</strong> {translatedTour.price || 'Precio no disponible'}</p>
+                    <button id="ReservarTour-button" onClick={handleReservationClick}>{i18n.t("tourView.buttonReservation")}</button>
                 </TourInfo>
             </Content>
             <ReviewsSection>
@@ -138,12 +138,12 @@ const TourView = () => {
                 contentLabel="Reserva de Tour"
             >
                 <ModalHeader isDarkTheme={isDarkTheme}>
-                    <h2>Reserva de Tour</h2>
+                    <h2>{i18n.t("tourView.subTitleReservation")}</h2>
                     <button onClick={handleCancel}>&times;</button>
                 </ModalHeader>
                 <ModalContent isDarkTheme={isDarkTheme}>
                     <label>
-                        Cantidad de personas:
+                        {i18n.t("tourView.subTitleAmount")}:
                         <input
                             type="number"
                             value={people}
@@ -152,7 +152,7 @@ const TourView = () => {
                         />
                     </label>
                     <label>
-                        Fecha del tour:
+                        {i18n.t("tourView.subTitleDate")}:
                         <DatePicker
                             selected={tourDate}
                             onChange={(date) => {
@@ -165,12 +165,12 @@ const TourView = () => {
                         />
                     </label>
                     {endDate && (
-                        <p>Fecha de fin: {endDate.toLocaleDateString()}</p>
+                        <p>{i18n.t("tourView.subTitleEndDate")}: {endDate.toLocaleDateString()}</p>
                     )}
                 </ModalContent>
                 <ModalFooter>
-                    <button className="cancel" onClick={handleCancel}>Cancelar</button>
-                    <button className="confirm" onClick={handleConfirm}>Confirmar</button>
+                    <button className="cancel" onClick={handleCancel}>{i18n.t("tourView.buttonCancel")}</button>
+                    <button className="confirm" onClick={handleConfirm}>{i18n.t("tourView.buttonConfirm")}</button>
                 </ModalFooter>
             </StyledModal>
         </TourDetails>

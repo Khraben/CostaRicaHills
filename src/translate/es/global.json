@@ -36,5 +36,19 @@
   "titleFormLoginGoogle": "Iniciar Sesión con Google",
   "titleFormRegister": "Registrarse",
   "titleInputName": "Nombre",
-  "subTitleLogin":"¿Ya tienes cuenta? Iniciar Sesión"
+  "subTitleLogin":"¿Ya tienes cuenta? Iniciar Sesión",
+  "tourView":{
+    "buttonBack": "Volver",
+    "subTitleDestiny": "Destino",
+    "subTitleDescription": "Descripción",
+    "subTitleDuration": "Duración",
+    "subTitlePrice": "Precio",
+    "subTitleReservation":"Reserva de Tour",
+    "subTitleAmount": "Cantidad de personas",
+    "subTitleDate": "Fecha del tour",
+    "subTitleEndDate": "Fecha de fin",
+    "buttonReservation": "Reservar Tour",
+    "buttonConfirm": "Confirmar",
+    "buttonCancel": "Cancelar"
+  }
 }
