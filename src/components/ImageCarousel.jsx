@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const ImageCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : images.length - 1
+    );
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0));
+    setCurrentIndex((prevIndex) =>
+      prevIndex < images.length - 1 ? prevIndex + 1 : 0
+    );
   };
 
   return (
     <Carousel>
-      <CarouselButton onClick={prevSlide} className="prev">❮</CarouselButton>
-      <CarouselImage src={images[currentIndex]} alt={`Imagen ${currentIndex + 1}`} />
-      <CarouselButton onClick={nextSlide} className="next">❯</CarouselButton>
+      <CarouselButton onClick={prevSlide} className="prev">
+        ❮
+      </CarouselButton>
+      <CarouselImage
+        src={images[currentIndex]}
+        alt={`Imagen ${currentIndex + 1}`}
+      />
+      <CarouselButton onClick={nextSlide} className="next">
+        ❯
+      </CarouselButton>
     </Carousel>
   );
 };
@@ -56,7 +67,7 @@ const CarouselButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 0; /* Asegura que los botones estén por encima de otros elementos */
+  z-index: 1;
 
   &.prev {
     left: 10px;

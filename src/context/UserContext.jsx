@@ -1,11 +1,11 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { auth } from '../config/firebase'; 
+import React, { createContext, useState, useEffect } from "react";
+import { auth } from "../config/firebase";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(auth.currentUser);
-  const [userPhoto, setUserPhoto] = useState('src/assets/userDefault.jpg');
+  const [userPhoto, setUserPhoto] = useState("src/assets/userDefault.jpg");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
       if (user) {
         setUserPhoto(user.photoURL);
       } else {
-        setUserPhoto('src/assets/userDefault.jpg');
+        setUserPhoto("src/assets/userDefault.jpg");
       }
     });
 
@@ -26,4 +26,3 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-

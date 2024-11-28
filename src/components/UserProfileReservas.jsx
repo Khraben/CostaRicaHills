@@ -1,14 +1,18 @@
 // UserProfile.jsx
-import React, { useState, useEffect,useContext } from 'react';
-import Card from './Card.jsx';
-import styled from 'styled-components';
-import { UserContext } from '../context/UserContext';
-import {logoutUser } from './AuthServices';
-import { useNavigate } from 'react-router-dom';
-import { getTourbyId,getReservationbyUser,deletedReservation } from '../config/backendServices';
-import { useTranslation } from 'react-i18next';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect, useContext } from "react";
+import Card from "./Card.jsx";
+import styled from "styled-components";
+import { UserContext } from "../context/UserContext";
+import { logoutUser } from "./AuthServices";
+import { useNavigate } from "react-router-dom";
+import {
+  getTourbyId,
+  getReservationbyUser,
+  deletedReservation,
+} from "../config/backendServices";
+import { useTranslation } from "react-i18next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
@@ -19,84 +23,99 @@ const UserProfileReservas = () => {
   const handleLogout = async () => {
     const success = await logoutUser();
     if (success) {
-      navigate('/');
+      navigate("/");
     }
   };
   useEffect(() => {
     const fetchReservations = async () => {
-        if (user) {
-            try {  
-                const reservations = await getReservationbyUser(user.uid);
-                const toursReservations = await Promise.all(reservations.map(async (reservation) => {
-                  try {
-                    const tour = await getTourbyId(reservation.tour_id);
-                    if (tour.error) {
-                      console.log(`Error fetching tour for reservation ${reservation.id}: ${tour.error}`);
-                      return null;
-                  }
-                  return { ...tour, reservationId: reservation.id };
-                } catch (error) {
-                    console.log(`Error fetching tour for reservation ${reservation.id}:`, error);
-                    return null;
+      if (user) {
+        try {
+          const reservations = await getReservationbyUser(user.uid);
+          const toursReservations = await Promise.all(
+            reservations.map(async (reservation) => {
+              try {
+                const tour = await getTourbyId(reservation.tour_id);
+                if (tour.error) {
+                  console.log(
+                    `Error fetching tour for reservation ${reservation.id}: ${tour.error}`
+                  );
+                  return null;
                 }
-            }));
-            const filteredTours = toursReservations.filter(tour => tour !== null);
-            setReservasList(filteredTours);  
-         }catch (error) {
-             console.log('Error al obtener las reservas:', error);
-            }
-        }  
+                return { ...tour, reservationId: reservation.id };
+              } catch (error) {
+                console.log(
+                  `Error fetching tour for reservation ${reservation.id}:`,
+                  error
+                );
+                return null;
+              }
+            })
+          );
+          const filteredTours = toursReservations.filter(
+            (tour) => tour !== null
+          );
+          setReservasList(filteredTours);
+        } catch (error) {
+          console.log("Error al obtener las reservas:", error);
+        }
+      }
     };
     fetchReservations();
-  },[user, refresh]);
+  }, [user, refresh]);
 
   const handleDeleteReservation = async (reservationId) => {
     const response = await deletedReservation(reservationId);
     if (response.message) {
-      toast.success('Se eliminó el tour de tus reservas');
-      setRefresh(prev => !prev);
+      toast.success("Se eliminó el tour de tus reservas");
+      setRefresh((prev) => !prev);
     } else if (response.error) {
-      toast.error('Hubo un error al eliminar el tour de tus reservas');  
+      toast.error("Hubo un error al eliminar el tour de tus reservas");
     }
-  };  
+  };
   return (
     <div>
-    <UserProfileSection>
-      <UserProfileContainer>
-        <UserProfile>
-          <h1>{i18n.t("user_profile")}</h1>
-          <ProfilePhoto src={userPhoto} alt="Foto de Usuario" />
-          <UserName>{i18n.t("name_profile")}: {user.displayName}</UserName>
-          <p className="user-email">{i18n.t("welcome_profile")}</p>
-          <Button onClick={handleLogout}>{i18n.t("logout_profile")}</Button>
-        </UserProfile>
-      </UserProfileContainer>
-    </UserProfileSection>
-    <UserReservas>
-      <h2>{i18n.t("reservation_profile")}</h2>
-      <ReservasList>
-        {reservasList.length > 0 ? (
-          reservasList.map((tour, index) => (
-            <ReservationItem key={tour.reservationId}>
-            <Card
-                key={index}
-                id={tour.id}
-                title={tour.nombre}
-                images={tour.imagenes}
-                destination={tour.destino.join(', ')}
-                duration={tour.duracion}
-                price={`$${tour.precio}`}
-                description={tour.descripcion}
-              />
-              <ButtonDelete onClick={() => handleDeleteReservation(tour.reservationId)}>{i18n.t("buttonDeleteReservation")} </ButtonDelete>
-            </ReservationItem>  
-        ))
-        ) : (
-          <Paragraph>{i18n.t("no_reservations")}</Paragraph>
-        )}
-      </ReservasList>
-      <ToastContainer />
-    </UserReservas>
+      <UserProfileSection>
+        <UserProfileContainer>
+          <UserProfile>
+            <h1>{i18n.t("user_profile")}</h1>
+            <ProfilePhoto src={userPhoto} alt="Foto de Usuario" />
+            <UserName>
+              {i18n.t("name_profile")}: {user.displayName}
+            </UserName>
+            <p className="user-email">{i18n.t("welcome_profile")}</p>
+            <Button onClick={handleLogout}>{i18n.t("logout_profile")}</Button>
+          </UserProfile>
+        </UserProfileContainer>
+      </UserProfileSection>
+      <UserReservas>
+        <h2>{i18n.t("reservation_profile")}</h2>
+        <ReservasList>
+          {reservasList.length > 0 ? (
+            reservasList.map((tour, index) => (
+              <ReservationItem key={tour.reservationId}>
+                <Card
+                  key={index}
+                  id={tour.id}
+                  title={tour.nombre}
+                  images={tour.imagenes}
+                  destination={tour.destino.join(", ")}
+                  duration={tour.duracion}
+                  price={`$${tour.precio}`}
+                  description={tour.descripcion}
+                />
+                <ButtonDelete
+                  onClick={() => handleDeleteReservation(tour.reservationId)}
+                >
+                  {i18n.t("buttonDeleteReservation")}{" "}
+                </ButtonDelete>
+              </ReservationItem>
+            ))
+          ) : (
+            <Paragraph>{i18n.t("no_reservations")}</Paragraph>
+          )}
+        </ReservasList>
+        <ToastContainer />
+      </UserReservas>
     </div>
   );
 };
@@ -151,7 +170,7 @@ const UserProfile = styled.div`
   align-items: center;
   color: #fff;
 
-  h1{
+  h1 {
     color: #afdb11;
   }
 

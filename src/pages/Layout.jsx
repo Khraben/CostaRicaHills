@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Header from './Navbar';
-import { Helmet } from 'react-helmet';
+import React from "react";
+import styled from "styled-components";
+import Header from "./Navbar";
+import { Helmet } from "react-helmet";
 const Layout = ({ title, children }) => {
   return (
     <>
@@ -15,11 +15,9 @@ const Layout = ({ title, children }) => {
       </Helmet>
       <Body>
         <Header />
-        <Content>
-          {children}
-          </Content>
+        <Content>{children}</Content>
         <VideoBackground autoPlay muted loop>
-          <source src="src/assets/volcan.mp4" type="video/mp4" />
+          <source src="/assets/volcan.mp4" type="video/mp4" />
         </VideoBackground>
       </Body>
       <GlobalStyle />
@@ -31,7 +29,7 @@ const Content = styled.main`
   padding-top: 4rem; // Ajusta según la altura del navbar
 `;
 const GlobalStyle = styled.div`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
   :root {
     --accent: 136, 58, 234;
     --accent-light: 224, 204, 250;
@@ -44,13 +42,14 @@ const GlobalStyle = styled.div`
     );
   }
   html {
-    font-family: 'Montserrat', system-ui, sans-serif;
+    font-family: "Montserrat", system-ui, sans-serif;
     background: whitesmoke;
     background-size: 224px;
     color: #121212;
   }
   code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   }
 `;
 

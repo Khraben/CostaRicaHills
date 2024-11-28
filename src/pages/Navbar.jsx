@@ -1,18 +1,20 @@
-import styled from 'styled-components';
-import React, { useContext, useState, useEffect } from 'react';
-import LoginAuth from '../components/LoginAuth';
-import { auth } from '../config/firebase';
-import { UserContext } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { FaSun, FaMoon } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+import styled from "styled-components";
+import React, { useContext, useState, useEffect } from "react";
+import LoginAuth from "../components/LoginAuth";
+import { auth } from "../config/firebase";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
+import { FaSun, FaMoon, FaBars } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 const Header = () => {
   const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [language, setLanguage] = useState('en'); // Estado para el idioma seleccionado
+  const [language, setLanguage] = useState("en");
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { isDarkTheme, toggleTheme } = useTheme();
   const { i18n } = useTranslation("global");
@@ -26,22 +28,22 @@ const Header = () => {
 
   const handleUserPhotoClick = () => {
     if (user) {
-      navigate('/profile');
+      navigate("/profile");
     } else {
       setShowLogin(!showLogin);
     }
   };
 
   const handleToursClick = () => {
-    navigate('/tours');
+    navigate("/tours");
   };
 
   const handleAboutClick = () => {
-    navigate('/about');
+    navigate("/about");
   };
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleLanguageChange = (event) => {
@@ -57,29 +59,43 @@ const Header = () => {
         setScrolled(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <HeaderContainer className={`${scrolled ? 'scrolled' : ''} ${isDarkTheme ? 'dark' : 'light'}`}>
+    <HeaderContainer
+      className={`${scrolled ? "scrolled" : ""} ${
+        isDarkTheme ? "dark" : "light"
+      }`}
+    >
       <Nav>
         <LogoContainer className="logo-container">
           <LogoLink isDarkTheme={isDarkTheme} onClick={handleHomeClick}>
-            <img src="src/assets/Logo Costa Rica Hills sin fondo.png" alt="Logo" />
+            <img src="/assets/Logo Costa Rica Hills sin fondo.png" alt="Logo" />
             <span>Costa Rica Hills</span>
           </LogoLink>
         </LogoContainer>
-        <NavLinks isDarkTheme={isDarkTheme} className="nav-links">
+        <HamburgerButton onClick={() => setMenuOpen(!menuOpen)}>
+          <FaBars />
+        </HamburgerButton>
+        <NavLinks
+          isDarkTheme={isDarkTheme}
+          className={`nav-links ${menuOpen ? "open" : ""}`}
+        >
           <ThemeToggleButton onClick={toggleTheme}>
             {isDarkTheme ? <FaSun color="#FFD700" /> : <FaMoon color="#000" />}
           </ThemeToggleButton>
           <a onClick={handleToursClick}>{i18n.t("tours")}</a>
           <a onClick={handleAboutClick}>{i18n.t("about_us")}</a>
           <LanguageSelectContainer>
-            <LanguageSelect value={language} onChange={handleLanguageChange} isDarkTheme={isDarkTheme}>
+            <LanguageSelect
+              value={language}
+              onChange={handleLanguageChange}
+              isDarkTheme={isDarkTheme}
+            >
               <option value="es">Español</option>
               <option value="en">English</option>
             </LanguageSelect>
@@ -93,7 +109,7 @@ const Header = () => {
           />
         </NavLinks>
       </Nav>
-      {showLogin && !user && <LoginAuth onLogin={handleLogin} />} {/* Renderiza LoginAuth si showLogin es true y no hay usuario */}
+      {showLogin && !user && <LoginAuth onLogin={handleLogin} />}
     </HeaderContainer>
   );
 };
@@ -105,7 +121,7 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo con opacidad casi negra */
+  background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transition: background-color 0.3s ease;
@@ -115,7 +131,7 @@ const HeaderContainer = styled.header`
     color: white;
     &.scrolled .logo-container span,
     &.scrolled .nav-links a {
-      color: white; /* Cambia el color del texto*/
+      color: white;
     }
   }
   &.light {
@@ -123,7 +139,7 @@ const HeaderContainer = styled.header`
     color: black;
     &.scrolled .logo-container span,
     &.scrolled .nav-links a {
-      color: black; /* Cambia el color del texto*/
+      color: black;
     }
   }
 `;
@@ -133,7 +149,7 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   max-width: 100%;
-  padding: 0 1.5rem; /* Añadir padding para que no se pegue a los bordes */
+  padding: 0 1.5rem;
   margin: 0 auto;
 `;
 
@@ -142,10 +158,10 @@ const LogoLink = styled.a`
   align-items: center;
   text-decoration: none;
   color: inherit;
-  font-weight: bold; /* Texto en negrita */
+  font-weight: bold;
   cursor: pointer;
   span:hover {
-    color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+    color: ${(props) => (props.isDarkTheme ? "#FFD700" : "#007bff")};
   }
 `;
 
@@ -164,19 +180,44 @@ const LogoContainer = styled.div`
   }
 `;
 
+const HamburgerButton = styled.button`
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
 const NavLinks = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
+  @media (max-width: 768px) {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: ${(props) =>
+      props.isDarkTheme ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)"};
+    &.open {
+      display: flex;
+    }
+  }
   a {
-    color: inherit; /* Hereda el color del HeaderContainer */
+    color: inherit;
     text-decoration: none;
     transition: color 0.3s ease;
-    font-weight: bold; /* Texto en negrita */
+    font-weight: bold;
     cursor: pointer;
     &:hover {
-      color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+      color: ${(props) => (props.isDarkTheme ? "#FFD700" : "#007bff")};
     }
   }
 `;
@@ -189,9 +230,9 @@ const UserPhoto = styled.img`
   object-fit: cover;
   box-sizing: border-box;
   &:hover {
-    transform: scale(1.1); /* Aumentar ligeramente el tamaño */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    border: 4px solid ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 4px solid ${(props) => (props.isDarkTheme ? "#FFD700" : "#007bff")};
   }
 `;
 
@@ -214,7 +255,7 @@ const LanguageSelectContainer = styled.div`
   display: flex;
   align-items: center;
   &:after {
-    content: '▼';
+    content: "▼";
     position: absolute;
     right: 0.5rem;
     pointer-events: none;
@@ -231,16 +272,16 @@ const LanguageSelect = styled.select`
   font-size: 1rem;
   text-decoration: none;
   transition: color 0.3s ease;
-  font-weight: bold; /* Texto en negrita */
-  padding-right: 1.5rem; /* Espacio para la flecha */
+  font-weight: bold;
+  padding-right: 1.5rem;
   display: flex;
   align-items: center;
   transition: color 0.3s ease;
   &:hover {
-    color: ${(props) => (props.isDarkTheme ? '#FFD700' : '#007bff')};
+    color: ${(props) => (props.isDarkTheme ? "#FFD700" : "#007bff")};
   }
   option {
-    background: ${(props) => (props.isDarkTheme ? '#333' : '#fff')};
-    color: ${(props) => (props.isDarkTheme ? '#fff' : '#000')};
+    background: ${(props) => (props.isDarkTheme ? "#333" : "#fff")};
+    color: ${(props) => (props.isDarkTheme ? "#fff" : "#000")};
   }
 `;
