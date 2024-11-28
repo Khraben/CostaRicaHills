@@ -53,9 +53,8 @@ const UserProfileReservas = () => {
   const handleDeleteReservation = async (reservationId) => {
     const response = await deletedReservation(reservationId);
     if (response.message) {
-      setRefresh(prev => !prev);
       toast.success('Se eliminó el tour de tus reservas');
-      
+      setRefresh(prev => !prev);
     } else if (response.error) {
       toast.error('Hubo un error al eliminar el tour de tus reservas');  
     }
@@ -96,6 +95,7 @@ const UserProfileReservas = () => {
           <Paragraph>{i18n.t("no_reservations")}</Paragraph>
         )}
       </ReservasList>
+      <ToastContainer />
     </UserReservas>
     </div>
   );

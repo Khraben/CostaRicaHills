@@ -26,6 +26,7 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
   const currentImage = useImageSlider(images);
   const [showGallery, setShowGallery] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);  
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [selectedImage, setSelectedImage] = useState(''); 
   const tour = { id,title, images, destination, duration, price, description };
 
@@ -49,6 +50,13 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
       navigate(`/tour-view/`, { state: { tour } });
     }
   }, [showGallery, navigate, tour]);
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
+  const getTruncatedDescription = (text, limit) => {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  };
+
   return (
     <CardContainer  isDarkTheme={isDarkTheme} onClick={handleClick}>
       <ImageSection  isDarkTheme={isDarkTheme} >
@@ -73,8 +81,15 @@ const Card = ({ id,title, images, destination, duration, price, description }) =
           <Camera className="icon" />
         </CameraButton>
       </ImageSection>
-      <Description  isDarkTheme={isDarkTheme} >
-        <p>{description}</p>
+      <Description isDarkTheme={isDarkTheme}>
+        <p>
+          {isDescriptionExpanded ? description : getTruncatedDescription(description, 150)}
+        </p>
+        {description.length > 200 && (
+          <ReadMoreButton onClick={(e) => { e.stopPropagation(); toggleDescription(); }}  isDarkTheme={isDarkTheme}>
+            {isDescriptionExpanded ? 'Leer menos' : 'Leer más'}
+          </ReadMoreButton>
+        )}
       </Description>
       {showGallery && (
         <GalleryContainer  isDarkTheme={isDarkTheme} >
@@ -224,6 +239,7 @@ const CameraButton = styled.button`
 const Description = styled.div`
   padding: 1rem;
   height: 100px;
+  overflow-y: auto;
   background: ${({ isDarkTheme }) => isDarkTheme ? '#1a1a1a' : '#f9f9f9'};
   color: ${({ isDarkTheme }) => isDarkTheme ? '#f0f0f0' : '#333333'};
   border-top: 1px solid ${({ isDarkTheme }) => isDarkTheme ? '#333333' : '#cccccc'};
@@ -234,6 +250,22 @@ const Description = styled.div`
     font-size: 1rem;
   }
 `;
+const ReadMoreButton = styled.button`
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  color: ${({ isDarkTheme }) => isDarkTheme ? '#FFD700' : '#1f8de1'};
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+
+
 const GalleryContainer = styled.div`
   position: absolute;
   top: 0;
