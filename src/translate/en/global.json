@@ -36,5 +36,20 @@
     "titleFormLoginGoogle": "Log In with Google",
     "titleFormRegister": "Register",
     "titleInputName": "Name",
-    "subTitleLogin":"Already have an account? Log In"
+    "subTitleLogin":"Already have an account? Log In",
+    "tourView":{
+        "buttonBack": "Back",
+        "subTitleDestiny": "Destination",
+        "subTitleDescription": "Description",
+        "subTitleDuration": "Duration",
+        "subTitlePrice": "Price",
+        "subTitleReservation":"Tour Reservation",
+        "subTitleAmount": "Number of people",
+        "subTitleDate": "Tour Date",
+        "subTitleEndDate": "End Date",
+        "buttonReservation": "Reserve Tour",
+        "buttonConfirm": "Confirm",
+        "buttonCancel": "Cancel"
+    }
+    
   }
