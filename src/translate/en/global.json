@@ -43,11 +43,11 @@
         "subTitleDescription": "Description",
         "subTitleDuration": "Duration",
         "subTitlePrice": "Price",
-        "subTitleReservation":"Tour Reservation",
+        "subTitleReservation":"Add Tour",
         "subTitleAmount": "Number of people",
         "subTitleDate": "Tour Date",
         "subTitleEndDate": "End Date",
-        "buttonReservation": "Reserve Tour",
+        "buttonReservation": "Add Tour",
         "buttonConfirm": "Confirm",
         "buttonCancel": "Cancel"
     }

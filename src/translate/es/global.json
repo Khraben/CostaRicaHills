@@ -43,11 +43,11 @@
     "subTitleDescription": "Descripción",
     "subTitleDuration": "Duración",
     "subTitlePrice": "Precio",
-    "subTitleReservation":"Reserva de Tour",
+    "subTitleReservation":"Agregar Tour",
     "subTitleAmount": "Cantidad de personas",
     "subTitleDate": "Fecha del tour",
     "subTitleEndDate": "Fecha de fin",
-    "buttonReservation": "Reservar Tour",
+    "buttonReservation": "Agregar Tour",
     "buttonConfirm": "Confirmar",
     "buttonCancel": "Cancelar"
   }

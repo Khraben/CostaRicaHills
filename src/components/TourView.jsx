@@ -10,6 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useTheme } from '../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { translateText } from '../config/deepl';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TourView = () => {
     const location = useLocation();
@@ -60,11 +62,11 @@ const TourView = () => {
     const handleConfirm = async () => {
         try {
             await addReservation(tour.id, user.uid, tourDate, endDate, people, "activo");
-            alert('Reserva realizada con éxito.');
+            toast.success('Reserva realizada con éxito.');
             setIsModalOpen(false);
         } catch (error) {
             console.log(error);
-            alert('Hubo un problema al realizar la reserva.');
+            toast.error('Hubo un problema al realizar la reserva.');
         }
     };
 
@@ -173,6 +175,7 @@ const TourView = () => {
                     <button className="confirm" onClick={handleConfirm}>{i18n.t("tourView.buttonConfirm")}</button>
                 </ModalFooter>
             </StyledModal>
+            <ToastContainer />
         </TourDetails>
     );
 };
