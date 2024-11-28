@@ -12,7 +12,7 @@ const Header = () => {
   const { user, userPhoto, setUserPhoto } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [language, setLanguage] = useState('es'); // Estado para el idioma seleccionado
+  const [language, setLanguage] = useState('en'); // Estado para el idioma seleccionado
   const navigate = useNavigate();
   const { isDarkTheme, toggleTheme } = useTheme();
   const { i18n } = useTranslation("global");
