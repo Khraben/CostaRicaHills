@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const { user, userPhoto } = useContext(UserContext);
   const { i18n } = useTranslation("global");
   const navigate = useNavigate();
@@ -40,23 +41,23 @@ const UserProfileReservas = () => {
                 }
             }));
             const filteredTours = toursReservations.filter(tour => tour !== null);
-            setReservasList(filteredTours);
-            
+            setReservasList(filteredTours);  
          }catch (error) {
-             console.log('Error al obtener los tours:', error);
+             console.log('Error al obtener las reservas:', error);
             }
         }  
     };
     fetchReservations();
-  },[user]);
+  },[user, refresh]);
 
   const handleDeleteReservation = async (reservationId) => {
     const response = await deletedReservation(reservationId);
     if (response.message) {
+      setRefresh(prev => !prev);
       toast.success('Se eliminó el tour de tus reservas');
+      
     } else if (response.error) {
-      toast.error('Hubo un error al eliminar el tour de tus reservas');
-       
+      toast.error('Hubo un error al eliminar el tour de tus reservas');  
     }
   };  
   return (
@@ -77,7 +78,8 @@ const UserProfileReservas = () => {
       <ReservasList>
         {reservasList.length > 0 ? (
           reservasList.map((tour, index) => (
-            <><Card
+            <ReservationItem key={tour.reservationId}>
+            <Card
                 key={index}
                 id={tour.id}
                 title={tour.nombre}
@@ -87,14 +89,14 @@ const UserProfileReservas = () => {
                 price={`$${tour.precio}`}
                 description={tour.descripcion}
               />
-              <ButtonDelete onClick={() => handleDeleteReservation(tour.reservationId)}>{i18n.t("buttonDeleteReservation")} </ButtonDelete> </>
-          ))
+              <ButtonDelete onClick={() => handleDeleteReservation(tour.reservationId)}>{i18n.t("buttonDeleteReservation")} </ButtonDelete>
+            </ReservationItem>  
+        ))
         ) : (
           <Paragraph>{i18n.t("no_reservations")}</Paragraph>
         )}
       </ReservasList>
     </UserReservas>
-    <ToastContainer />
     </div>
   );
 };
@@ -190,12 +192,18 @@ const UserReservas = styled.div`
 `;
 const ReservasList = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
   padding: 1rem;
 `;
-
+// Add the ReservationItem styled component above the existing styled components
+const ReservationItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px; /* Adjust the width as needed */
+`;
 const Paragraph = styled.p`
   margin-top: 0.5rem;
   margin-bottom: 0;
