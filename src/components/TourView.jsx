@@ -1,4 +1,4 @@
-import React,{ useContext, useState} from 'react';
+import React,{ useContext, useState, useEffect} from 'react';
 import styled from 'styled-components';
 import ImageCarousel from './ImageCarousel';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,8 @@ import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { translateText } from '../config/deepl';
 
 const TourView = () => {
     const location = useLocation();
@@ -19,6 +21,28 @@ const TourView = () => {
     const [tourDate, setTourDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     const { isDarkTheme } = useTheme();
+    const { i18n } = useTranslation();
+    const [translatedTour, setTranslatedTour] = useState(tour);
+    useEffect(() => {
+        const translateTourInfo = async () => {
+            if (i18n.language === 'en' && tour) {
+                const translatedTitle = await translateText(tour.title, 'EN');
+                const translatedDestination = await translateText(tour.destination, 'EN');
+                const translatedDescription = await translateText(tour.description, 'EN');
+                const translatedDuration = await translateText(tour.duration, 'EN');
+                const translatedPrice = await translateText(tour.price, 'EN');
+                setTranslatedTour({
+                    ...tour,
+                    title: translatedTitle,
+                    destination: translatedDestination,
+                    description: translatedDescription,
+                    duration: translatedDuration,
+                    price: translatedPrice,
+                });
+            }
+        };
+        translateTourInfo();
+    }, [i18n.language, tour]);
     if (!tour) {
         return <div>No se encontró información del tour.</div>;
     }
@@ -50,10 +74,10 @@ const TourView = () => {
                     <ImageCarousel images={images} alt="Foto del tour" />
                 </CarouselContainer>
                 <TourInfo>
-                    <h1>{tour.title || 'Título no disponible'}</h1>
+                    <h1>{translatedTour.title|| 'Título no disponible'}</h1>
                     <p><strong>Destino:</strong> {tour.destination || 'Destino no disponible'}</p>
-                    <p><strong>Descripción:</strong> {tour.description || 'Descripción no disponible'}</p>
-                    <p><strong>Duración:</strong> {tour.duration || 'Duración no disponible'}</p>
+                    <p><strong>Descripción:</strong> {translatedTour.description || 'Descripción no disponible'}</p>
+                    <p><strong>Duración:</strong> {translatedTour.duration || 'Duración no disponible'}</p>
                     <p><strong>Precio:</strong> {tour.price || 'Precio no disponible'}</p>
                     <button id="ReservarTour-button" onClick={handleReservationClick}>Reservar Tour</button>
                 </TourInfo>
