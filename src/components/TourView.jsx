@@ -1,9 +1,9 @@
-import React,{ useContext, useState,useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ImageCarousel from './ImageCarousel';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { addReservation } from '../config/backendServices';
-import {UserContext} from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,8 +21,9 @@ const TourView = () => {
     const [tourDate, setTourDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     const { isDarkTheme } = useTheme();
-    const { i18n } = useTranslation();
+    const { i18n } = useTranslation("global");
     const [translatedTour, setTranslatedTour] = useState(tour);
+
     useEffect(() => {
         const translateTourInfo = async () => {
             if (i18n.language === 'en' && tour) {
@@ -39,20 +40,26 @@ const TourView = () => {
                     duration: translatedDuration,
                     price: translatedPrice,
                 });
+            } else if (i18n.language === 'es' && tour) {
+                setTranslatedTour(tour);
             }
         };
         translateTourInfo();
     }, [i18n.language, tour]);
+
     if (!tour) {
         return <div>No se encontró información del tour.</div>;
     }
+
     const images = Array.isArray(tour.images) ? tour.images : [tour.images];
+
     const handleReservationClick = async () => {
         setIsModalOpen(true);
     };
+
     const handleConfirm = async () => {
         try {
-            await addReservation(tour.id, user.uid,tourDate, endDate,people,"activo");
+            await addReservation(tour.id, user.uid, tourDate, endDate, people, "activo");
             alert('Reserva realizada con éxito.');
             setIsModalOpen(false);
         } catch (error) {
@@ -60,6 +67,7 @@ const TourView = () => {
             alert('Hubo un problema al realizar la reserva.');
         }
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -90,6 +98,7 @@ const TourView = () => {
             setEndDate(initialEndDate);
         }
     }, [isModalOpen]);
+
     return (
         <TourDetails>
             <Header>
@@ -100,11 +109,11 @@ const TourView = () => {
                     <ImageCarousel images={images} alt="Foto del tour" />
                 </CarouselContainer>
                 <TourInfo>
-                    <h1>{translatedTour.title|| 'Título no disponible'}</h1>
-                    <p><strong>Destino:</strong> {tour.destination || 'Destino no disponible'}</p>
+                    <h1>{translatedTour.title || 'Título no disponible'}</h1>
+                    <p><strong>Destino:</strong> {translatedTour.destination || 'Destino no disponible'}</p>
                     <p><strong>Descripción:</strong> {translatedTour.description || 'Descripción no disponible'}</p>
                     <p><strong>Duración:</strong> {translatedTour.duration || 'Duración no disponible'}</p>
-                    <p><strong>Precio:</strong> {tour.price || 'Precio no disponible'}</p>
+                    <p><strong>Precio:</strong> {translatedTour.price || 'Precio no disponible'}</p>
                     <button id="ReservarTour-button" onClick={handleReservationClick}>Reservar Tour</button>
                 </TourInfo>
             </Content>
@@ -145,15 +154,15 @@ const TourView = () => {
                     <label>
                         Fecha del tour:
                         <DatePicker
-                           selected={tourDate}
-                           onChange={(date) => {
-                            setTourDate(date);
-                            const newEndDate = calculateEndDate(date);
-                            setEndDate(newEndDate);
-                        }}
-                           dateFormat="dd/MM/yyyy"
-                           minDate={new Date()}
-                       />
+                            selected={tourDate}
+                            onChange={(date) => {
+                                setTourDate(date);
+                                const newEndDate = calculateEndDate(date);
+                                setEndDate(newEndDate);
+                            }}
+                            dateFormat="dd/MM/yyyy"
+                            minDate={new Date()}
+                        />
                     </label>
                     {endDate && (
                         <p>Fecha de fin: {endDate.toLocaleDateString()}</p>
@@ -169,6 +178,7 @@ const TourView = () => {
 };
 
 export default TourView;
+
 const StyledModal = styled(Modal)`
     position: absolute;
     top: 50%;
@@ -189,6 +199,7 @@ const StyledModal = styled(Modal)`
         width: 400px;
     }
 `;
+
 const ModalHeader = styled.div`
     display: flex;
     justify-content: space-between;
@@ -214,6 +225,7 @@ const ModalHeader = styled.div`
         }
     }
 `;
+
 const ModalContent = styled.div`
     display: flex;
     flex-direction: column;
@@ -221,7 +233,7 @@ const ModalContent = styled.div`
 
     label {
         font-size: 1rem;
-       color: ${({ isDarkTheme }) => (isDarkTheme ? '#ddd' : '#444')};
+        color: ${({ isDarkTheme }) => (isDarkTheme ? '#ddd' : '#444')};
     }
 
     input, .react-datepicker-wrapper {
@@ -242,6 +254,7 @@ const ModalContent = styled.div`
         }
     }
 `;
+
 const ModalFooter = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -279,6 +292,7 @@ const ModalFooter = styled.div`
         }
     }
 `;
+
 const TourDetails = styled.section`
     display: flex;
     flex-direction: column;
@@ -288,6 +302,7 @@ const TourDetails = styled.section`
     box-sizing: border-box;
     overflow-x: hidden; /* Prevent horizontal overflow */
 `;
+
 const Header = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -297,6 +312,7 @@ const Header = styled.div`
     top: 1rem;
     left: 1rem;
 `;
+
 const Content = styled.div`
     display: flex;
     flex-direction: column;
@@ -309,6 +325,7 @@ const Content = styled.div`
         align-items: center;
     }
 `;
+
 const CarouselContainer = styled.div`
     width: 100%;
 
@@ -316,6 +333,7 @@ const CarouselContainer = styled.div`
         width: 60%;
     }
 `;
+
 const TourInfo = styled.div`
     width: 100%;
     color: white;
@@ -352,6 +370,7 @@ const TourInfo = styled.div`
         }
     }
 `;
+
 const BackButton = styled.button`
     padding: 0.5rem 1rem;
     font-size: 1rem;
@@ -367,6 +386,7 @@ const BackButton = styled.button`
         transform: translateY(-2px);
     }
 `;
+
 const ReviewsSection = styled.section`
     width: 100%;
     max-width: 1200px;
@@ -381,6 +401,7 @@ const ReviewsSection = styled.section`
         margin-bottom: 1rem;
     }
 `;
+
 const Review = styled.div`
     margin-bottom: 1rem;
     padding: 1rem;
@@ -392,10 +413,12 @@ const Review = styled.div`
         margin-bottom: 0.5rem;
     }
 `;
+
 const Stars = styled.div`
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 `;
+
 const Author = styled.div`
     font-size: 1rem;
     font-style: italic;
