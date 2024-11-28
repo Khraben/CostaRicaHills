@@ -31,6 +31,7 @@ const Card = ({ id, title, images, destination, duration, price, description }) 
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [translatedTour, setTranslatedTour] = useState({ title, destination, duration, price, description });
+  const tour = { id,title, images, destination, duration, price, description };
 
   useEffect(() => {
     const translateTourInfo = async () => {
@@ -71,7 +72,7 @@ const Card = ({ id, title, images, destination, duration, price, description }) 
   }, [closeImageModal]);
   const handleClick = useCallback(() => {
     if (!showGallery) {
-      navigate(`/tour-view/`, { state: { id, title, images, destination, duration, price, description } });
+      navigate(`/tour-view/`, { state: { tour } });
     }
   }, [showGallery, navigate, id, title, images, destination, duration, price, description]);
   const toggleDescription = () => {
