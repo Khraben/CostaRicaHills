@@ -56,8 +56,17 @@ export const getReservationbyUser = async (userId) => {
 };
 export const deletedReservation= async (reservationId) => {
     try{
-        const response = await fetch(`https://costaricahills-backend.onrender.com/deleteReserve/${reservationId}`);
-        return response;
+        const response = await fetch(`https://costaricahills-backend.onrender.com/deleteReserve/${reservationId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
     }catch(error){
         console.log(error);
     }

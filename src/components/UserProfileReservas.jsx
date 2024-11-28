@@ -22,29 +22,29 @@ const UserProfileReservas = () => {
     const fetchReservations = async () => {
         if (user) {
             try {  
-                const reservations = await getReservationbyUser(user.id);
+                const reservations = await getReservationbyUser(user.uid);
                 const toursReservations = await Promise.all(reservations.map(async (reservation) => {
                     const tour = await getTourbyId(reservation.tour_id);
-                    return tour;
+                    return { ...tour, reservationId: reservation.id };
                     }));
                 setReservasList(toursReservations);  
          }catch (error) {
-        console.error('Error al obtener las reservas:', error);
+             console.log('Error al obtener las reservas:', error);
             }
         }  
     };
     fetchReservations();
-  }, [user]);
+  },[user]);
 
   const handleDeleteReservation = async (reservationId) => {
     const response = await deletedReservation(reservationId);
     if (response.message) {
-       Alert(response.message);
+       alert(response.message);
     } else if (response.error) {
-      Alert(response.error);
+      alert(response.error);
        
     }
-  };
+  };  
   return (
     <div>
     <UserProfileSection>
@@ -73,7 +73,7 @@ const UserProfileReservas = () => {
                 price={`$${tour.precio}`}
                 description={tour.descripcion}
               />
-              <Button onClick={() => handleDeleteReservation(tour.id)}>{i18n.t("buttonDeleteReservation")} </Button> </>
+              <ButtonDelete onClick={() => handleDeleteReservation(tour.reservationId)}>{i18n.t("buttonDeleteReservation")} </ButtonDelete> </>
           ))
         ) : (
           <Paragraph>{i18n.t("no_reservations")}</Paragraph>
@@ -87,13 +87,13 @@ const UserProfileReservas = () => {
           reservasList.map((tour, index) => (
             <Card 
               key={index}
-              image={tour.image}
-              title={tour.title}
-              destination={tour.destination}
-              duration={tour.duration}
-              price={tour.price}
-              description={tour.description}
-              link={tour.link}
+              id={tour.id}
+              title={tour.nombre}
+              images={tour.imagenes}
+              destination={tour.destino.join(', ')}
+              duration={tour.duracion}
+              price={`$${tour.precio}`}
+              description={tour.descripcion}
             />
           ))
         ) : (
@@ -106,7 +106,19 @@ const UserProfileReservas = () => {
 };
 
 export default UserProfileReservas;
+const ButtonDelete = styled.button`
+  background-color: #ff4d4f;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 8px;
 
+  &:hover {
+    background-color: #d9363e;
+  }
+`;
 const Button = styled.button`
   background-color: #afdb11;
   color: white;
@@ -120,19 +132,16 @@ const Button = styled.button`
     background-color: #759600;
   }
 `;
-
 const UserProfileSection = styled.section`
   padding: 2rem;
   background-color: transparent;
   margin-top: 4rem;
 `;
-
 const UserProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
 const UserProfile = styled.div`
   background: rgba(0, 0, 0, 0.5);
   padding: 2rem;
@@ -155,7 +164,6 @@ const UserProfile = styled.div`
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
 `;
-
 const ProfilePhoto = styled.img`
   height: 120px;
   width: 120px;
@@ -170,31 +178,28 @@ const ProfilePhoto = styled.img`
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
 `;
-
 const UserName = styled.p`
   margin: 1rem 0;
   color: #fff;
   font-size: 1.75rem;
   font-weight: bold;
 `;
-
 const UserReservas = styled.div`
   margin-top: 2rem;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.5);
-
   h2 {
     font-size: 2rem;
     color: #afdb11;
     text-align: center;
   }
 `;
-
 const ReservasList = styled.ul`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
-  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 `;
 
 const Paragraph = styled.p`

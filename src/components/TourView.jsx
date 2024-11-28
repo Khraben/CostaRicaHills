@@ -1,4 +1,4 @@
-import React,{ useContext, useState, useEffect} from 'react';
+import React,{ useContext, useState,useEffect} from 'react';
 import styled from 'styled-components';
 import ImageCarousel from './ImageCarousel';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -64,6 +64,32 @@ const TourView = () => {
         setIsModalOpen(false);
     };
 
+    // Función para calcular la fecha de fin
+    const calculateEndDate = (date) => {
+        const durationMatch = tour.duration.match(/(\d+)\s*(días|dias|día|dia|day|days|horas|hrs)/i);
+        const durationNumber = durationMatch ? parseInt(durationMatch[1], 10) : 1;
+        const durationUnit = durationMatch ? durationMatch[2].toLowerCase() : 'horas';
+
+        // Verificar si la duración está en días
+        const isDayDuration = /(dia|dias|día|días|day|days)/i.test(durationUnit);
+        if (isDayDuration) {
+            const calculatedEnd = new Date(date);
+            calculatedEnd.setDate(calculatedEnd.getDate() + durationNumber - 1);
+            return calculatedEnd;
+        } else {
+            return null;
+        }
+    };
+
+    // useEffect para calcular endDate cuando el modal se abre
+    useEffect(() => {
+        if (isModalOpen) {
+            const initialDate = new Date();
+            setTourDate(initialDate);
+            const initialEndDate = calculateEndDate(initialDate);
+            setEndDate(initialEndDate);
+        }
+    }, [isModalOpen]);
     return (
         <TourDetails>
             <Header>
@@ -122,19 +148,8 @@ const TourView = () => {
                            selected={tourDate}
                            onChange={(date) => {
                             setTourDate(date);
-                            const durationMatch = tour.duration.match(/(\d+)\s*(días|dias|día|dia|horas|hrs)/i);
-                            const durationNumber = durationMatch ? parseInt(durationMatch[1], 10) : 1;
-                            const durationUnit = durationMatch ? durationMatch[2].toLowerCase() : 'horas';
-            
-                           // Verificar si la duración está en días
-                            const isDayDuration = /(dia|dias|día|días)/i.test(durationUnit);
-                            if (isDayDuration) {
-                                const calculatedEnd = new Date(date);
-                                calculatedEnd.setDate(calculatedEnd.getDate() + durationNumber - 1);
-                                setEndDate(calculatedEnd);
-                            } else {
-                                setEndDate(null);
-                            }
+                            const newEndDate = calculateEndDate(date);
+                            setEndDate(newEndDate);
                         }}
                            dateFormat="dd/MM/yyyy"
                            minDate={new Date()}
