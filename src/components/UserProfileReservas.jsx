@@ -7,6 +7,9 @@ import {logoutUser } from './AuthServices';
 import { useNavigate } from 'react-router-dom';
 import { getTourbyId,getReservationbyUser,deletedReservation } from '../config/backendServices';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const UserProfileReservas = () => {
   const [reservasList, setReservasList] = useState([]);
   const { user, userPhoto } = useContext(UserContext);
@@ -50,9 +53,9 @@ const UserProfileReservas = () => {
   const handleDeleteReservation = async (reservationId) => {
     const response = await deletedReservation(reservationId);
     if (response.message) {
-       alert(response.message);
+      toast.success('Se eliminó el tour de tus reservas');
     } else if (response.error) {
-      alert(response.error);
+      toast.error('Hubo un error al eliminar el tour de tus reservas');
        
     }
   };  
@@ -91,6 +94,7 @@ const UserProfileReservas = () => {
         )}
       </ReservasList>
     </UserReservas>
+    <ToastContainer />
     </div>
   );
 };
