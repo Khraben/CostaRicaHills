@@ -19,31 +19,11 @@ const About = () => {
                     {i18n.t("descriptionHistory")}
                 </p>
             </AboutSection>
-            <TeamSection>
-                <h2>{i18n.t("subTitleOurTeam")}</h2>
-                <TeamContainer>
-                    <TeamMember>
-                        <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
-                        <h3>Juan Pérez</h3>
-                        <p>{i18n.t("subTitleGuide")}</p>
-                    </TeamMember>
-                    <TeamMember>
-                        <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
-                        <h3>María González</h3>
-                        <p>{i18n.t("subTitleCoordinator")}</p>
-                    </TeamMember>
-                    <TeamMember>
-                        <img src="https://via.placeholder.com/150" alt="Miembro del equipo" />
-                        <h3>Carlos Rodríguez</h3>
-                        <p>{i18n.t("subTitleSpecialist")}</p>
-                    </TeamMember>
-                </TeamContainer>
-            </TeamSection>
             <ContactSection>
                 <h2>{i18n.t("subTitleContact")}</h2>
                 <p>{i18n.t("descriptionContact")}</p>
-                <p>Email: info@costaricahills.com</p>
-                <p>{i18n.t("phone")} +506 1234 5678</p>
+                <p>Email: costaricahills@gmail.com</p>
+                <p>{i18n.t("phone")} +506 85305671</p>
             </ContactSection>
         </PageContainer>
     );
@@ -55,7 +35,7 @@ const PageContainer = styled.div`
     position: relative;
     background: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 2rem;
+    padding: 1rem;
 `;
 
 const HeroSection = styled.section`
@@ -88,7 +68,7 @@ const Content = styled.div`
 
 const AboutSection = styled.section`
     position: relative;
-    padding: 2rem 0;
+    padding: 1rem 0;
 
     h2 {
         font-size: 2rem;
@@ -103,7 +83,7 @@ const AboutSection = styled.section`
 
 const TeamSection = styled.section`
     position: relative;
-    padding: 2rem 0;
+    padding: 1rem 0;
 
     h2 {
         font-size: 2rem;
@@ -143,7 +123,7 @@ const TeamMember = styled.div`
 
 const ContactSection = styled.section`
     position: relative;
-    padding: 2rem 0;
+    padding: 1rem 0;
 
     h2 {
         font-size: 2rem;

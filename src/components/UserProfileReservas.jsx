@@ -24,12 +24,23 @@ const UserProfileReservas = () => {
             try {  
                 const reservations = await getReservationbyUser(user.uid);
                 const toursReservations = await Promise.all(reservations.map(async (reservation) => {
+                  try {
                     const tour = await getTourbyId(reservation.tour_id);
-                    return { ...tour, reservationId: reservation.id };
-                    }));
-                setReservasList(toursReservations);  
+                    if (tour.error) {
+                      console.log(`Error fetching tour for reservation ${reservation.id}: ${tour.error}`);
+                      return null;
+                  }
+                  return { ...tour, reservationId: reservation.id };
+                } catch (error) {
+                    console.log(`Error fetching tour for reservation ${reservation.id}:`, error);
+                    return null;
+                }
+            }));
+            const filteredTours = toursReservations.filter(tour => tour !== null);
+            setReservasList(filteredTours);
+            
          }catch (error) {
-             console.log('Error al obtener las reservas:', error);
+             console.log('Error al obtener los tours:', error);
             }
         }  
     };
@@ -77,27 +88,6 @@ const UserProfileReservas = () => {
           ))
         ) : (
           <Paragraph>{i18n.t("no_reservations")}</Paragraph>
-        )}
-      </ReservasList>
-    </UserReservas>
-    <UserReservas>
-    <h2>{i18n.t("history_profile")}</h2>
-      <ReservasList>
-      {reservasList.length > 0 ? (
-          reservasList.map((tour, index) => (
-            <Card 
-              key={index}
-              id={tour.id}
-              title={tour.nombre}
-              images={tour.imagenes}
-              destination={tour.destino.join(', ')}
-              duration={tour.duracion}
-              price={`$${tour.precio}`}
-              description={tour.descripcion}
-            />
-          ))
-        ) : (
-          <Paragraph>{i18n.t("no_history")}</Paragraph>
         )}
       </ReservasList>
     </UserReservas>
